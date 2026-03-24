@@ -1,0 +1,621 @@
+% rossbeamerbase.sty
+% Shared infrastructure for Ross Beamer presentation classes.
+% Not used directly — loaded by rossbeamercorporate.cls or
+% rossbeamerscientific.cls.
+%
+% Provides: font engine, colour derivation, beamer setup,
+% and all shared environments/commands.
+%
+% Ross Dunne / Claude, 2026
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rossbeamerbase}[2026/03/24 Shared base for Ross Beamer classes]
+
+% ----------------------------------------------------------------
+% Flags (may be pre-defined by the loading class)
+% ----------------------------------------------------------------
+
+\@ifundefined{ifrb@nobar}{\newif\ifrb@nobar \rb@nobarfalse}{}
+\@ifundefined{ifrb@nologo}{\newif\ifrb@nologo \rb@nologofalse}{}
+\newif\ifrb@draft \rb@draftfalse
+\def\rb@drafttext{DRAFT}
+
+% ----------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------
+
+\RequirePackage{xcolor}
+\RequirePackage{colortbl}
+\RequirePackage{tikz}
+\RequirePackage{calc}
+\RequirePackage{etoolbox}
+\RequirePackage{fontspec}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\RequirePackage{graphicx}
+\RequirePackage{ragged2e}
+\RequirePackage{booktabs}
+\RequirePackage{subcaption}
+\RequirePackage{appendixnumberbeamer}
+\RequirePackage{attachfile2}
+\RequirePackage{qrcode}
+
+% ----------------------------------------------------------------
+% Fixed colours (palette-independent)
+% ----------------------------------------------------------------
+
+\definecolor{rbWarning}{HTML}{B85C00}
+\definecolor{rbWarningBg}{HTML}{FFF4E6}
+\definecolor{rbSuccess}{HTML}{2D6A4F}
+\definecolor{rbSuccessBg}{HTML}{EDF5F0}
+\definecolor{rbInfo}{HTML}{0072B2}
+\definecolor{rbInfoBg}{HTML}{E8F2FA}
+
+% ----------------------------------------------------------------
+% Colour derivation
+%
+% The loading class must define these colours before calling:
+%   rbPrimary, rbSecondary, rbAccent, rbText, rbTextLight,
+%   rbTextMuted, rbBg, rbRule
+%
+% This command derives additional colours from those.
+% ----------------------------------------------------------------
+
+\newcommand{\rb@derivecolors}{%
+  \colorlet{rbPrimaryLight}{rbPrimary!15!white}%
+  \colorlet{rbPrimaryFaded}{rbPrimary!8!white}%
+  \colorlet{rbSecondaryDark}{rbSecondary!70!black}%
+  \colorlet{rbAccentBg}{rbAccent!8!white}%
+  \colorlet{rbAccentDark}{rbAccent!70!black}%
+  \colorlet{rbAccentLight}{rbAccent!30!white}%
+  \colorlet{rbLightMuted}{rbTextMuted!50!rbTextLight}%
+}
+
+% ----------------------------------------------------------------
+% Font engine
+%
+% Available: fira, inter, sourcesans, libertinus, heros,
+%            georgia, system (with \customfontname)
+% ----------------------------------------------------------------
+
+\def\rb@customfontname{}
+\newcommand{\customfontname}[1]{\def\rb@customfontname{#1}}
+
+\newcommand{\rb@setfont@fira}{%
+  \IfFontExistsTF{Fira Sans}{%
+    \setsansfont{Fira Sans}[
+      BoldFont={Fira Sans SemiBold},
+      ItalicFont={Fira Sans Italic},
+      BoldItalicFont={Fira Sans SemiBold Italic},
+    ]%
+  }{\setsansfont{TeX Gyre Heros}}%
+}
+\newcommand{\rb@setfont@inter}{%
+  \IfFontExistsTF{Inter}{%
+    \setsansfont{Inter}[
+      BoldFont={Inter SemiBold},
+      ItalicFont={Inter Italic},
+      BoldItalicFont={Inter SemiBold Italic},
+    ]%
+  }{\setsansfont{TeX Gyre Heros}}%
+}
+\newcommand{\rb@setfont@sourcesans}{%
+  \IfFontExistsTF{Source Sans 3}{\setsansfont{Source Sans 3}}{%
+    \IfFontExistsTF{Source Sans Pro}{\setsansfont{Source Sans Pro}}{%
+      \setsansfont{TeX Gyre Heros}}}%
+}
+\newcommand{\rb@setfont@libertinus}{%
+  \IfFontExistsTF{Libertinus Sans}{\setsansfont{Libertinus Sans}}{%
+    \setsansfont{TeX Gyre Heros}}%
+}
+\newcommand{\rb@setfont@heros}{\setsansfont{TeX Gyre Heros}}
+\newcommand{\rb@setfont@georgia}{%
+  \IfFontExistsTF{Georgia}{\setmainfont{Georgia}}{\setmainfont{TeX Gyre Schola}}%
+  \setsansfont{TeX Gyre Heros}%
+}
+
+\newcommand{\rb@activatefont}[1]{%
+  \def\rb@tmp{#1}%
+  \def\rb@f@fira{fira}\def\rb@f@inter{inter}%
+  \def\rb@f@sourcesans{sourcesans}\def\rb@f@libertinus{libertinus}%
+  \def\rb@f@heros{heros}\def\rb@f@georgia{georgia}\def\rb@f@system{system}%
+  \ifx\rb@tmp\rb@f@inter       \rb@setfont@inter
+  \else\ifx\rb@tmp\rb@f@sourcesans  \rb@setfont@sourcesans
+  \else\ifx\rb@tmp\rb@f@libertinus  \rb@setfont@libertinus
+  \else\ifx\rb@tmp\rb@f@heros       \rb@setfont@heros
+  \else\ifx\rb@tmp\rb@f@georgia     \rb@setfont@georgia
+  \else\ifx\rb@tmp\rb@f@system
+    \AtBeginDocument{%
+      \ifx\rb@customfontname\empty
+        \PackageWarning{rossbeamerbase}{font=system but no \string\customfontname. Using TeX Gyre Heros.}%
+        \setsansfont{TeX Gyre Heros}%
+      \else
+        \IfFontExistsTF{\rb@customfontname}{\setsansfont{\rb@customfontname}}{%
+          \PackageWarning{rossbeamerbase}{Font '\rb@customfontname' not found.}%
+          \setsansfont{TeX Gyre Heros}}%
+      \fi}%
+  \else \rb@setfont@fira
+  \fi\fi\fi\fi\fi\fi
+}
+
+\newcommand{\rb@activatemono}[1]{%
+  \def\rb@tmp{#1}%
+  \ifx\rb@tmp\empty
+    \IfFontExistsTF{Fira Code}{\setmonofont{Fira Code}[Scale=0.85]}{%
+      \IfFontExistsTF{TeX Gyre Cursor}{\setmonofont{TeX Gyre Cursor}[Scale=0.85]}{}}%
+  \else
+    \IfFontExistsTF{#1}{\setmonofont{#1}[Scale=0.85]}{%
+      \PackageWarning{rossbeamerbase}{Monospace font '#1' not found.}}%
+  \fi
+}
+
+% ----------------------------------------------------------------
+% Beamer setup (called by loading class after colours are defined)
+% ----------------------------------------------------------------
+
+\newcommand{\rb@setupbeamer}{%
+  \usetheme{default}%
+  \useinnertheme{default}%
+  \useoutertheme{default}%
+  \setbeamertemplate{navigation symbols}{}%
+  \setbeamertemplate{footline}{}%
+  \setbeamertemplate{headline}{}%
+  %
+  % --- Colour assignments ---
+  \setbeamercolor{normal text}{fg=rbText, bg=white}%
+  \setbeamercolor{frametitle}{fg=rbPrimary}%
+  \setbeamercolor{framesubtitle}{fg=rbTextMuted}%
+  \setbeamercolor{itemize item}{fg=rbAccent}%
+  \setbeamercolor{itemize subitem}{fg=rbTextMuted}%
+  \setbeamercolor{enumerate item}{fg=rbAccent}%
+  \setbeamercolor{enumerate subitem}{fg=rbTextMuted}%
+  \setbeamercolor{description item}{fg=rbText}%
+  \setbeamercolor{caption name}{fg=rbTextMuted}%
+  \setbeamercolor{block title}{fg=rbTextLight, bg=rbPrimary}%
+  \setbeamercolor{block body}{fg=rbText, bg=rbPrimaryFaded}%
+  \setbeamercolor{block title alerted}{fg=rbTextLight, bg=rbAccent}%
+  \setbeamercolor{block body alerted}{fg=rbText, bg=rbAccentBg}%
+  \setbeamercolor{block title example}{fg=rbTextLight, bg=rbSecondaryDark}%
+  \setbeamercolor{block body example}{fg=rbText, bg=rbSecondary!15!white}%
+  \setbeamercolor{table head}{fg=rbTextLight, bg=rbPrimary}%
+  %
+  % --- Bullet shapes ---
+  \setbeamertemplate{itemize item}{\tikz\draw[fill=rbAccent,draw=none] (0,0) circle (0.07);}%
+  \setbeamertemplate{itemize subitem}{\tikz\draw[fill=rbTextMuted,draw=none] (0,0) circle (0.05);}%
+  \setbeamertemplate{enumerate item}{\insertenumlabel.}%
+  \setbeamerfont{enumerate item}{series=\bfseries}%
+  %
+  % --- Default frame title (class can override) ---
+  \setbeamerfont{frametitle}{size=\Large, series=\bfseries}%
+  \setbeamerfont{framesubtitle}{size=\small, series=\mdseries}%
+  \setbeamertemplate{frametitle}{%
+    \vskip6pt%
+    {\usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle}%
+    \ifx\insertframesubtitle\empty\else
+      \par\vskip1pt%
+      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}%
+    \fi
+    \vskip4pt%
+  }%
+  %
+  % --- Title fonts ---
+  \setbeamerfont{title}{size=\huge, series=\bfseries}%
+  \setbeamerfont{subtitle}{size=\large, series=\mdseries}%
+  \setbeamerfont{author}{size=\normalsize}%
+  \setbeamerfont{institute}{size=\small}%
+  \setbeamerfont{date}{size=\small}%
+  \setbeamerfont{footline}{size=\tiny}%
+  %
+  % --- Left-align body text ---
+  \AtBeginDocument{\RaggedRight}%
+  %
+  % --- Progress bar ---
+  \ifrb@nobar\else
+    \addtobeamertemplate{headline}{}{%
+      \begin{tikzpicture}[remember picture, overlay]
+        \fill[rbRule!50]
+          (current page.north west) rectangle
+          ([yshift=-1.8pt]current page.north east);
+        \ifnum\inserttotalframenumber>0
+          \pgfmathsetmacro{\progresswidth}{%
+            \paperwidth * \insertframenumber / \inserttotalframenumber}%
+          \fill[rbPrimary]
+            (current page.north west) rectangle
+            ([xshift=\progresswidth pt, yshift=-1.2pt]current page.north west);
+        \fi
+      \end{tikzpicture}%
+    }%
+  \fi
+  %
+  % --- Draft watermark hook ---
+  \addtobeamertemplate{background}{}{%
+    \ifrb@draft
+      \begin{tikzpicture}[remember picture, overlay]
+        \node[rotate=45, scale=6, text=rbPrimary!12, font=\bfseries\sffamily]
+          at (current page.center) {\rb@drafttext};
+      \end{tikzpicture}%
+    \fi
+  }%
+  %
+  % --- Attachment defaults ---
+  \attachfilesetup{color=rbPrimary, icon=Paperclip, mimetype=application/octet-stream}%
+}
+
+% ----------------------------------------------------------------
+% Logo / footer system
+%
+% Configure in preamble:
+%   \slidelogo{logo.png}      or \slidelogo[height=6mm]{logo.png}
+%   \footertext{Company Name}
+%   \slidenote{Confidential}
+%   \logoposition{bottomright}
+% ----------------------------------------------------------------
+
+\def\rb@logo{}
+\def\rb@logoopts{height=6mm}
+\def\rb@footertext{}
+\def\rb@slidenote{}
+\def\rb@logopos{bottomleft}
+
+\newcommand{\logoposition}[1]{\def\rb@logopos{#1}}
+\newcommand{\slidelogo}[2][height=6mm]{\def\rb@logo{#2}\def\rb@logoopts{#1}}
+\newcommand{\footertext}[1]{\def\rb@footertext{#1}}
+\newcommand{\slidenote}[1]{\def\rb@slidenote{#1}}
+
+% The footer template — call \rb@activatefooter to enable it
+\newcommand{\rb@activatefooter}{%
+  \setbeamertemplate{footline}{%
+    \ifrb@nologo\else
+      \ifx\rb@logo\empty\else
+        \begin{tikzpicture}[remember picture, overlay]
+          \def\rb@bl{bottomleft}\def\rb@br{bottomright}%
+          \def\rb@tl{topleft}\def\rb@tr{topright}%
+          \ifx\rb@logopos\rb@bl
+            \node[anchor=south west, inner sep=0pt]
+              at ([xshift=10mm, yshift=4mm]current page.south west)
+              {\includegraphics[\rb@logoopts]{\rb@logo}};%
+          \fi
+          \ifx\rb@logopos\rb@br
+            \node[anchor=south east, inner sep=0pt]
+              at ([xshift=-10mm, yshift=4mm]current page.south east)
+              {\includegraphics[\rb@logoopts]{\rb@logo}};%
+          \fi
+          \ifx\rb@logopos\rb@tl
+            \node[anchor=north west, inner sep=0pt]
+              at ([xshift=10mm, yshift=-4mm]current page.north west)
+              {\includegraphics[\rb@logoopts]{\rb@logo}};%
+          \fi
+          \ifx\rb@logopos\rb@tr
+            \node[anchor=north east, inner sep=0pt]
+              at ([xshift=-10mm, yshift=-4mm]current page.north east)
+              {\includegraphics[\rb@logoopts]{\rb@logo}};%
+          \fi
+        \end{tikzpicture}%
+      \fi
+    \fi
+    \hbox to \paperwidth{%
+      \hskip12mm%
+      {\usebeamerfont{footline}\color{rbTextMuted}%
+        \insertframenumber\,/\,\inserttotalframenumber}%
+      \hfill%
+      {\usebeamerfont{footline}\color{rbTextMuted}\rb@footertext}%
+      \hfill%
+      {\usebeamerfont{footline}\color{rbTextMuted}\rb@slidenote}%
+      \hskip12mm%
+    }%
+    \vskip3pt%
+  }%
+}
+
+% ----------------------------------------------------------------
+% Dark frame environment
+% ----------------------------------------------------------------
+
+\newenvironment{darkframe}[1][]{%
+  \begingroup
+  \setbeamercolor{normal text}{fg=rbTextLight, bg=rbPrimary}%
+  \setbeamercolor{frametitle}{fg=rbTextLight}%
+  \setbeamercolor{framesubtitle}{fg=rbLightMuted}%
+  \setbeamercolor{itemize item}{fg=rbAccent!70!white}%
+  \setbeamercolor{itemize subitem}{fg=rbTextLight!50}%
+  \setbeamercolor{enumerate item}{fg=rbAccent!70!white}%
+  \usebeamercolor[fg]{normal text}%
+  \begin{frame}[#1]%
+}{%
+  \end{frame}%
+  \endgroup
+}
+
+\newenvironment{accentframe}[1][]{%
+  \begingroup
+  \setbeamercolor{normal text}{fg=rbTextLight, bg=rbAccent}%
+  \setbeamercolor{frametitle}{fg=rbTextLight}%
+  \usebeamercolor[fg]{normal text}%
+  \begin{frame}[#1]%
+}{%
+  \end{frame}%
+  \endgroup
+}
+
+% ----------------------------------------------------------------
+% Section divider
+% ----------------------------------------------------------------
+
+\newcommand{\sectiondivider}{%
+  \begin{darkframe}[c]
+    \centering
+    {\usebeamerfont{title}\color{rbTextLight}\insertsection\par}
+  \end{darkframe}
+}
+\newcommand{\enablesectiondividers}{\AtBeginSection{\sectiondivider}}
+
+% ----------------------------------------------------------------
+% Conclusion slide
+% ----------------------------------------------------------------
+
+\newcommand{\conclusionslide}[2][Thank you]{%
+  \begin{darkframe}[c]
+    \centering
+    {\usebeamerfont{title}\color{rbTextLight}#1\par}%
+    \vskip10pt%
+    {\normalsize\color{rbTextLight!70}#2\par}%
+  \end{darkframe}
+}
+
+% ----------------------------------------------------------------
+% Two-column helper
+% ----------------------------------------------------------------
+
+\newenvironment{twocol}[1][0.48]{%
+  \begin{columns}[T]\begin{column}{#1\textwidth}
+}{%
+  \end{column}\end{columns}
+}
+\newcommand{\colbreak}[1][0.48]{%
+  \end{column}\begin{column}{#1\textwidth}%
+}
+
+% ----------------------------------------------------------------
+% Stat callout / stat row
+% ----------------------------------------------------------------
+
+\newcommand{\statcallout}[3][rbPrimary]{%
+  \begin{center}
+    {\fontsize{44}{48}\selectfont\bfseries\color{#1}#2\par}%
+    \vskip3pt{\small\color{rbTextMuted}#3\par}%
+  \end{center}%
+}
+\newcommand{\stat}[3][rbPrimary]{%
+  \begin{minipage}[t]{0.22\textwidth}\centering
+    {\fontsize{32}{36}\selectfont\bfseries\color{#1}#2\par}%
+    \vskip2pt{\small\color{rbTextMuted}#3\par}%
+  \end{minipage}%
+}
+\newcommand{\statrow}[1]{%
+  \begin{center}\begin{tabular}{*{10}{c}}#1\end{tabular}\end{center}
+}
+
+% ----------------------------------------------------------------
+% Card boxes
+% ----------------------------------------------------------------
+
+\newtcolorbox{card}[1][]{%
+  enhanced, colback=white, colframe=white, boxrule=0pt,
+  borderline west={3pt}{0pt}{rbPrimary}, sharp corners,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries\color{rbPrimary}, #1
+}
+\newtcolorbox{accentcard}[1][]{%
+  enhanced, colback=rbAccent!5!white, colframe=rbAccent!5!white, boxrule=0pt,
+  borderline west={3pt}{0pt}{rbAccent}, sharp corners,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  fonttitle=\bfseries\color{rbAccent}, #1
+}
+
+% ----------------------------------------------------------------
+% Highlight / note boxes
+% ----------------------------------------------------------------
+
+\newtcolorbox{highlight}[1][]{%
+  enhanced, colback=rbAccentBg, colframe=rbAccentBg, boxrule=0pt,
+  borderline west={2.5pt}{0pt}{rbAccent}, sharp corners,
+  left=8pt, right=8pt, top=5pt, bottom=5pt,
+  fonttitle=\bfseries\color{rbAccent}, coltitle=rbAccent, #1
+}
+\newtcolorbox{notebox}[1][]{%
+  enhanced, colback=rbBg, colframe=rbBg, boxrule=0pt,
+  borderline west={2.5pt}{0pt}{rbPrimary}, sharp corners,
+  left=8pt, right=8pt, top=5pt, bottom=5pt,
+  fonttitle=\bfseries\color{rbPrimary}, coltitle=rbPrimary, #1
+}
+
+% ----------------------------------------------------------------
+% Warning / success / info boxes
+% ----------------------------------------------------------------
+
+\newtcolorbox{warningbox}[1][]{%
+  enhanced, colback=rbWarningBg, colframe=rbWarningBg, boxrule=0pt,
+  borderline west={2.5pt}{0pt}{rbWarning}, sharp corners,
+  left=8pt, right=8pt, top=5pt, bottom=5pt,
+  fonttitle=\bfseries\color{rbWarning}, coltitle=rbWarning, #1
+}
+\newtcolorbox{successbox}[1][]{%
+  enhanced, colback=rbSuccessBg, colframe=rbSuccessBg, boxrule=0pt,
+  borderline west={2.5pt}{0pt}{rbSuccess}, sharp corners,
+  left=8pt, right=8pt, top=5pt, bottom=5pt,
+  fonttitle=\bfseries\color{rbSuccess}, coltitle=rbSuccess, #1
+}
+\newtcolorbox{infobox}[1][]{%
+  enhanced, colback=rbInfoBg, colframe=rbInfoBg, boxrule=0pt,
+  borderline west={2.5pt}{0pt}{rbInfo}, sharp corners,
+  left=8pt, right=8pt, top=5pt, bottom=5pt,
+  fonttitle=\bfseries\color{rbInfo}, coltitle=rbInfo, #1
+}
+
+% ----------------------------------------------------------------
+% Icon circle
+% ----------------------------------------------------------------
+
+\newcommand{\iconcircle}[2][rbPrimary]{%
+  \tikz[baseline=-0.3em]{%
+    \node[circle, fill=#1, text=rbTextLight,
+          inner sep=0pt, minimum size=1.6em,
+          font=\bfseries\small] {#2};}%
+}
+
+% ----------------------------------------------------------------
+% Figure panels
+% ----------------------------------------------------------------
+
+\newenvironment{figurepanel}[1][]{%
+  \begin{figure}[htb]\centering
+  \def\rb@figurecap{#1}%
+}{%
+  \ifx\rb@figurecap\empty\else
+    \vskip2pt{\small\color{rbTextMuted}\rb@figurecap\par}\fi
+  \end{figure}%
+}
+\newcommand{\panel}[3][0.48]{%
+  \begin{minipage}[t]{#1\textwidth}\centering
+    \includegraphics[width=\linewidth]{#2}\par\vskip2pt%
+    {\footnotesize\color{rbTextMuted}#3}%
+  \end{minipage}\hfill%
+}
+
+% ----------------------------------------------------------------
+% Source attribution
+% ----------------------------------------------------------------
+
+\newcommand{\source}[1]{%
+  \par\vskip2pt{\scriptsize\color{rbTextMuted}\textit{Source:} #1\par}%
+}
+
+% ----------------------------------------------------------------
+% Table helpers
+% ----------------------------------------------------------------
+
+\newcommand{\thead}[1]{\bfseries\color{rbTextLight}#1}
+\newcommand{\shaderow}{\rowcolor{rbPrimaryFaded}}
+
+% ----------------------------------------------------------------
+% Comparison layout
+% ----------------------------------------------------------------
+
+\newenvironment{comparison}[2]{%
+  \gdef\rb@compright{#2}%
+  \begin{columns}[T]\begin{column}{0.47\textwidth}
+    {\small\bfseries\color{rbAccent}#1\par}%
+    \vskip1pt{\color{rbRule}\hrule height 0.3pt}\vskip4pt%
+}{%
+  \end{column}\end{columns}
+}
+\newcommand{\comparisondivide}{%
+  \end{column}\hfill\begin{column}{0.47\textwidth}%
+    {\small\bfseries\color{rbAccent}\rb@compright\par}%
+    \vskip1pt{\color{rbRule}\hrule height 0.3pt}\vskip4pt%
+}
+
+% ----------------------------------------------------------------
+% Title-only frame
+% ----------------------------------------------------------------
+
+\newcommand{\titleonlyframe}[2][]{%
+  \begin{frame}[c]{}\centering
+    {\usebeamerfont{title}\color{rbPrimary}#2\par}%
+    \ifx\relax#1\relax\else\vskip8pt{\large\color{rbTextMuted}#1\par}\fi
+  \end{frame}
+}
+
+% ----------------------------------------------------------------
+% Picture with caption
+% ----------------------------------------------------------------
+
+\newenvironment{pictureframe}[1]{\begin{frame}{#1}\centering}{\end{frame}}
+\newcommand{\picturecaption}[1]{%
+  \par\vskip4pt%
+  \begin{tcolorbox}[enhanced, colback=rbBg, colframe=rbBg,
+    boxrule=0pt, sharp corners, left=6pt, right=6pt, top=3pt, bottom=3pt]
+    {\small\color{rbTextMuted}#1}%
+  \end{tcolorbox}%
+}
+
+% ----------------------------------------------------------------
+% Content with caption sidebar
+% ----------------------------------------------------------------
+
+\newenvironment{captionframe}[1]{%
+  \begin{frame}{#1}\begin{columns}[T]\begin{column}{0.63\textwidth}%
+}{%
+  \end{column}\end{columns}\end{frame}%
+}
+\newcommand{\framecaption}{%
+  \end{column}\begin{column}{0.33\textwidth}\color{rbTextMuted}\small
+}
+
+% ----------------------------------------------------------------
+% Quote / statement slide
+% ----------------------------------------------------------------
+
+\newcommand{\quoteslide}[2]{%
+  \begin{frame}[c,plain]{}\centering\vfill
+    {\Large\itshape\color{rbPrimary}``#1''\par}%
+    \vskip10pt{\normalsize\color{rbTextMuted}#2\par}\vfill
+  \end{frame}
+}
+
+% ----------------------------------------------------------------
+% Full-bleed image
+% ----------------------------------------------------------------
+
+\newcommand{\fullbleedimage}[2][0]{%
+  \begin{frame}[plain]{}
+    \begin{tikzpicture}[remember picture, overlay]
+      \node[inner sep=0pt] at (current page.center)
+        {\includegraphics[width=\paperwidth, height=\paperheight, keepaspectratio=false]{#2}};
+      \ifnum\pdfstrcmp{#1}{0}=0 \else
+        \fill[rbPrimary, opacity=#1]
+          (current page.south west) rectangle (current page.north east);
+      \fi
+    \end{tikzpicture}%
+  \end{frame}
+}
+
+% ----------------------------------------------------------------
+% File attachments
+% ----------------------------------------------------------------
+
+\newcommand{\embedfile}[2][]{\attachfile[#1]{#2}}
+\newcommand{\embedfilelink}[3][]{%
+  \textattachfile[#1]{#2}{{\small\color{rbPrimary}\underline{#3}}}%
+}
+\newcommand{\localfilelink}[2]{%
+  {\small\color{rbPrimary}\href{run:#1}{\underline{#2}}}%
+}
+
+% ----------------------------------------------------------------
+% Draft watermark
+% ----------------------------------------------------------------
+
+\newcommand{\enabledraft}[1][DRAFT]{\rb@drafttrue\def\rb@drafttext{#1}}
+
+% ----------------------------------------------------------------
+% QR codes
+% ----------------------------------------------------------------
+
+\newcommand{\slideqr}[2][1.5cm]{\qrcode[height=#1]{#2}}
+\newcommand{\slideqrbox}[3][1.5cm]{%
+  \begin{minipage}[t]{#1}\centering
+    \qrcode[height=#1]{#2}\par\vskip2pt%
+    {\scriptsize\color{rbTextMuted}#3}%
+  \end{minipage}%
+}
+\newcommand{\slideqrcorner}[2][1.2cm]{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=south east, inner sep=0pt]
+      at ([xshift=-12mm, yshift=10mm]current page.south east)
+      {\qrcode[height=#1]{#2}};
+  \end{tikzpicture}%
+}
+
+% ----------------------------------------------------------------
+\endinput
