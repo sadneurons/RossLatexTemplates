@@ -1,0 +1,102 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-code.tex
+% Standalone demonstration of rosscode: R and Python code chunks,
+% inline code, and code output blocks.
+
+\documentclass[11pt, a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[margin=25mm]{geometry}
+\usepackage{rosspalettes}   % palette-themed syntax colours
+\usepackage[frame]{rosscode}
+
+\title{\texttt{rosscode} --- Feature Demonstration}
+\author{Ross Dunne}
+\date{2026}
+
+\begin{document}
+\maketitle
+
+\section*{1. R code chunk}
+
+The \texttt{codechunk} environment accepts an optional language argument
+and renders with syntax highlighting and a language badge.
+
+\begin{codechunk}[R]
+library(tidyverse)
+library(lavaan)
+
+# Load and prepare data
+sleep <- read_csv("sleep_cognition.csv") %>%
+  mutate(
+    sws_pct  = sws_minutes / tst_minutes * 100,
+    dass_dep = rowSums(select(., starts_with("dass_d"))),
+    dass_anx = rowSums(select(., starts_with("dass_a")))
+  )
+
+# Parallel mediation model
+model <- "
+  delayed_memory ~ c*sws_pct + b1*dass_dep + b2*dass_anx
+  dass_dep       ~ a1*sws_pct
+  dass_anx       ~ a2*sws_pct
+  indirect_dep := a1 * b1
+  indirect_anx := a2 * b2
+  total          := c + a1*b1 + a2*b2
+"
+fit <- sem(model, data = sleep, se = "bootstrap", bootstrap = 5000)
+summary(fit, ci = TRUE, standardized = TRUE)
+\end{codechunk}
+
+\begin{codeoutput}
+lavaan 0.6-19 ended normally after 42 iterations
+
+  Estimator                                         ML
+  Number of observations                           312
+  Number of missing values                           0
+
+Parameter Estimates (Standardised):
+  indirect_dep    -0.180   [-0.340, -0.080]    0.002
+  indirect_anx    -0.032   [-0.110,  0.046]    0.414
+  total           -0.242   [-0.370, -0.114]    0.001
+\end{codeoutput}
+
+\section*{2. Python code chunk}
+
+\begin{codechunk}[Python]
+import pandas as pd
+import pingouin as pg
+
+df = pd.read_csv("sleep_cognition.csv")
+
+# Partial correlation: SWS% and delayed memory, controlling for age
+partial = pg.partial_corr(
+    data=df,
+    x="sws_pct",
+    y="delayed_memory",
+    covar=["age", "education"],
+    method="pearson",
+)
+print(partial.round(3))
+\end{codechunk}
+
+\begin{codeoutput}
+          n      r         CI95%  p-val
+pearson  312  -0.241  [-0.35, -0.13]  0.001
+\end{codeoutput}
+
+\section*{3. Inline code}
+
+Use \verb|\codeinline| for inline snippets:
+the model was fit with \codeinline[R]{sem(model, data = sleep)} using
+the \codeinline[Python]{pingouin} library for partial correlations.
+
+\section*{4. Mixed narrative}
+
+After fitting the mediation model in R, the indirect effect through
+depressive symptoms was $\beta = -0.18$, 95\% CI [$-0.34$, $-0.08$],
+$p = .002$. The Python partial-correlation analysis confirmed the
+zero-order association ($r = -.24$, $p = .001$) after controlling for
+age and education.
+
+\end{document}

@@ -1,0 +1,122 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-clinical.tex
+% Demonstrates rossbeamerclinical features: inclusion/exclusion,
+% endpoint cards, protocol timeline, CONSORT flow, safety card.
+\documentclass[palette=clinical]{rossbeamerclinical}
+
+\title{CLARITY-AD: Phase III Results}
+\subtitle{Lecanemab in Early Alzheimer's Disease}
+\author{Dr.~Elena Vasquez}
+\institute{Memory Disorders Research Centre}
+\date{November 2026}
+\trialid{NCT01234567}
+\sponsor{Biogen / Eisai}
+
+% Dummy bib
+\begin{filecontents}[overwrite]{\jobname.bib}
+@article{clarity2023,
+  author  = {van Dyck, C. H. and Swanson, C. J.},
+  title   = {Lecanemab in Early {Alzheimer's} Disease},
+  journal = {NEJM},
+  year    = {2023},
+  volume  = {388},
+  pages   = {9--21},
+}
+\end{filecontents}
+\addbibresource{\jobname.bib}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Inclusion / Exclusion ---
+\begin{frame}{Eligibility Criteria}
+  \inclusionexclusion{%
+    \item Age 50--90 years
+    \item Clinical diagnosis of MCI or mild AD dementia
+    \item Amyloid PET positive or CSF A$\beta$42 $<$\,600\,pg/mL
+    \item MMSE 22--30
+    \item Stable concomitant medications $\geq$\,4 weeks
+  }{%
+    \item Known non-AD dementia
+    \item Clinically significant cerebrovascular disease
+    \item Contraindication to MRI
+    \item Active malignancy within 5 years
+    \item Prior anti-amyloid immunotherapy
+  }
+\end{frame}
+
+% --- Protocol Timeline ---
+\begin{frame}{Study Schedule}
+  \begin{protocoltimeline}
+    \visitpoint{0.5}{Screening}{Consent,\\MRI, PET}
+    \visitpoint{3}{Baseline}{Cognitive\\battery}
+    \visitpoint{5.5}{Week 12}{Safety\\MRI}
+    \visitpoint{8}{Week 26}{Interim\\analysis}
+    \visitpoint{10.5}{Week 52}{Primary\\endpoint}
+  \end{protocoltimeline}
+\end{frame}
+
+% --- CONSORT Flow ---
+\begin{frame}{CONSORT Flow}
+  \centering
+  \flowbox{Assessed for eligibility\\($n = 2{,}840$)}
+  \flowarrow
+  \begin{columns}[c]
+    \begin{column}{0.55\textwidth}\centering
+      \flowbox{Randomised\\($n = 1{,}795$)}
+    \end{column}
+    \begin{column}{0.40\textwidth}\centering
+      \flowboxexcluded{Excluded ($n = 1{,}045$)\\Screen failure: 812\\Withdrew consent: 233}
+    \end{column}
+  \end{columns}
+  \flowarrow
+  \randomise{1{,}795}{Lecanemab ($n = 898$), Placebo ($n = 897$)}
+\end{frame}
+
+% --- Endpoint Cards ---
+\begin{frame}{Primary and Key Secondary Endpoints}
+  \endpointcard{Primary: CDR-SB Change at 18 Months}
+    {$-0.45$}{$-0.67,\;-0.23$}{$< .001$}
+  \vskip6pt
+  \endpointcard{Secondary: ADAS-Cog14 Change}
+    {$-1.44$}{$-2.92,\;0.04$}{.056}
+  \vskip6pt
+  \endpointcard{Secondary: ADCS-MCI-ADL Change}
+    {$-2.0$}{$-3.5,\;-0.5$}{.009}
+\end{frame}
+
+% --- Safety Card ---
+\begin{frame}{Safety Summary}
+  \safetycard{ARIA-E (any grade)}{12.6\%}{1.7\%}{$<.001$}
+  \vskip4pt
+  \safetycard{ARIA-H microhaemorrhage}{14.0\%}{7.7\%}{$<.001$}
+  \vskip4pt
+  \safetycard{Infusion-related reactions}{26.4\%}{7.4\%}{$<.001$}
+  \vskip4pt
+  \safetycard{Serious adverse events}{14.0\%}{11.3\%}{.10}
+  \vskip6pt
+  \NNT{6} for CDR-SB responder\qquad \NNH{9} for symptomatic ARIA-E
+\end{frame}
+
+% --- Finding ---
+\begin{frame}{Interpretation}
+  \begin{findingbox}
+    Lecanemab reduced clinical decline on CDR-SB by 27\% compared to
+    placebo at 18 months in participants with early AD confirmed by
+    amyloid biomarkers.
+  \end{findingbox}
+  \vskip6pt
+  \begin{limitationbox}
+    ARIA remains a significant safety signal. ApoE4 homozygotes had
+    higher rates of ARIA-E (35\% vs 10\% for non-carriers).
+  \end{limitationbox}
+\end{frame}
+
+\conclusionslide{Thank You}{e.vasquez@memorycentre.org}
+
+\end{document}

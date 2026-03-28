@@ -1,0 +1,94 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-corporate.tex
+% Demonstrates rossbeamercorporate features: title page, agenda, timeline,
+% metric cards, pill badges, process flow, SWOT, key takeaway, conclusion.
+\documentclass[palette=midnight]{rossbeamercorporate}
+
+\title{Q4 Strategic Review}
+\subtitle{Revenue Growth and Market Expansion}
+\author{Sarah Mitchell}
+\institute{Acme Holdings plc}
+\date{December 2026}
+
+\enablefooter
+\footertext{Acme Holdings --- Confidential}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Agenda ---
+\begin{agendaframe}
+  \agendaitem{Financial Performance}
+  \agendaitemactive{Market Expansion Strategy}
+  \agendaitem{Operational Roadmap}
+  \agendaitem{Next Steps}
+\end{agendaframe}
+
+% --- Metric Cards ---
+\begin{frame}{Key Performance Indicators}
+  \metricrow{%
+    \metriccard{\pounds 2.4M}{Quarterly Revenue}{+12\% YoY}
+    \metriccard[rbSuccess]{98.7\%}{Platform Uptime}{Target: 99.5\%}
+    \metriccard[rbWarning]{340}{Active Clients}{+28 net new}
+  }
+  \vskip12pt
+  Status badges:\quad
+  \pillbadge{In Progress}\quad
+  \pillbadge[rbSuccess]{Complete}\quad
+  \pillbadge[rbWarning]{At Risk}
+\end{frame}
+
+% --- Timeline ---
+\begin{timelineframe}{Product Roadmap 2027}
+  \timepointdone{1}{Q1}{Beta Launch}
+  \timepointdone{4}{Q2}{GA Release}
+  \timepointcurrent{7}{Q3}{Scale}
+  \timepoint{10}{Q4}{Enterprise}
+\end{timelineframe}
+
+% --- Process Flow ---
+\begin{processframe}{Our Approach}
+  \processstep{1}{Discover}{Market research\\and user interviews}
+  \processarrow
+  \processstep{2}{Design}{Prototype and\\iterate quickly}
+  \processarrow
+  \processstep{3}{Deliver}{Ship to customers\\and measure impact}
+  \processarrow
+  \processstep{4}{Optimise}{Analyse data\\and refine}
+\end{processframe}
+
+% --- SWOT ---
+\begin{swotframe}{SWOT Analysis}
+  \swotquadrant{rbPrimary}{Strengths}{%
+    Strong brand recognition in EMEA. Proprietary ML pipeline.
+    Experienced leadership team with 60+ years combined.} &
+  \swotquadrant{rbInfo}{Opportunities}{%
+    APAC market entry via partner channel. Growing demand for
+    AI-driven analytics in healthcare.} \\[4pt]
+  \swotquadrant{rbWarning}{Weaknesses}{%
+    Limited presence in North America. Engineering team
+    capacity constraints on new features.} &
+  \swotquadrant{rbWarning!70!red}{Threats}{%
+    Two well-funded competitors entering our core segment.
+    Regulatory changes in EU data governance.}
+\end{swotframe}
+
+% --- Key Takeaway ---
+\begin{frame}{Revenue Summary}
+  \begin{itemize}
+    \item Revenue grew 12\% driven by APAC expansion
+    \item Gross margin improved to 72\% from 68\%
+    \item Customer acquisition cost decreased by 15\%
+  \end{itemize}
+  \keytakeaway{Revenue grew 12\% YoY driven primarily by APAC expansion and improved unit economics.}
+\end{frame}
+
+% --- Conclusion ---
+\conclusionslide{Thank You}{sarah.mitchell@acme.com\quad\textbar\quad +44 7700 900123}
+
+\end{document}

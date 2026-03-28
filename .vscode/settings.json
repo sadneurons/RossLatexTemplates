@@ -1,0 +1,57 @@
+{
+  "latex-workshop.latex.tools": [
+    {
+      "name": "xelatex",
+      "command": "xelatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {
+        "TEXINPUTS": ".:%WORKSPACE_FOLDER%//:.//:..//:"
+      }
+    },
+    {
+      "name": "biber",
+      "command": "biber",
+      "args": ["%DOCFILE%"],
+      "env": {
+        "BIBINPUTS": ".:%WORKSPACE_FOLDER%//:.//:..//:"
+      }
+    },
+    {
+      "name": "xelatexmk",
+      "command": "latexmk",
+      "args": [
+        "-xelatex",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {
+        "TEXINPUTS": ".:%WORKSPACE_FOLDER%//:.//:..//:"
+      }
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "xelatex (quick)",
+      "tools": ["xelatex"]
+    },
+    {
+      "name": "xelatex + biber + xelatex×2",
+      "tools": ["xelatex", "biber", "xelatex", "xelatex"]
+    },
+    {
+      "name": "latexmk (full)",
+      "tools": ["xelatexmk"]
+    }
+  ],
+  "latex-workshop.latex.recipe.default": "xelatex (quick)",
+  "latex-workshop.latex.outDir": "%DIR%",
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  "latex-workshop.latex.autoBuild.run": "never"
+}

@@ -1,0 +1,110 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-manuscript.tex
+% Demonstrates rossmanuscript: title page, structured abstract,
+% sections with statistical results, and disclosure statements.
+
+\begin{filecontents}{example-manuscript.bib}
+@article{smith2024sleep,
+  author  = {Smith, J. A. and Lee, K. R.},
+  title   = {Sleep architecture and cognitive decline in older adults},
+  journal = {Sleep},
+  year    = {2024},
+  volume  = {47},
+  number  = {3},
+  pages   = {1--12},
+  doi     = {10.1093/sleep/zsae012},
+}
+@article{jones2023mediators,
+  author  = {Jones, P. B. and Patel, M.},
+  title   = {Affective mediators of the sleep--cognition relationship},
+  journal = {Journal of Clinical Psychology},
+  year    = {2023},
+  volume  = {79},
+  pages   = {455--470},
+  doi     = {10.1002/jclp.23498},
+}
+\end{filecontents}
+
+\documentclass[palette=lancet, journal={Sleep}]{rossmanuscript}
+\addbibresource{example-manuscript.bib}
+
+% ── Metadata ─────────────────────────────────────────────────────
+\title{Sleep Architecture, Affective Symptoms, and Domain-Specific
+       Cognition: A Mediation Analysis}
+\shorttitle{Sleep, Affect, and Cognition}
+\author{Ross A.\ Dunne\textsuperscript{1},
+        Sarah K.\ Mitchell\textsuperscript{2}}
+\affiliation{%
+  \textsuperscript{1}Department of Psychology, University of Limerick\\
+  \textsuperscript{2}School of Medicine, Trinity College Dublin}
+\orcid{0000-0002-1234-5678}
+\correspondingauthor{Ross A.\ Dunne}{ross.dunne@ul.ie}
+\authornote{This study was pre-registered on OSF (osf.io/abcde).}
+\keywords{sleep architecture, cognition, mediation, affect, ageing}
+
+% ── Disclosures ──────────────────────────────────────────────────
+\conflictofinterest{The authors declare no conflicts of interest.}
+\funding{This work was supported by the Irish Research Council (grant GOIPG/2024/1234).}
+\dataavailability{De-identified data are available at \url{https://osf.io/abcde}.}
+
+\begin{document}
+\maketitlepage
+
+\structuredabstract
+  {Poor sleep is associated with cognitive decline, yet the mediating role
+   of affective symptoms remains unclear \autocite{smith2024sleep}.}
+  {Community-dwelling older adults ($N = 312$, age 60--85) completed
+   polysomnography, the DASS-21, and the RBANS. Parallel mediation models
+   tested indirect effects of sleep architecture on five cognitive domains
+   through depressive and anxiety symptoms.}
+  {Slow-wave sleep percentage predicted delayed memory via depressive
+   symptoms (\betacoef{-0.18}; \ci{-0.28}{-0.34}{-0.08}; \pval{0.002}).
+   No significant indirect effect emerged through anxiety
+   (\pval{0.41}).}
+  {Depressive symptoms partially mediate the relationship between
+   reduced slow-wave sleep and memory decline, suggesting a potential
+   therapeutic target \autocite{jones2023mediators}.}
+
+\section{Introduction}
+
+Sleep disturbance is increasingly recognised as a modifiable risk factor
+for cognitive decline in older adults. Polysomnographic studies have linked
+reductions in slow-wave sleep (SWS) to poorer memory consolidation, yet the
+mechanisms underlying this relationship are not fully understood.
+
+\section{Method}
+
+\subsection{Participants}
+
+We recruited 312 community-dwelling adults aged 60--85 years ($M = 71.4$,
+$SD = 6.2$; 58\% female) from primary-care registries. Exclusion criteria
+included diagnosed dementia, untreated sleep apnoea, and current
+psychotropic medication use.
+
+\subsection{Measures}
+
+Cognitive function was assessed with the Repeatable Battery for the
+Assessment of Neuropsychological Status (RBANS). Sleep architecture was
+derived from single-night in-lab polysomnography.
+
+\section{Results}
+
+A significant total effect of SWS\% on delayed memory was observed
+(\tstat{308}{-3.14}; \pval{0.002}). The indirect effect through depressive
+symptoms was significant (\betacoef{-0.18}; \CI{95}{-0.18}{-0.34}{-0.08}).
+The model explained 22\% of the variance in delayed memory
+(\fstat{3}{308}{28.97}; \pval{0.00001}).
+
+\section{Discussion}
+
+These findings extend prior work by identifying depressive symptoms as a
+partial mediator of the sleep--memory relationship. Clinically, targeting
+mood disturbance in older adults with sleep complaints may yield
+downstream cognitive benefits.
+
+\printdisclosures
+
+\printbibliography
+
+\end{document}

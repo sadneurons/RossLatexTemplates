@@ -1,0 +1,69 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-figures.tex
+% Standalone demonstration of rossfigures: figurepanel with \panel,
+% sidebyside, fullwidthfigure, and figurenote.
+
+\documentclass[11pt, a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[margin=25mm]{geometry}
+\usepackage{rosspalettes}   % for themed muted colour
+\usepackage{rossfigures}
+
+\title{\texttt{rossfigures} --- Feature Demonstration}
+\author{Ross Dunne}
+\date{2026}
+
+\begin{document}
+\maketitle
+
+\section*{1. figurepanel environment}
+
+The \texttt{figurepanel} environment groups sub-figures with an overall
+caption. Each \verb|\panel| places a labelled sub-figure at the
+specified width (default 0.48\verb|\textwidth|).
+
+\begin{figurepanel}[RBANS index score distributions by diagnostic group.]
+  \panel{example-image-a}{(A) Immediate Memory}
+  \panel{example-image-b}{(B) Delayed Memory}
+\end{figurepanel}
+\figurenote{Box plots show median, IQR, and 1.5$\times$IQR whiskers.
+  Outliers plotted individually. HC = healthy control; VaD = vascular
+  dementia.}
+
+\section*{2. sidebyside}
+
+The \verb|\sidebyside| command places two captioned images side by side
+without needing the panel environment.
+
+\sidebyside
+  {example-image-a}{Scatter plot of SWS\% vs.\ delayed memory.}
+  {example-image-b}{Mediation path diagram with standardised coefficients.}
+\figurenote{Dashed lines indicate non-significant paths ($p > .05$).}
+
+\section*{3. fullwidthfigure}
+
+A single image spanning the full text width with a caption.
+
+\fullwidthfigure{example-image}{%
+  White-matter lesion probability map overlaid on the MNI-152 template.
+  Colour scale represents lesion frequency across the VaD sample
+  ($n = 110$).}
+\figurenote{Axial slices at $z = -10$, 0, 10, 20, 30, and 40\,mm.
+  Images are shown in radiological convention (left = right).}
+\source{Data from the Limerick Vascular Ageing Study (2024).}
+
+\section*{4. figuregrid}
+
+For three or more panels use \verb|\figuregrid{cols}{...}| to
+compute cell widths automatically.
+
+\figuregrid{3}{%
+  \panel[\rf@cellwidth]{example-image-a}{(A) Attention}
+  \panel[\rf@cellwidth]{example-image-b}{(B) Language}
+  \panel[\rf@cellwidth]{example-image}{(C) Visuospatial}
+}
+\figurenote{Error bars represent 95\% confidence intervals.}
+
+\end{document}

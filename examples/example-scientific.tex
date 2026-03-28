@@ -1,0 +1,119 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-scientific.tex
+% Demonstrates rossbeamerscientific features: title page with \conference,
+% \pval, \ci, finding/limitation boxes, study design, backup slides, \cite.
+\documentclass[palette=lancet]{rossbeamerscientific}
+
+\title{Sleep Architecture and Cognitive Decline}
+\subtitle{A Prospective Cohort Study}
+\author{R.~Dunne\textsuperscript{1}, J.~Smith\textsuperscript{2}}
+\institute{\textsuperscript{1}University of Manchester \quad
+           \textsuperscript{2}MRC Cognition and Brain Sciences Unit}
+\date{March 2026}
+\conference{International Neuropsychological Society, Vienna}
+
+% Dummy bib for demonstration
+\begin{filecontents}[overwrite]{\jobname.bib}
+@article{smith2024,
+  author  = {Smith, J. and Doe, A.},
+  title   = {Slow-wave sleep and memory consolidation},
+  journal = {Neurology},
+  year    = {2024},
+  volume  = {102},
+  pages   = {1120--1130},
+}
+@article{jones2023,
+  author  = {Jones, B. and Lee, C.},
+  title   = {Age-related changes in sleep microstructure},
+  journal = {Sleep},
+  year    = {2023},
+  volume  = {46},
+  pages   = {zsad041},
+}
+\end{filecontents}
+\addbibresource{\jobname.bib}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Research Question ---
+\researchquestion{Does reduced slow-wave sleep predict domain-specific
+  cognitive decline over a 3-year follow-up period?}
+
+% --- Study Design ---
+\begin{studydesign}{Study Design}
+  \designitem{Design}{Prospective longitudinal cohort}
+  \designitem{Sample}{$N = 412$ community-dwelling older adults, aged 60--85}
+  \designitem{Exposure}{Polysomnography-derived slow-wave sleep (\% of TST)}
+  \designitem{Outcome}{Change in RBANS domain scores at 36 months}
+  \designitem{Analysis}{Linear mixed models adjusted for age, sex, education, and AHI}
+\end{studydesign}
+
+% --- Results ---
+\begin{frame}{Primary Outcome}
+  Participants in the lowest SWS tertile showed significantly greater decline
+  in Delayed Memory compared to the highest tertile.\cite{smith2024}
+
+  \vskip8pt
+  \begin{itemize}
+    \item Delayed Memory: \ci{$\beta = -4.2$}{$-6.8$}{$-1.6$}, \pval{0.002}
+    \item Immediate Memory: \ci{$\beta = -2.1$}{$-4.5$}{$0.3$}, \pval{0.09}
+    \item Visuospatial: \ci{$\beta = -0.8$}{$-3.0$}{$1.4$}, \pval{0.48}
+  \end{itemize}
+  \sigmarkers
+\end{frame}
+
+% --- Finding box ---
+\begin{frame}{Key Findings}
+  \begin{findingbox}
+    Reduced slow-wave sleep was selectively associated with accelerated
+    decline in delayed memory, but not visuospatial or language domains,
+    after controlling for sleep-disordered breathing.\cite{jones2023}
+  \end{findingbox}
+
+  \vskip6pt
+  \begin{limitationbox}
+    Single-night polysomnography may not capture habitual sleep patterns.
+    Replication with multi-night actigraphy is warranted.
+  \end{limitationbox}
+
+  \vskip6pt
+  \begin{implicationbox}
+    Sleep interventions targeting SWS enhancement may offer a modifiable
+    pathway to delay memory decline in ageing populations.
+  \end{implicationbox}
+\end{frame}
+
+% --- Equation example ---
+\begin{frame}{Statistical Model}
+  The primary model was specified as:
+  \[
+    Y_{ij} = \beta_0 + \beta_1 \cdot \text{SWS}_i
+             + \eqhl{\beta_2 \cdot \text{Time}_j}
+             + \beta_3 \cdot (\text{SWS}_i \times \text{Time}_j)
+             + \mathbf{X}_i \boldsymbol{\gamma} + u_i + \varepsilon_{ij}
+  \]
+  \slidefootnote{Model estimated using restricted maximum likelihood (REML).}
+\end{frame}
+
+% --- References ---
+\begin{referenceslide}
+  \printbibliography[heading=none]
+\end{referenceslide}
+
+% --- Backup ---
+\backupslides
+
+\begin{frame}{Sensitivity Analysis}
+  Excluding participants with AHI~$>$~15 did not materially change results:
+  \begin{itemize}
+    \item Delayed Memory: \ci{$\beta = -3.8$}{$-6.5$}{$-1.1$}, \pval{0.006}
+  \end{itemize}
+\end{frame}
+
+\end{document}

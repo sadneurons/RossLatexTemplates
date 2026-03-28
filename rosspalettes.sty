@@ -1,0 +1,112 @@
+% rosspalettes.sty
+% Standalone palette system for non-beamer Ross document classes.
+% Provides consistent colour theming across manuscripts, theses,
+% CVs, posters, and any LaTeX document.
+%
+% Usage:
+%   \usepackage[palette=lancet]{rosspalettes}
+%
+% Then use: \color{rpPrimary}, \color{rpAccent}, etc.
+%
+% Ross Dunne / Claude, 2026
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rosspalettes}[2026/03/24 Palette system for Ross document classes]
+
+\RequirePackage{xcolor}
+\RequirePackage{pgfkeys}
+\RequirePackage{pgfopts}
+\RequirePackage{etoolbox}
+
+% ----------------------------------------------------------------
+% Options
+% ----------------------------------------------------------------
+
+\pgfkeys{
+  /rosspalettes/.cd,
+  palette/.store in=\rp@palette,
+  palette=lancet,
+}
+\ProcessPgfOptions{/rosspalettes}
+
+% ----------------------------------------------------------------
+% Palette definitions (7-field: primary, secondary, accent,
+%   text, textlight, textmuted, bg)
+% ----------------------------------------------------------------
+
+\newcommand{\rp@defpal}[8]{%
+  \expandafter\def\csname rp@p@#1@P\endcsname{#2}%
+  \expandafter\def\csname rp@p@#1@S\endcsname{#3}%
+  \expandafter\def\csname rp@p@#1@A\endcsname{#4}%
+  \expandafter\def\csname rp@p@#1@T\endcsname{#5}%
+  \expandafter\def\csname rp@p@#1@TL\endcsname{#6}%
+  \expandafter\def\csname rp@p@#1@TM\endcsname{#7}%
+  \expandafter\def\csname rp@p@#1@B\endcsname{#8}%
+}
+
+%                     name        P       S       A       T       TL      TM      B
+\rp@defpal{lancet}    {1A1A2E}{D4384F}{A4243B}{1C1C1C}{FFFFFF}{6A6A78}{F8F7F5}
+\rp@defpal{nhs}       {003087}{41B6E6}{005EB8}{1C1C1C}{FFFFFF}{5A6B7B}{F5F5F5}
+\rp@defpal{uom}       {2B0A3D}{8B3DB8}{660099}{1C1C1C}{FFFFFF}{6B5F78}{F8F7F9}
+\rp@defpal{economist} {1F1F1F}{F04840}{E3120B}{1C1C1C}{FFFFFF}{707078}{F7F7F7}
+\rp@defpal{nature}    {15202B}{3498D8}{0072B2}{1C1C1C}{FFFFFF}{5A6878}{F6F8FA}
+\rp@defpal{nejm}      {2A1520}{A83848}{8B2332}{1C1C1C}{FFFFFF}{706068}{FAF8F5}
+\rp@defpal{slate}     {1E2A38}{5A8AA8}{3B6B8A}{1C1C1C}{FFFFFF}{607080}{F5F7F9}
+\rp@defpal{evergreen} {1A2E1A}{40916C}{2D6A4F}{1C1C1C}{FFFFFF}{5A6B5A}{F8FAF7}
+\rp@defpal{oxford}    {002147}{1A3A60}{002147}{1C1C1C}{FFFFFF}{5A6878}{F6F7F9}
+\rp@defpal{teal}      {0A2E2E}{2AABAB}{008080}{1C1C1C}{FFFFFF}{587878}{F6FAFA}
+\rp@defpal{cambridge} {1A2930}{7AAFC5}{5B8FA8}{1C1C1C}{FFFFFF}{5A6E78}{F7F9FA}
+\rp@defpal{imperial}  {002147}{E87530}{D35400}{1C1C1C}{FFFFFF}{5A6878}{F7F8FA}
+\rp@defpal{charcoal}  {252525}{D95040}{C0392B}{1C1C1C}{FFFFFF}{787878}{F7F7F7}
+\rp@defpal{jama}      {2C2420}{9A4858}{7A2E40}{1C1C1C}{FFFFFF}{786858}{FAF8F5}
+\rp@defpal{bmj}       {1B2838}{4A8CC0}{2E6FA0}{1C1C1C}{FFFFFF}{606C78}{F6F8FA}
+\rp@defpal{cell}      {1A1A40}{E0B030}{C8960C}{1C1C1C}{FFFFFF}{606078}{F9F8F5}
+\rp@defpal{copper}    {1A1A1A}{D07040}{B45A28}{1C1C1C}{FFFFFF}{6E6460}{FAF8F6}
+\rp@defpal{rose}      {2A1822}{D87898}{C25B78}{1C1C1C}{FFFFFF}{786070}{FBF8F9}
+\rp@defpal{graphite}  {1A1A1A}{606060}{404040}{1C1C1C}{FFFFFF}{707070}{F7F7F7}
+% Corporate
+\rp@defpal{midnight}  {1E2761}{CADCFC}{FFFFFF}{1E2761}{FFFFFF}{8090B0}{FAFAFA}
+\rp@defpal{obsidian}  {1A1A1A}{E0C070}{C9A84C}{1C1C1C}{FFFFFF}{8A8A8A}{F8F8F7}
+\rp@defpal{nordic}    {2A3A48}{58B0B0}{3A8E8E}{1C1C1C}{FFFFFF}{6A7888}{F6F8F9}
+\rp@defpal{ember}     {2A1A0A}{E08040}{C06020}{1C1C1C}{FFFFFF}{7A6858}{FAF8F5}
+\rp@defpal{indigo}    {1A1A3E}{5C6BC0}{3F51B5}{1C1C1C}{FFFFFF}{606080}{F7F7FA}
+\rp@defpal{ivory}     {2C3E6B}{4A5E8B}{2C3E6B}{1C1C1C}{FFFFFF}{6A7080}{FAF9F7}
+\rp@defpal{plum}      {2A1038}{9A60BE}{7B3F9E}{1C1C1C}{FFFFFF}{706078}{F9F7FA}
+\rp@defpal{steel}     {2D3748}{ED8936}{DD6B20}{1C1C1C}{FFFFFF}{6A7888}{F7F8F9}
+\rp@defpal{bordeaux}  {2A0818}{AA5068}{8A3048}{1C1C1C}{FFFFFF}{786068}{FAF8F7}
+\rp@defpal{arctic}    {1A3A60}{3A5A80}{1A3A60}{1C1C1C}{FFFFFF}{5A7090}{F4F8FC}
+\rp@defpal{saffron}   {1A2744}{F0C040}{E8A820}{1C1C1C}{FFFFFF}{607080}{F8F8F5}
+\rp@defpal{dusk}      {2A2038}{F09090}{E87070}{1C1C1C}{FFFFFF}{686070}{F9F7F9}
+% Domain
+\rp@defpal{brainlab}  {1A2030}{4FC3F7}{FF4500}{1C1C1C}{FFFFFF}{607888}{F5F7FA}
+\rp@defpal{blackboard}{2E4A3E}{F5F5DC}{82B1FF}{F5F5DC}{2E4A3E}{90A898}{2E4A3E}
+\rp@defpal{assay}     {0D3B66}{1565C0}{FF8F00}{1C1C1C}{FFFFFF}{607080}{F5F7FA}
+\rp@defpal{cortex}    {2A2028}{CE93D8}{26A69A}{1C1C1C}{FFFFFF}{787078}{F9F7F9}
+\rp@defpal{genome}    {0D1B2A}{1E88E5}{43A047}{1C1C1C}{FFFFFF}{506878}{F5F8FA}
+\rp@defpal{clinical}  {0D3B66}{2E7D32}{1565C0}{1C1C1C}{FFFFFF}{607080}{F5F7F9}
+\rp@defpal{lecture}    {1A3A6B}{4CAF50}{FFF176}{1C1C1C}{FFFFFF}{607080}{FAF9F5}
+
+% ----------------------------------------------------------------
+% Palette activation
+% ----------------------------------------------------------------
+
+\newcommand{\rp@activatepalette}{%
+  \definecolor{rpPrimary}{HTML}{\csname rp@p@\rp@palette @P\endcsname}%
+  \definecolor{rpSecondary}{HTML}{\csname rp@p@\rp@palette @S\endcsname}%
+  \definecolor{rpAccent}{HTML}{\csname rp@p@\rp@palette @A\endcsname}%
+  \definecolor{rpText}{HTML}{\csname rp@p@\rp@palette @T\endcsname}%
+  \definecolor{rpTextLight}{HTML}{\csname rp@p@\rp@palette @TL\endcsname}%
+  \definecolor{rpTextMuted}{HTML}{\csname rp@p@\rp@palette @TM\endcsname}%
+  \definecolor{rpBg}{HTML}{\csname rp@p@\rp@palette @B\endcsname}%
+  % Derived
+  \colorlet{rpPrimaryLight}{rpPrimary!15!white}%
+  \colorlet{rpPrimaryFaded}{rpPrimary!8!white}%
+  \colorlet{rpAccentBg}{rpAccent!8!white}%
+  \colorlet{rpAccentLight}{rpAccent!30!white}%
+  \colorlet{rpRule}{rpTextMuted!30}%
+}
+\rp@activatepalette
+
+\newcommand{\setrosspalette}[1]{\def\rp@palette{#1}\rp@activatepalette}
+
+\endinput

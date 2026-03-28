@@ -1,0 +1,119 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-neuroimaging.tex
+% Demonstrates rossbeamerneuroimaging features: dark slides, \mnicoord,
+% \colorbar, \brainslice, \contrastcard, atlas layout.
+\documentclass[palette=brainlab]{rossbeamerneuroimaging}
+
+\title{Neural Correlates of Face Processing}
+\subtitle{An fMRI Study of the Fusiform Face Area}
+\author{R.~Dunne, A.~Kanwisher}
+\institute{Brain Imaging Centre, University of Manchester}
+\date{June 2026}
+\conference{Organisation for Human Brain Mapping, Seoul}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Dark content slide ---
+\begin{frame}{Task Paradigm}
+  Participants viewed alternating blocks of faces and houses in a
+  block design (16\,s on, 16\,s off).
+
+  \vskip8pt
+  \begin{itemize}
+    \item 24 healthy right-handed adults (12F, age $M = 27.4$)
+    \item 3T Siemens Prisma, TR = 2000\,ms, 2\,mm isotropic
+    \item \modalitybadge{fMRI} \quad \modalitybadge[rbBrainCool]{T1w}
+  \end{itemize}
+
+  \vskip10pt
+  Peak activation for Faces~$>$~Houses at \mnicoord{42}{-52}{-18}
+  in the right fusiform gyrus.
+\end{frame}
+
+% --- Contrast cards ---
+\begin{frame}{Activation Results}
+  \contrastcard{Faces $>$ Houses}{5.82}{186}{R Fusiform Gyrus (FFA)}
+  \vskip6pt
+  \contrastcard{Houses $>$ Faces}{4.31}{142}{L Parahippocampal Place Area}
+  \vskip6pt
+  \contrastcard{Faces $>$ Scrambled}{6.14}{224}{Bilateral STS / FFA}
+  \vskip6pt
+  \thresholdbadge{FWE $p < .05$, $k > 20$}
+\end{frame}
+
+% --- Colour bar example ---
+\begin{frame}{Statistical Map}
+  \begin{columns}[c]
+    \begin{column}{0.75\textwidth}
+      \centering
+      \includegraphics[width=0.85\linewidth]{example-image}
+    \end{column}
+    \begin{column}{0.20\textwidth}
+      \colorbar{$t$-value}{0}{8}
+    \end{column}
+  \end{columns}
+  \vskip4pt
+  \begin{center}
+    \roiannotation{R FFA}\quad
+    \roiannotation[rbBrainCool]{L PPA}\quad
+    \roiannotation[rbBrainWarm]{STS}
+  \end{center}
+\end{frame}
+
+% --- Brain slice ---
+\begin{frame}{Axial Slices}
+  \begin{columns}[c]
+    \begin{column}{0.32\textwidth}
+      \brainslice{example-image}{$z = -18$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \brainslice{example-image}{$z = 0$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \brainslice{example-image}{$z = 24$}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- Atlas layout ---
+\begin{atlasframe}{Anatomical Reference}
+  \atlasleft{example-image}{Sagittal view ($x = 42$)}
+  \atlasright{%
+    \atlaspanel{example-image}{Axial view ($z = -18$)}
+    \atlaspanel{example-image}{Coronal view ($y = -52$)}
+  }
+\end{atlasframe}
+
+% --- Coordinate table ---
+\begin{frame}{Peak Coordinates}
+  \centering
+  \begin{coordtable}
+    \coordrow{R Fusiform Gyrus}{42}{-52}{-18}{5.82}{186}
+    \coordrow{L Parahippocampal}{-28}{-40}{-12}{4.31}{142}
+    \coordrow{R Superior Temporal}{54}{-30}{8}{4.67}{98}
+    \coordrow{L Inferior Frontal}{-44}{18}{24}{3.89}{64}
+  \end{coordtable}
+\end{frame}
+
+% --- Pipeline ---
+\begin{frame}{Processing Pipeline}
+  \centering\vfill
+  \pipelinestep{1}{Preprocessing}{Motion corr.,\\slice timing}
+  \pipelinearrow
+  \pipelinestep{2}{Normalisation}{MNI152,\\2\,mm}
+  \pipelinearrow
+  \pipelinestep{3}{Smoothing}{6\,mm FWHM\\Gaussian}
+  \pipelinearrow
+  \pipelinestep{4}{GLM}{SPM12,\\FWE corr.}
+  \vfill
+\end{frame}
+
+\conclusionslide{Thank You}{r.dunne@manchester.ac.uk}
+
+\end{document}

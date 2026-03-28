@@ -1,0 +1,119 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-thesis.tex
+% Demonstrates rossthesis: frontmatter, epigraph, chapter with sections,
+% a table via rosstables, and bibliography.
+
+\begin{filecontents}{example-thesis.bib}
+@book{lezak2012neuropsych,
+  author    = {Lezak, M. D. and Howieson, D. B. and Bigler, E. D.
+               and Tranel, D.},
+  title     = {Neuropsychological Assessment},
+  edition   = {5},
+  publisher = {Oxford University Press},
+  year      = {2012},
+}
+@article{randolph1998rbans,
+  author  = {Randolph, C.},
+  title   = {RBANS manual},
+  journal = {Psychological Corporation},
+  year    = {1998},
+}
+\end{filecontents}
+
+\documentclass[palette=oxford, font=palatino, bibstyle=authoryear]{rossthesis}
+\addbibresource{example-thesis.bib}
+
+% ── Thesis metadata ──────────────────────────────────────────────
+\thesistitle{Neuropsychological Markers of Vascular Cognitive
+             Impairment: A Multi-Method Investigation}
+\thesisauthor{Ross A.\ Dunne}
+\thesisdegree{Doctor of Philosophy}
+\thesisuniversity{University of Limerick}
+\thesisdepartment{Department of Psychology}
+\thesisyear{2026}
+\thesissupervisor{Prof.\ Ann-Marie Moriarty}
+
+\begin{document}
+
+% ── Frontmatter ──────────────────────────────────────────────────
+\frontmatter
+\maketitle
+\declaration
+
+\thesisabstract{%
+  Vascular cognitive impairment (VCI) represents a heterogeneous spectrum
+  of cognitive deficits attributable to cerebrovascular disease. This thesis
+  examined the sensitivity of the RBANS to early VCI in three studies.
+  Study~1 established normative data for Irish adults aged 50--90.
+  Study~2 compared RBANS profiles across VCI subtypes. Study~3 investigated
+  whether sleep architecture mediates the relationship between white-matter
+  lesion burden and domain-specific cognition. Results support the utility
+  of the RBANS as a screening instrument for VCI when combined with
+  demographically adjusted norms.}
+
+\acknowledgements{%
+  I am deeply grateful to my supervisor, Prof.\ Ann-Marie Moriarty, for
+  her unwavering guidance. Thanks also to the participants who generously
+  gave their time, and to my family for their patience and support.}
+
+\dedication{For my parents.}
+
+\begin{abbreviations}
+  \abbrev{RBANS}{Repeatable Battery for the Assessment of
+                  Neuropsychological Status}
+  \abbrev{VCI}{Vascular Cognitive Impairment}
+  \abbrev{WML}{White-Matter Lesion}
+  \abbrev{SWS}{Slow-Wave Sleep}
+  \abbrev{PSG}{Polysomnography}
+\end{abbreviations}
+
+\makefrontlists
+
+% ── Mainmatter ───────────────────────────────────────────────────
+\mainmatter
+
+\chapter{General Introduction}
+
+\epigraph{The brain is wider than the sky.}{Emily Dickinson}
+
+\section{Background}
+
+Vascular cognitive impairment encompasses the full range of cognitive
+deficits caused or exacerbated by cerebrovascular pathology
+\parencite{lezak2012neuropsych}. Screening tools that are sensitive to
+early VCI remain limited.
+
+\section{The RBANS}
+
+The Repeatable Battery for the Assessment of Neuropsychological Status
+\parencite{randolph1998rbans} yields five index scores summarised in
+\cref{tab:rbans-indices}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{RBANS index scores and contributing subtests.}
+  \label{tab:rbans-indices}
+  \begin{rosstable}{L{4cm} L{6cm} C{2.5cm}}
+    \tablehead{Index & Subtests & Items} \\
+    \midrule
+    \shaderow Immediate Memory & List Learning, Story Memory & 30 \\
+    Visuospatial/Constructional & Figure Copy, Line Orientation & 20 \\
+    \shaderow Language & Picture Naming, Semantic Fluency & 20 \\
+    Attention & Digit Span, Coding & 27 \\
+    \shaderow Delayed Memory & List Recall, Story Recall, Figure Recall,
+                                List Recognition & 24 \\
+  \end{rosstable}
+  \tablenote{Scores are age-adjusted with $M = 100$, $SD = 15$.}
+\end{table}
+
+\section{Aims of the Thesis}
+
+This thesis aims to: (a)~establish Irish normative data for the RBANS;
+(b)~characterise cognitive profiles across VCI subtypes; and
+(c)~investigate sleep-mediated pathways to domain-specific impairment.
+
+% ── Bibliography ─────────────────────────────────────────────────
+\thesisbibliography
+
+\end{document}

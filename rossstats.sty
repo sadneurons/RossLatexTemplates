@@ -1,0 +1,150 @@
+% rossstats.sty — Statistical formatting helpers for LaTeX
+% No beamer dependency; works with any document class.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rossstats}[2026/03/24 Statistical formatting helpers]
+
+\RequirePackage{amsmath}
+
+% ── Utility: strip leading zero from a decimal ──────────────────────────
+\newcommand{\@stripzero}[1]{%
+  \@stripzeroaux#1\@nil
+}
+\def\@stripzeroaux 0#1\@nil{#1}
+
+% ── p-value ──────────────────────────────────────────────────────────────
+% \pval{0.003} → p = .003
+% \pval{0.00001} → p < .001
+\newcommand{\pval}[1]{%
+  \ifdim #1 pt<0.001pt\relax
+    \textit{p}~\textless~.001%
+  \else
+    \textit{p}~= \@stripzero{#1}%
+  \fi
+}
+
+% ── Confidence intervals ─────────────────────────────────────────────────
+% \ci{est}{lower}{upper} → est [lower, upper]
+\newcommand{\ci}[3]{%
+  #1~[#2,~#3]%
+}
+
+% \CI{level}{est}{lower}{upper} → est, level% CI [lower, upper]
+\newcommand{\CI}[4]{%
+  #2,~#1\%~CI~[#3,~#4]%
+}
+
+% ── Effect size ──────────────────────────────────────────────────────────
+% \effectsize{d}{0.45} → d = 0.45
+\newcommand{\effectsize}[2]{%
+  \textit{#1}~= #2%
+}
+
+% ── Chi-square ───────────────────────────────────────────────────────────
+% \chisq{2.34} → χ² = 2.34
+\newcommand{\chisq}[1]{%
+  $\chi^{2}$~= #1%
+}
+
+% ── F-statistic ──────────────────────────────────────────────────────────
+% \fstat{df1}{df2}{val} → F(df1, df2) = val
+\newcommand{\fstat}[3]{%
+  \textit{F}(#1,~#2)~= #3%
+}
+
+% ── t-statistic ──────────────────────────────────────────────────────────
+% \tstat{df}{val} → t(df) = val
+\newcommand{\tstat}[2]{%
+  \textit{t}(#1)~= #2%
+}
+
+% ── Odds ratio with CI ──────────────────────────────────────────────────
+% \OR{val}{lower}{upper} → OR = val [lower, upper]
+\newcommand{\OR}[3]{%
+  OR~= #1~[#2,~#3]%
+}
+
+% ── Hazard ratio with CI ────────────────────────────────────────────────
+% \HR{val}{lower}{upper} → HR = val [lower, upper]
+\newcommand{\HR}[3]{%
+  HR~= #1~[#2,~#3]%
+}
+
+% ── Risk ratio with CI ──────────────────────────────────────────────────
+% \RR{val}{lower}{upper} → RR = val [lower, upper]
+\newcommand{\RR}[3]{%
+  RR~= #1~[#2,~#3]%
+}
+
+% ── Beta coefficient ────────────────────────────────────────────────────
+% \betacoef{0.34} → β = 0.34
+\newcommand{\betacoef}[1]{%
+  $\beta$~= #1%
+}
+
+% ── Number needed to treat / harm ───────────────────────────────────────
+\newcommand{\NNT}[1]{NNT~= #1}
+\newcommand{\NNH}[1]{NNH~= #1}
+
+% ── Absolute risk reduction ─────────────────────────────────────────────
+\newcommand{\ARR}[1]{ARR~= #1}
+
+% ── Sensitivity & Specificity ───────────────────────────────────────────
+% \sensspec{0.92}{0.85} → Sensitivity = .92, Specificity = .85
+\newcommand{\sensspec}[2]{%
+  Sensitivity~= \@stripzero{#1},~Specificity~= \@stripzero{#2}%
+}
+
+% ── PPV & NPV ───────────────────────────────────────────────────────────
+% \ppvnpv{0.88}{0.90} → PPV = .88, NPV = .90
+\newcommand{\ppvnpv}[2]{%
+  PPV~= \@stripzero{#1},~NPV~= \@stripzero{#2}%
+}
+
+% ── Reliable Change Index ──────────────────────────────────────────────
+\newcommand{\rci}[1]{RCI~= #1}
+
+% ── Prevalence ──────────────────────────────────────────────────────────
+% \prevalence{12} → Prevalence = 12%
+\newcommand{\prevalence}[1]{Prevalence~= #1\%}
+
+% ── Incidence ───────────────────────────────────────────────────────────
+% \incidence{5.2}{1000}{year} → Incidence = 5.2 per 1000/year
+\newcommand{\incidence}[3]{%
+  Incidence~= #1 per #2/#3%
+}
+
+% ── Rate ratio with CI ──────────────────────────────────────────────────
+% \rateratio{1.5}{1.1}{2.0} → Rate ratio = 1.5 [1.1, 2.0]
+\newcommand{\rateratio}[3]{%
+  Rate ratio~= #1~[#2,~#3]%
+}
+
+% ── Odds ratio (long label) with CI ─────────────────────────────────────
+% \oddsratio{2.1}{1.4}{3.2} → Odds ratio = 2.1 [1.4, 3.2]
+\newcommand{\oddsratio}[3]{%
+  Odds ratio~= #1~[#2,~#3]%
+}
+
+% ── Attributable risk ───────────────────────────────────────────────────
+\newcommand{\attributablerisk}[1]{AR~= #1}
+
+% ── Significance markers (APA table footnote) ──────────────────────────
+% \sigmarkers → * p < .05. ** p < .01. *** p < .001.
+\newcommand{\sigmarkers}{%
+  *~\textit{p}~\textless~.05.\quad
+  **~\textit{p}~\textless~.01.\quad
+  ***~\textit{p}~\textless~.001.%
+}
+
+% ── Figure / table notes (APA style) ───────────────────────────────────
+% \figurenote{text} → Note. text
+\newcommand{\figurenote}[1]{%
+  \par\noindent\textit{Note}.\enspace #1%
+}
+
+% \tablenote{text} → Note. text
+\newcommand{\tablenote}[1]{%
+  \par\noindent\textit{Note}.\enspace #1%
+}
+
+\endinput

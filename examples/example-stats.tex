@@ -1,0 +1,69 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-stats.tex
+% Standalone demonstration of rossstats: all statistical formatters
+% presented in a reference table.
+
+\documentclass[11pt, a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[margin=25mm]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{rossstats}
+
+\title{\texttt{rossstats} --- Quick Reference}
+\author{Ross Dunne}
+\date{2026}
+
+\begin{document}
+\maketitle
+
+The \texttt{rossstats} package provides consistent APA-style formatting
+for common statistical quantities. Every command below can be used in
+running text or inside tables.
+
+\bigskip
+\renewcommand{\arraystretch}{1.4}
+\begin{longtable}{@{} p{5.5cm} p{5cm} p{5cm} @{}}
+\toprule
+\textbf{Command}               & \textbf{Input}                      & \textbf{Output} \\
+\midrule
+\endhead
+\verb|\pval{0.003}|            & $p$-value, auto strip zero          & \pval{0.003} \\
+\verb|\pval{0.00001}|          & $p < .001$ threshold                & \pval{0.00001} \\
+\verb|\ci{0.45}{0.21}{0.69}|   & Estimate with CI                    & \ci{0.45}{0.21}{0.69} \\
+\verb|\CI{95}{0.45}{0.21}{0.69}| & CI with level                     & \CI{95}{0.45}{0.21}{0.69} \\
+\verb|\effectsize{d}{0.72}|    & Cohen's $d$                         & \effectsize{d}{0.72} \\
+\verb|\effectsize{\eta^2}{.09}| & Eta-squared                        & \effectsize{\eta^2}{.09} \\
+\verb|\chisq{12.34}|           & Chi-square                          & \chisq{12.34} \\
+\verb|\fstat{2}{148}{6.21}|    & $F$-statistic                       & \fstat{2}{148}{6.21} \\
+\verb|\tstat{74}{2.89}|        & $t$-statistic                       & \tstat{74}{2.89} \\
+\verb|\OR{2.10}{1.40}{3.20}|   & Odds ratio with CI                  & \OR{2.10}{1.40}{3.20} \\
+\verb|\HR{1.35}{1.02}{1.78}|   & Hazard ratio with CI                & \HR{1.35}{1.02}{1.78} \\
+\verb|\RR{0.72}{0.55}{0.94}|   & Risk ratio with CI                  & \RR{0.72}{0.55}{0.94} \\
+\verb|\betacoef{0.34}|         & Standardised beta                   & \betacoef{0.34} \\
+\verb|\NNT{8}|                 & Number needed to treat               & \NNT{8} \\
+\verb|\NNH{25}|                & Number needed to harm                & \NNH{25} \\
+\verb|\ARR{0.12}|              & Absolute risk reduction              & \ARR{0.12} \\
+\verb|\sensspec{0.92}{0.85}|   & Sensitivity \& specificity           & \sensspec{0.92}{0.85} \\
+\verb|\ppvnpv{0.88}{0.90}|     & PPV \& NPV                          & \ppvnpv{0.88}{0.90} \\
+\verb|\rci{1.96}|              & Reliable change index                & \rci{1.96} \\
+\verb|\prevalence{12}|         & Prevalence                           & \prevalence{12} \\
+\verb|\incidence{5.2}{1000}{year}| & Incidence rate                   & \incidence{5.2}{1000}{year} \\
+\verb|\rateratio{1.5}{1.1}{2.0}|  & Rate ratio with CI                & \rateratio{1.5}{1.1}{2.0} \\
+\verb|\oddsratio{2.1}{1.4}{3.2}|  & Odds ratio (long label)           & \oddsratio{2.1}{1.4}{3.2} \\
+\verb|\attributablerisk{0.08}| & Attributable risk                    & \attributablerisk{0.08} \\
+\verb|\sigmarkers|             & Significance footnote markers        & \sigmarkers \\
+\bottomrule
+\end{longtable}
+
+\subsection*{Example in running text}
+
+The treatment group showed significantly lower relapse rates
+(\RR{0.72}{0.55}{0.94}; \pval{0.015}), corresponding to an
+\NNT{8}. Diagnostic accuracy was acceptable
+(\sensspec{0.92}{0.85}; \ppvnpv{0.88}{0.90}).
+
+\end{document}

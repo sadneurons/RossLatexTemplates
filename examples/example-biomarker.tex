@@ -1,0 +1,100 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-biomarker.tex
+% Demonstrates rossbeamerbiomarker features: \assaycard, \thresholdbar,
+% \diagnosticcard, biomarker panel.
+\documentclass[palette=assay]{rossbeamerbiomarker}
+
+\title{CSF Biomarkers in Early Alzheimer's Disease}
+\subtitle{Diagnostic Performance of the AT(N) Framework}
+\author{Dr.~Maria Chen}
+\institute{Clinical Neurochemistry Lab, Sahlgrenska University Hospital}
+\date{October 2026}
+\conference{AAIC 2026, Amsterdam}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Assay Cards ---
+\begin{frame}{Index Patient Results}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \assaycard{A$\beta$42}{412}{pg/mL}{>600}{Below reference --- amyloid positive}
+      \vskip6pt
+      \assaycard{p-tau181}{68}{pg/mL}{<27}{Elevated --- tau pathology}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \assaycard{t-tau}{540}{pg/mL}{<350}{Elevated --- neurodegeneration}
+      \vskip6pt
+      \assaycard{NfL}{32}{pg/mL}{<20}{Mildly elevated}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- Threshold Bars ---
+\begin{frame}{Threshold Visualisation}
+  \thresholdbar{412}{600}{A$\beta$42 (pg/mL)}
+  \vskip8pt
+  \thresholdbar{68}{27}{p-tau181 (pg/mL)}
+  \vskip8pt
+  \thresholdbar{540}{350}{t-tau (pg/mL)}
+  \vskip8pt
+  \thresholdbar{32}{20}{NfL (pg/mL)}
+\end{frame}
+
+% --- Diagnostic Card ---
+\begin{frame}{Diagnostic Test Performance}
+  \diagnosticcard{A$\beta$42/40 Ratio}{93\%}{87\%}{84\%}{95\%}{0.94}
+  \vskip8pt
+  \diagnosticcard{p-tau181}{89\%}{91\%}{88\%}{92\%}{0.93}
+  \vskip8pt
+  \diagnosticcard{NfL}{72\%}{78\%}{70\%}{80\%}{0.81}
+\end{frame}
+
+% --- Biomarker Panel ---
+\begin{frame}{AT(N) Panel Summary}
+  \begin{biomarkerpanel}{Cerebrospinal Fluid Biomarker Panel}
+    \panelrow{A$\beta$42}{412}{pg/mL}{$>$600}{\textbf{A+}}
+    \panelrow{A$\beta$42/40}{0.048}{ratio}{$>$0.065}{\textbf{A+}}
+    \panelrow{p-tau181}{68}{pg/mL}{$<$27}{\textbf{T+}}
+    \panelrow{t-tau}{540}{pg/mL}{$<$350}{\textbf{N+}}
+    \panelrow{NfL}{32}{pg/mL}{$<$20}{Elevated}
+    \panelrow{GFAP}{285}{pg/mL}{$<$250}{Borderline}
+  \end{biomarkerpanel}
+  \vskip6pt
+  \begin{center}
+    \textbf{Classification:}\quad A+T+N+ \quad---\quad
+    \textit{Alzheimer's disease (biological)}
+  \end{center}
+\end{frame}
+
+% --- Cutoff Callout ---
+\begin{frame}{Clinical Decision Point}
+  \cutoffcallout{0.048}{0.065}{Below cutoff --- amyloid pathology confirmed}
+  \vskip10pt
+  \begin{itemize}
+    \item The A$\beta$42/40 ratio corrects for inter-individual variation
+          in total CSF A$\beta$ production
+    \item Concordance with amyloid PET: $\kappa = 0.87$
+    \item Recommend confirmatory amyloid PET if ratio is borderline
+          (0.060--0.070)
+  \end{itemize}
+\end{frame}
+
+% --- Inline results ---
+\begin{frame}{Inline Biomarker Display}
+  Individual results can also be shown inline:\par\vskip8pt
+  \biomarkerresult{A$\beta$42}{412\,pg/mL}{abnormal}\par\vskip4pt
+  \biomarkerresult{p-tau181}{68\,pg/mL}{abnormal}\par\vskip4pt
+  \biomarkerresult{GFAP}{285\,pg/mL}{borderline}\par\vskip4pt
+  \biomarkerresult{Glucose}{3.8\,mmol/L}{normal}\par\vskip8pt
+  Reference ranges: \normalrange{600}{1200}\,pg/mL for A$\beta$42.
+\end{frame}
+
+\conclusionslide{Thank You}{m.chen@neurolab.gu.se}
+
+\end{document}

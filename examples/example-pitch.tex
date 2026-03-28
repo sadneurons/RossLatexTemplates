@@ -1,0 +1,95 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-pitch.tex
+% Demonstrates rossbeamerpitch features: problem/solution, traction metrics,
+% competitive matrix, market size, ask slide.
+\documentclass[palette=pitch]{rossbeamerpitch}
+
+\title{NeuroSync}
+\subtitle{AI-Powered Sleep Optimisation for Cognitive Health}
+\author{Dr.~Ross Dunne, Founder \& CEO}
+\institute{NeuroSync Ltd}
+\date{Seed Round --- March 2026}
+
+\enablefooter
+\footertext{NeuroSync --- Confidential}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Problem ---
+\problemslide{800 million people worldwide suffer from poor sleep,
+  costing the global economy \$411B annually in lost productivity
+  and healthcare spending.}
+
+% --- Solution ---
+\solutionslide{NeuroSync uses wearable EEG and real-time acoustic
+  stimulation to enhance slow-wave sleep, improving memory
+  consolidation by 23\% in clinical trials.}
+
+% --- Value Proposition ---
+\valueprop{23\% Memory Improvement}{Our patented closed-loop audio
+  system targets slow-wave oscillations during NREM sleep, delivering
+  personalised stimulation that enhances memory consolidation without
+  disrupting sleep architecture.}
+
+% --- Traction ---
+\begin{frame}{Traction}
+  \tractionrow{%
+    \tractionmetric{\pounds 1.2M}{ARR}{up}
+    \tractionmetric{4{,}200}{Active Users}{up}
+    \tractionmetric{92\%}{Retention (M3)}{flat}
+  }
+  \vskip12pt
+  \tractionrow{%
+    \tractionmetric{23\%}{Memory Improvement}{up}
+    \tractionmetric{3}{NHS Pilot Sites}{up}
+    \tractionmetric{2}{Granted Patents}{flat}
+  }
+\end{frame}
+
+% --- Competitive Matrix ---
+\begin{frame}{Competitive Landscape}
+  \begin{competitivematrix}{Feature}{NeuroSync}{Dreem}{Oura}
+    \competitor{Real-time EEG}{\yes & \yes & \no}
+    \competitor{Acoustic stimulation}{\yes & \yes & \no}
+    \competitor{Closed-loop targeting}{\yes & \no & \no}
+    \competitor{Clinical validation}{\yes & \yes & \no}
+    \competitor{Consumer price point}{\yes & \no & \yes}
+    \competitor{NHS integration}{\yes & \no & \no}
+  \end{competitivematrix}
+\end{frame}
+
+% --- Market Size ---
+\marketsize{\$85B}{\$12B}{\$1.8B}
+
+% --- Milestones ---
+\milestonetrack{%
+  \milestone{2024 Q2}{Pre-seed}{Complete}
+  \milestonecurrent{2026 Q1}{Seed}{In progress}
+  \milestonefuture{2027 Q2}{Series A}{Planned}
+  \milestonefuture{2028 Q4}{FDA/CE Mark}{Planned}
+}
+
+% --- The Ask ---
+\askslide{\pounds 3M}{Seed round to fund clinical trials (n=500),
+  regulatory submissions, and expansion to 20 NHS sites by Q4 2027.}
+
+% --- Team ---
+\teamslide{%
+  \profilecard{Dr.~Ross Dunne}{CEO}{Neuroscientist,\\10 yrs sleep research}
+  \hfill
+  \profilecard{Sarah Chen}{CTO}{Ex-DeepMind,\\ML/signal processing}
+  \hfill
+  \profilecard{James Okafor}{COO}{Ex-Babylon Health,\\NHS partnerships}
+  \hfill
+  \profilecard{Dr.~Priya Patel}{CMO}{Neurologist,\\clinical trials PI}
+}
+
+\conclusionslide{Let's Talk}{ross@neurosync.ai \quad\textbar\quad +44 7700 900456}
+
+\end{document}

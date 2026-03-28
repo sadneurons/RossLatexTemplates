@@ -1,0 +1,85 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-minimal.tex
+% Demonstrates rossbeamerminimal features: epigraph, wide image,
+% margin notes, aside, blank slide.
+\documentclass[palette=minimal]{rossbeamerminimal}
+
+\title{On the Merits of Restraint}
+\subtitle{Designing presentations that breathe}
+\author{Eleanor Vance}
+\institute{Studio Vance, London}
+\date{2026}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Epigraph ---
+\epigraph{Perfection is achieved, not when there is nothing more to add,
+  but when there is nothing left to take away.}{Antoine de Saint-Exup\'ery}
+
+% --- Content with margin note ---
+\begin{frame}{less is more}
+  Good presentations respect the audience's attention. Every element on
+  a slide should earn its place.%
+  \marginnote{Edward Tufte calls this the ``data-ink ratio'' --- maximise
+    the proportion of ink devoted to data.}
+
+  \vskip12pt
+  Three principles:
+  \begin{itemize}
+    \item Eliminate decoration that does not inform
+    \item Use whitespace as a structural element
+    \item Let typography do the heavy lifting
+  \end{itemize}
+
+  \aside{These ideas draw heavily from Butterick's Practical Typography
+    and Tufte's Visual Display of Quantitative Information.}
+\end{frame}
+
+% --- Wide image ---
+\begin{frame}{visual evidence}
+  \wideimage{example-image}{A full-width placeholder image demonstrating
+    the \texttt{\textbackslash wideimage} command. In practice, this would
+    be a photograph, chart, or diagram.}
+\end{frame}
+
+% --- More margin notes ---
+\begin{frame}{typography matters}
+  The choice of typeface communicates before a single word is read.
+  Sans-serif faces (Fira Sans, Inter) work well on screen because
+  their open counters remain legible at low resolution.%
+  \marginnote{Fira Sans was designed by Erik Spiekermann for Mozilla's
+    Firefox OS project.}
+
+  \vskip12pt
+  Serif faces (Libertinus, Georgia) carry gravitas and are better
+  suited to dense, text-heavy slides --- though they should be used
+  sparingly in presentations.
+
+  \aside{When in doubt, choose the typeface that disappears.
+    The best typography is invisible.}
+\end{frame}
+
+% --- Blank slide (pause / breathing room) ---
+\blankslide
+
+% --- Closing ---
+\begin{frame}{one last thought}
+  \vfill
+  The most powerful slide in any deck is the one you choose not to show.
+
+  \vskip18pt
+  Design is not about making things look good. It is about making
+  things work well.
+
+  \vskip18pt
+  {\color{rbTextMuted}eleanor@studiovance.co.uk}
+  \vfill
+\end{frame}
+
+\end{document}

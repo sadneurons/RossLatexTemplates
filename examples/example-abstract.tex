@@ -1,0 +1,60 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-abstract.tex
+% Demonstrates rossabstract: conference header, structured abstract
+% with all four sections, and keywords.
+
+\documentclass[palette=lancet, wordlimit=300]{rossabstract}
+
+% ── Metadata ─────────────────────────────────────────────────────
+\title{Slow-Wave Sleep Predicts Delayed Memory via Depressive Symptoms
+       in Community-Dwelling Older Adults}
+\author{Ross A.\ Dunne\textsuperscript{1},
+        Sarah K.\ Mitchell\textsuperscript{2},
+        Ann-Marie Moriarty\textsuperscript{1}}
+\affiliation{%
+  \textsuperscript{1}Department of Psychology, University of Limerick;
+  \textsuperscript{2}School of Medicine, Trinity College Dublin}
+\correspondingauthor{ross.dunne@ul.ie}
+\conference{53rd Annual Meeting of the International Neuropsychological
+            Society --- New York, NY, USA --- February 2026}
+\abstracttype{Oral Presentation}
+\keywords{sleep architecture, slow-wave sleep, cognition, mediation,
+          depressive symptoms, ageing}
+\conflictofinterest{None declared.}
+\funding{Irish Research Council (GOIPG/2024/1234).}
+
+\begin{document}
+
+\maketitle
+
+\structuredabstract
+  % ── Background ─────────────────────────────────────────────────
+  {Sleep disturbance is a recognised risk factor for cognitive decline in
+   older adults, yet the pathways linking specific sleep-architecture
+   parameters to domain-specific cognitive outcomes remain poorly
+   understood. Depressive symptoms frequently co-occur with disrupted
+   sleep and may act as a mediator of cognitive change.}
+  % ── Methods ────────────────────────────────────────────────────
+  {Community-dwelling adults aged 60--85 ($N = 312$; 58\% female) completed
+   single-night in-lab polysomnography, the DASS-21, and the Repeatable
+   Battery for the Assessment of Neuropsychological Status (RBANS).
+   Parallel mediation models tested indirect effects of slow-wave sleep
+   percentage (SWS\%) on each RBANS index through depressive and anxiety
+   symptom severity, controlling for age, sex, and education.}
+  % ── Results ────────────────────────────────────────────────────
+  {SWS\% was significantly associated with delayed memory
+   ($\beta = -0.24$, $p = .001$). The indirect effect through depressive
+   symptoms was significant ($\beta = -0.18$, 95\% CI [$-$0.34, $-$0.08]).
+   No significant indirect effect was observed through anxiety symptoms
+   ($p = .41$). Effects on immediate memory, attention, language, and
+   visuospatial domains were non-significant after correction for
+   multiple comparisons.}
+  % ── Conclusions ────────────────────────────────────────────────
+  {Depressive symptoms partially mediate the relationship between reduced
+   slow-wave sleep and poorer delayed memory in older adults. Interventions
+   targeting mood disturbance in individuals with sleep complaints may
+   confer downstream cognitive benefits. Longitudinal replication with
+   multi-night polysomnography is warranted.}
+
+\end{document}

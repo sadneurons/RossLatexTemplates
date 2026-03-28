@@ -1,0 +1,113 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-poster.tex
+% Demonstrates rossbeamerposter features: poster header, poster boxes,
+% poster figure, QR code.
+\documentclass[palette=lancet, size=a0]{rossbeamerposter}
+
+\title{Sleep Architecture Predicts Cognitive Decline in Older Adults}
+\subtitle{A 3-Year Prospective Cohort Study}
+\author{Ross Dunne}
+\institute{University of Manchester}
+\date{AAIC 2026}
+
+% Dummy bib
+\begin{filecontents}[overwrite]{\jobname.bib}
+@article{dunne2026,
+  author  = {Dunne, R. and Smith, J.},
+  title   = {Slow-wave sleep and memory in ageing},
+  journal = {Neurology},
+  year    = {2026},
+  volume  = {106},
+  pages   = {e1--e10},
+}
+\end{filecontents}
+\addbibresource{\jobname.bib}
+
+\begin{document}
+
+\begin{frame}[t]
+
+% --- Poster Header ---
+\begin{posterheader}
+  \postertitle{Sleep Architecture Predicts Cognitive Decline in Older Adults}
+  \postersubtitle{A 3-Year Prospective Cohort Study}
+  \posterauthor{Ross Dunne}{Division of Neuroscience, University of Manchester}
+    {ross.dunne@manchester.ac.uk}
+  \posterauthor{Jane Smith}{MRC Cognition and Brain Sciences Unit, Cambridge}
+    {j.smith@mrc-cbu.cam.ac.uk}
+\end{posterheader}
+
+% --- Three Column Layout ---
+\begin{postercolumn}
+
+  \column{0.31\textwidth}
+
+  \posterbox{Background}{%
+    Slow-wave sleep (SWS) is critical for memory consolidation.
+    Age-related reductions in SWS may contribute to cognitive
+    decline, but prospective evidence linking specific sleep
+    architecture parameters to domain-specific outcomes is limited.
+
+    \vskip4pt
+    \textbf{Objective:} To determine whether baseline SWS percentage
+    predicts 3-year change in RBANS domain scores.
+  }
+
+  \posterbox{Methods}{%
+    \begin{itemize}
+      \item $N = 412$ community-dwelling adults, aged 60--85
+      \item Baseline in-lab polysomnography (PSG)
+      \item RBANS assessed at baseline, 18, and 36 months
+      \item Linear mixed models adjusted for age, sex, education,
+            ApoE4 status, and apnoea--hypopnoea index
+    \end{itemize}
+  }
+
+  \column{0.31\textwidth}
+
+  \posterbox{Results}{%
+    Participants in the lowest SWS tertile ($<$8\% TST) showed
+    significantly greater decline in Delayed Memory compared to the
+    highest tertile ($>$18\% TST):
+
+    \vskip4pt
+    \ci{$\beta = -4.2$}{$-6.8$}{$-1.6$}, \pval{0.002}
+
+    \vskip6pt
+    No significant associations were found for Visuospatial,
+    Language, or Attention domains.
+  }
+
+  \posterfigure{example-image}{%
+    \textbf{Figure 1.} Predicted Delayed Memory trajectories by
+    SWS tertile. Error bands = 95\% CI.}
+
+  \column{0.31\textwidth}
+
+  \posterbox{Conclusions}{%
+    Reduced slow-wave sleep is a selective predictor of accelerated
+    memory decline in ageing, independent of sleep-disordered
+    breathing and ApoE4 genotype.
+
+    \vskip4pt
+    Interventions that enhance SWS (e.g., acoustic stimulation,
+    pharmacological agents) warrant investigation as potential
+    strategies to mitigate age-related memory loss.
+  }
+
+  \posterbox{Contact}{%
+    Scan the QR code for the full manuscript and supplementary data.
+  }
+
+  \posterqr{https://doi.org/10.1234/example}{Scan for full paper}
+
+\end{postercolumn}
+
+% --- Footer ---
+\posterfooter{University of Manchester}{AAIC 2026 --- Poster P-1234}
+  {Funded by MRC Grant MR/T000123/1}
+
+\end{frame}
+
+\end{document}

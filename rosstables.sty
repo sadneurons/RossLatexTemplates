@@ -1,0 +1,186 @@
+% rosstables.sty
+% Opinionated table styling for Ross document classes.
+% Works standalone or integrates with rosspalettes for themed colours.
+%
+% Usage:
+%   \usepackage{rosstables}                % default spacing
+%   \usepackage[compact]{rosstables}       % tighter rows
+%   \usepackage[wide]{rosstables}          % more generous rows
+%
+% Ross Dunne / Claude, 2026
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rosstables}[2026/03/24 Opinionated table styling]
+
+% ----------------------------------------------------------------
+% Required packages
+% ----------------------------------------------------------------
+
+\RequirePackage{booktabs}
+\RequirePackage{colortbl}
+\RequirePackage{array}
+\RequirePackage{multirow}
+\RequirePackage{xcolor}
+\RequirePackage{etoolbox}
+
+% ----------------------------------------------------------------
+% Package options: compact / wide / (default)
+% ----------------------------------------------------------------
+
+\newif\ifrt@compact
+\newif\ifrt@wide
+\rt@compactfalse
+\rt@widefalse
+
+\DeclareOption{compact}{\rt@compacttrue}
+\DeclareOption{wide}{\rt@widetrue}
+\DeclareOption*{\PackageWarning{rosstables}{Unknown option '\CurrentOption'}}
+\ProcessOptions\relax
+
+% Sanity check — compact and wide are mutually exclusive
+\ifrt@compact
+  \ifrt@wide
+    \PackageError{rosstables}{Options 'compact' and 'wide' are mutually exclusive}{}
+  \fi
+\fi
+
+% ----------------------------------------------------------------
+% Spacing presets
+% ----------------------------------------------------------------
+
+\ifrt@compact
+  \setlength{\heavyrulewidth}{0.10em}
+  \setlength{\lightrulewidth}{0.05em}
+  \setlength{\abovetopsep}{2pt}
+  \def\rt@arraystretch{1.0}
+\else\ifrt@wide
+  \setlength{\heavyrulewidth}{0.12em}
+  \setlength{\lightrulewidth}{0.06em}
+  \setlength{\abovetopsep}{6pt}
+  \def\rt@arraystretch{1.5}
+\else
+  % default
+  \setlength{\heavyrulewidth}{0.11em}
+  \setlength{\lightrulewidth}{0.05em}
+  \setlength{\abovetopsep}{4pt}
+  \def\rt@arraystretch{1.25}
+\fi\fi
+
+% ----------------------------------------------------------------
+% Detect rosspalettes
+% ----------------------------------------------------------------
+
+\newif\ifrt@haspalettes
+\rt@haspalettesfalse
+
+\AtBeginDocument{%
+  \@ifpackageloaded{rosspalettes}{\rt@haspalettestrue}{}%
+  % Define fallback colours only when rosspalettes is absent
+  \ifrt@haspalettes\else
+    \providecolor{rpPrimary}{HTML}{3C3C3C}%
+    \providecolor{rpTextLight}{HTML}{FFFFFF}%
+    \providecolor{rpPrimaryLight}{HTML}{E8E8E8}%
+    \providecolor{rpPrimaryFaded}{HTML}{F4F4F4}%
+  \fi
+}
+
+% ----------------------------------------------------------------
+% Standalone fallback colours (available immediately at load time)
+% ----------------------------------------------------------------
+
+\providecolor{rpPrimary}{HTML}{3C3C3C}
+\providecolor{rpTextLight}{HTML}{FFFFFF}
+\providecolor{rpPrimaryLight}{HTML}{E8E8E8}
+\providecolor{rpPrimaryFaded}{HTML}{F4F4F4}
+
+% ----------------------------------------------------------------
+% New column types: L{width}, C{width}, R{width}
+% ----------------------------------------------------------------
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+% ----------------------------------------------------------------
+% \thead{text} — bold header cell
+% ----------------------------------------------------------------
+
+\newcommand{\thead}[1]{%
+  \textbf{#1}%
+}
+
+% ----------------------------------------------------------------
+% \shaderow — alternating row shading
+% Tracks a counter and shades odd rows.
+% ----------------------------------------------------------------
+
+\newcounter{rt@rowcnt}
+
+\newcommand{\rt@resetrows}{\setcounter{rt@rowcnt}{0}}
+
+\newcommand{\shaderow}{%
+  \stepcounter{rt@rowcnt}%
+  \ifodd\value{rt@rowcnt}%
+    \rowcolor{rpPrimaryFaded}%
+  \fi
+}
+
+% ----------------------------------------------------------------
+% \tablehead{col1 & col2 & ...}
+% Dark background, white bold text. Uses rpPrimary when
+% rosspalettes is loaded; otherwise falls back to grey.
+% ----------------------------------------------------------------
+
+\newcommand{\tablehead}[1]{%
+  \rowcolor{rpPrimary}%
+  \bfseries\color{rpTextLight}#1%
+}
+
+% ----------------------------------------------------------------
+% rosstable environment
+% Wraps tabular with booktabs rules and enforced arraystretch.
+%
+% Usage:
+%   \begin{rosstable}{lcc}
+%     \tablehead{Variable & M & SD} \\
+%     A & 1.2 & 0.3 \\
+%     B & 4.5 & 1.1 \\
+%   \end{rosstable}
+% ----------------------------------------------------------------
+
+\newenvironment{rosstable}[1]{%
+  \rt@resetrows
+  \renewcommand{\arraystretch}{\rt@arraystretch}%
+  \begin{tabular}{#1}%
+  \toprule
+}{%
+  \bottomrule
+  \end{tabular}%
+}
+
+% ----------------------------------------------------------------
+% \tablenote{text} — APA-style table note
+% Uses \providecommand so it won't collide with rossstats or
+% any beamer class that already defines it.
+% ----------------------------------------------------------------
+
+\providecommand{\tablenote}[1]{%
+  \par\vspace{4pt}%
+  \noindent\begin{minipage}{\linewidth}%
+    \small\textit{Note.} #1%
+  \end{minipage}%
+}
+
+% ----------------------------------------------------------------
+% \tablenotesig — standard significance markers
+% ----------------------------------------------------------------
+
+\newcommand{\tablenotesig}{%
+  \tablenote{%
+    * \textit{p} < .05. %
+    ** \textit{p} < .01. %
+    *** \textit{p} < .001.%
+  }%
+}
+
+\endinput

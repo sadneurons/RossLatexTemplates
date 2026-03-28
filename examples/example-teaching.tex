@@ -1,0 +1,115 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-teaching.tex
+% Demonstrates rossbeamerteaching features: learning objectives, poll question,
+% worked example, key terms, exam question, recap.
+\documentclass[palette=lecture]{rossbeamerteaching}
+
+\title{Introduction to Synaptic Transmission}
+\subtitle{NEUR2001 --- Foundations of Neuroscience}
+\author{Dr.~James O'Brien}
+\institute{School of Biological Sciences, University of Manchester}
+\date{Week 4, Semester 1}
+\module{NEUR2001: Foundations of Neuroscience}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Learning Objectives ---
+\begin{frame}{Today's Session}
+  \begin{learningobjectives}
+    \item Describe the sequence of events during chemical synaptic transmission
+    \item Distinguish between ionotropic and metabotropic receptors
+    \item Explain the role of calcium in neurotransmitter release
+    \item Identify the major excitatory and inhibitory neurotransmitters
+  \end{learningobjectives}
+\end{frame}
+
+% --- Key Terms ---
+\begin{keytermsframe}
+  \keytermentry{Synapse}{The junction between two neurons where signals
+    are transmitted via chemical or electrical means}
+  \keytermentry{Vesicle}{Membrane-bound organelle containing
+    neurotransmitter molecules}
+  \keytermentry{SNARE complex}{Protein machinery mediating vesicle
+    fusion with the presynaptic membrane}
+  \keytermentry{Reuptake}{Process by which released neurotransmitter is
+    transported back into the presynaptic terminal}
+\end{keytermsframe}
+
+% --- Key Term Card ---
+\begin{frame}{Key Concept}
+  \keyterm{Excitatory Post-Synaptic Potential (EPSP)}{%
+    A transient depolarisation of the postsynaptic membrane caused by
+    the opening of ligand-gated cation channels. EPSPs summate
+    temporally and spatially to determine whether the postsynaptic
+    neuron reaches firing threshold.}
+\end{frame}
+
+% --- Poll Question ---
+\pollquestion{Which ion is most critical for triggering
+  neurotransmitter vesicle fusion?}
+  {Sodium (Na$^+$)}
+  {Calcium (Ca$^{2+}$)}
+  {Potassium (K$^+$)}
+  {Chloride (Cl$^-$)}
+
+% --- Worked Example ---
+\begin{frame}{Calculating Reversal Potential}
+  \begin{workedexample}
+    \item Identify the ion: Na$^+$ with $[\text{Na}^+]_o = 145$\,mM
+          and $[\text{Na}^+]_i = 12$\,mM
+    \item Apply the Nernst equation:
+          $E_{\text{Na}} = \frac{RT}{zF} \ln \frac{[\text{Na}^+]_o}{[\text{Na}^+]_i}$
+    \item Substitute values at 37\textdegree C:
+          $E_{\text{Na}} = \frac{61.5}{1} \log \frac{145}{12}$
+    \item Calculate: $E_{\text{Na}} = 61.5 \times 1.08 \approx +66.5$\,mV
+  \end{workedexample}
+\end{frame}
+
+% --- Exam Question ---
+\begin{frame}{Sample Exam Question}
+  \examquestion[15]{%
+    Describe the sequence of events that occur during chemical synaptic
+    transmission, from the arrival of an action potential at the
+    presynaptic terminal to the generation of a postsynaptic potential.
+    Include in your answer the role of voltage-gated calcium channels,
+    SNARE proteins, and ligand-gated ion channels. Illustrate your
+    answer with a clearly labelled diagram.}
+\end{frame}
+
+% --- Think--Pair--Share ---
+\thinkpairshare{How might dysfunction at the synapse contribute to
+  neurological or psychiatric disease? Give a specific example and
+  explain the mechanism.}
+
+% --- Recap ---
+\begin{frame}{Session Summary}
+  \begin{recap}
+    \item Action potentials trigger Ca$^{2+}$ influx via voltage-gated
+          channels at the presynaptic terminal
+    \item SNARE proteins mediate vesicle fusion and neurotransmitter release
+    \item Ionotropic receptors produce fast synaptic responses; metabotropic
+          receptors produce slower, modulatory effects
+    \item Synaptic transmission is terminated by reuptake, enzymatic
+          degradation, or diffusion
+  \end{recap}
+\end{frame}
+
+% --- Reading List ---
+\begin{frame}{Preparation for Next Week}
+  \begin{readinglist}
+    \readingentry{Bear, M.~F., Connors, B.~W., \& Paradiso, M.~A.}
+      {2020}{Neuroscience: Exploring the Brain}{Jones \& Bartlett, Ch.~5--6}
+    \readingentry{Kandel, E.~R.~et~al.}{2021}
+      {Principles of Neural Science}{McGraw-Hill, Ch.~10--12}
+  \end{readinglist}
+\end{frame}
+
+\conclusionslide{See You Next Week}{james.obrien@manchester.ac.uk}
+
+\end{document}

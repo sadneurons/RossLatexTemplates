@@ -1,0 +1,109 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-poster-tikz.tex
+% Demonstrates rossposter (tikzposter-based): title block, content
+% blocks, a figure, QR code, and compact references.
+
+\begin{filecontents}{example-poster.bib}
+@article{smith2024sleep,
+  author  = {Smith, J. A. and Lee, K. R.},
+  title   = {Sleep architecture and cognitive decline},
+  journal = {Sleep},
+  year    = {2024},
+  volume  = {47},
+  pages   = {1--12},
+}
+@article{randolph1998rbans,
+  author  = {Randolph, C.},
+  title   = {RBANS manual},
+  journal = {Psychological Corporation},
+  year    = {1998},
+}
+\end{filecontents}
+
+\documentclass[palette=uom, size=a0]{rossposter}
+\addbibresource{example-poster.bib}
+
+% ── Title and authors ────────────────────────────────────────────
+\posterauthor{Ross A.\ Dunne}
+  {University of Limerick}{ross.dunne@ul.ie}
+\posterauthor{Sarah K.\ Mitchell}
+  {Trinity College Dublin}{s.mitchell@tcd.ie}
+\posterauthor{Ann-Marie Moriarty}
+  {University of Limerick}{ann-marie.moriarty@ul.ie}
+
+\begin{document}
+
+\postertitle{Slow-Wave Sleep Predicts Delayed Memory via \\ Depressive
+             Symptoms in Community-Dwelling \\ Older Adults}
+
+% ── Left column ──────────────────────────────────────────────────
+\begin{columns}
+\column{0.33}
+
+\posterblock{Background}{%
+  Sleep disturbance is an established risk factor for cognitive decline.
+  Slow-wave sleep (SWS) supports memory consolidation, yet the mediating
+  role of affective symptoms is unclear \cite{smith2024sleep}.
+
+  \textbf{Aims:} (1) Examine the direct effect of SWS\% on RBANS
+  delayed memory; (2) Test depressive and anxiety symptoms as parallel
+  mediators.
+}
+
+\posterblock{Methods}{%
+  \begin{itemize}
+    \item $N = 312$ adults aged 60--85 (58\% female)
+    \item Single-night in-lab polysomnography
+    \item DASS-21 (depression and anxiety subscales)
+    \item RBANS \cite{randolph1998rbans} five index scores
+    \item Parallel mediation with 5,000 bootstrap resamples
+  \end{itemize}
+}
+
+% ── Middle column ────────────────────────────────────────────────
+\column{0.34}
+
+\posterblock{Results}{%
+  SWS\% significantly predicted delayed memory
+  (\effectsize{\beta}{$-$0.24}, \pval{0.001}).
+
+  The indirect effect through depressive symptoms was significant
+  (\ci{$-$0.18}{$-$0.34}{$-$0.08}, \pval{0.002}).
+  No indirect effect through anxiety (\pval{0.41}).
+
+  \vspace{8mm}
+  \posterfigure[0.85\linewidth]{example-image-a}{%
+    Mediation model: standardised path coefficients.}
+  \figurenote{Dashed path = non-significant indirect effect through
+    anxiety symptoms.}
+}
+
+% ── Right column ─────────────────────────────────────────────────
+\column{0.33}
+
+\posterblock{Conclusions}{%
+  \begin{itemize}
+    \item Depressive symptoms partially mediate the SWS--memory link.
+    \item Targeting mood in older adults with sleep complaints may
+          yield cognitive benefits.
+    \item Longitudinal replication with multi-night PSG is needed.
+  \end{itemize}
+}
+
+\posterblock{Contact}{%
+  \centering
+  \posterqr{https://osf.io/abcde}{Scan for data \& materials}
+}
+
+\posterreferences
+
+\end{columns}
+
+% ── Footer ───────────────────────────────────────────────────────
+\posterfooter
+  {Department of Psychology, University of Limerick}
+  {INS 53rd Annual Meeting --- New York, February 2026}
+  {Funded by Irish Research Council (GOIPG/2024/1234)}
+
+\end{document}

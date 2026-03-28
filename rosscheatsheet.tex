@@ -1,0 +1,647 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% rosscheatsheet.tex
+% Multi-page quick-reference card for the Ross LaTeX Template ecosystem.
+% Compile with: latexmk -xelatex rosscheatsheet.tex
+%
+% Ross Dunne / Claude, 2026
+
+\documentclass[palette=lancet]{rossbeamerscientific}
+
+\title{Ross \LaTeX\ Templates --- Quick Reference}
+\subtitle{Architecture, Classes, Palettes, and Commands}
+\author{Ross Dunne}
+\date{March 2026}
+
+% No bibliography needed for the cheatsheet
+\PassOptionsToPackage{backend=biber}{biblatex}
+
+% Compact formatting helpers
+\newcommand{\cmd}[1]{\texttt{\color{rbAccent}\textbackslash #1}}
+\newcommand{\env}[1]{\texttt{\color{rbSecondary}#1}}
+\newcommand{\cls}[1]{\texttt{\color{rbPrimary}\bfseries #1}}
+\newcommand{\opt}[1]{\texttt{\color{rbAccentDark}#1}}
+\newcommand{\pkg}[1]{\texttt{\color{rbSecondary}\bfseries #1}}
+\newcommand{\pal}[1]{\texttt{#1}}
+
+\begin{document}
+
+% ================================================================
+% FRAME 1: Title
+% ================================================================
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% ================================================================
+% FRAME 2: Architecture Overview
+% ================================================================
+\begin{frame}{Architecture Overview}
+\footnotesize
+\begin{comparison}{Shared Infrastructure}{Class Hierarchy}
+  \begin{description}[leftmargin=0pt]
+    \item[\pkg{rossbeamerbase.sty}] ~\\
+      Core beamer engine: colour derivation, font engine,
+      progress bar, footer/logo system, all shared environments
+      and commands. Loaded automatically by every beamer class.
+
+    \item[\pkg{rosspalettes.sty}] ~\\
+      Standalone palette system for non-beamer classes.
+      Defines \texttt{rpPrimary}, \texttt{rpAccent}, etc.
+      Used by manuscript, thesis, CV, abstract, letter, poster.
+
+    \item[\pkg{rossstats.sty}] Statistical formatting helpers.
+    \item[\pkg{rosstables.sty}] Table theming (any doc class).
+    \item[\pkg{rossfigures.sty}] Figure panel layouts.
+    \item[\pkg{rosscode.sty}] Code listing with minted.
+  \end{description}
+\comparisondivide
+  \textbf{Beamer classes} (all load \pkg{rossbeamerbase}):
+  \begin{itemize}\setlength\itemsep{1pt}
+    \item \cls{rossbeamerscientific} --- research talks
+    \item \cls{rossbeamercorporate} --- business decks
+    \item \cls{rossbeamerpitch} --- startup / grant pitches
+    \item \cls{rossbeamerminimal} --- Tufte-style sparse
+    \item \cls{rossbeamermaths} --- theorems, proofs
+    \item \cls{rossbeamerneuroimaging} --- fMRI / PET
+    \item \cls{rossbeamerbiomarker} --- lab / assay
+    \item \cls{rossbeamergenomics} --- genomics / variants
+    \item \cls{rossbeamerclinical} --- clinical trials
+    \item \cls{rossbeamerepi} --- epidemiology / DAGs
+    \item \cls{rossbeamerpsych} --- neuropsych assessment
+    \item \cls{rossbeamerteaching} --- lectures / workshops
+    \item \cls{rossbeamerposter} --- conference posters
+  \end{itemize}
+  \vskip4pt
+  \textbf{Document classes} (all load \pkg{rosspalettes}):
+  \begin{itemize}\setlength\itemsep{1pt}
+    \item \cls{rossmanuscript} \cls{rossthesis} \cls{rosscv}
+    \item \cls{rossabstract} \cls{rossletter} \cls{rossposter}
+  \end{itemize}
+\end{comparison}
+\end{frame}
+
+% ================================================================
+% FRAME 3: Available Palettes
+% ================================================================
+\begin{frame}{Available Palettes}
+\footnotesize
+\begin{comparison}{Scientific / Journal Palettes (19)}{Corporate / Domain Palettes}
+  \begin{description}[leftmargin=0pt,font=\normalfont\ttfamily]
+    \item[lancet] Dark navy / crimson accent (default)
+    \item[nhs] NHS blue
+    \item[uom] UoM purple
+    \item[economist] Black / red
+    \item[nature] Slate / cerulean
+    \item[nejm] Burgundy / rose
+    \item[slate] Steel blue
+    \item[evergreen] Forest green
+    \item[oxford] Oxford navy
+    \item[teal] Deep teal
+    \item[cambridge] Cool blue
+    \item[imperial] Navy / orange
+    \item[charcoal] Dark grey / red
+    \item[jama] Brown / mauve
+    \item[bmj] Blue / navy
+    \item[cell] Indigo / gold
+    \item[copper] Warm copper
+    \item[rose] Muted pink
+    \item[graphite] Pure grey
+  \end{description}
+\comparisondivide
+  \textbf{Corporate (12):}
+  \pal{midnight}, \pal{obsidian}, \pal{nordic}, \pal{ember},
+  \pal{indigo}, \pal{ivory}, \pal{plum}, \pal{steel},
+  \pal{moss}, \pal{bordeaux}, \pal{arctic}, \pal{saffron}, \pal{dusk}
+  \vskip4pt
+  \textbf{Corporate-core (10, corporate only):}
+  \pal{forest}, \pal{coral}, \pal{terracotta}, \pal{ocean},
+  \pal{teal}, \pal{berry}, \pal{sage}, \pal{cherry}
+  \vskip6pt
+  \textbf{Domain-specific palettes:}
+  \begin{description}[leftmargin=0pt,font=\normalfont\ttfamily]
+    \item[Neuroimaging] brainlab, cortex, fmri, neurorad
+    \item[Maths] blackboard, proof, theorem
+    \item[Biomarker] assay, diagnostic, biotech
+    \item[Genomics] genome, variant, omics
+    \item[Clinical] clinical, trial, safety
+    \item[Epi] epi, outbreak, surveillance
+    \item[Psych] psych, neuro, assess
+    \item[Teaching] lecture, seminar, workshop
+    \item[Minimal] minimal, tufte, ink
+    \item[Pitch] pitch, startup, venture, grant
+  \end{description}
+  \vskip4pt
+  \textbf{rosspalettes.sty} also provides all scientific,
+  corporate, and domain palettes for document classes.
+\end{comparison}
+\end{frame}
+
+% ================================================================
+% FRAME 4: Common Options
+% ================================================================
+\begin{frame}{Common Options}
+\footnotesize
+All beamer classes accept these options in \texttt{\textbackslash documentclass[...]\{class\}}:
+\vskip6pt
+\begin{tabular}{@{}l l p{7.5cm}@{}}
+  \rowcolor{rbPrimaryFaded}
+  \thead{Option} & \thead{Default} & \thead{Description} \\
+  \opt{palette=\textit{name}} & varies & Colour palette (see palette list) \\
+  \rowcolor{rbPrimaryFaded}
+  \opt{font=\textit{name}} & \texttt{fira} & Sans font: \texttt{fira}, \texttt{inter}, \texttt{sourcesans}, \texttt{libertinus}, \texttt{heros}, \texttt{georgia}, \texttt{system} \\
+  \opt{monofont=\textit{name}} & Fira Code & Override monospace font name \\
+  \rowcolor{rbPrimaryFaded}
+  \opt{nobar} & off & Disable progress bar \\
+  \opt{nologo} & off & Disable logo in footer \\
+  \rowcolor{rbPrimaryFaded}
+  \opt{darkmode} & off & Dark background (corporate, pitch only) \\
+  \opt{chalkboard} & off & Green chalkboard mode (maths only) \\
+  \rowcolor{rbPrimaryFaded}
+  \opt{stats} & off & Load \pkg{rossstats.sty} (biomarker, clinical, psych) \\
+  \opt{loadstats} & off & Load \pkg{rossstats.sty} (epi) \\
+\end{tabular}
+\vskip8pt
+\begin{twocol}
+  \textbf{Preamble configuration:}
+  \begin{itemize}\setlength\itemsep{1pt}
+    \item \cmd{slidelogo[height=6mm]\{file.png\}}
+    \item \cmd{footertext\{Company Name\}}
+    \item \cmd{slidenote\{Confidential\}}
+    \item \cmd{logoposition\{bottomleft\}} --- also \texttt{bottomright}, \texttt{topleft}, \texttt{topright}
+    \item \cmd{customfontname\{FontName\}} --- for \texttt{font=system}
+  \end{itemize}
+\colbreak
+  \textbf{Runtime commands:}
+  \begin{itemize}\setlength\itemsep{1pt}
+    \item \cmd{setpalette\{name\}} --- switch palette mid-document
+    \item \cmd{enabledraft[text]} --- add watermark
+    \item \cmd{enablesectiondividers} --- auto dark dividers
+    \item \cmd{enablefooter} --- activate footer (corporate)
+    \item \cmd{conference\{name\}} --- subtitle on title page (scientific, clinical, etc.)
+  \end{itemize}
+\end{twocol}
+\end{frame}
+
+% ================================================================
+% FRAME 5: Shared Environments (rossbeamerbase.sty)
+% ================================================================
+\begin{frame}{Shared Environments \normalfont\small(rossbeamerbase.sty)}
+\footnotesize
+\begin{comparison}{Frame Environments}{Box Environments}
+  \begin{description}[leftmargin=0pt]
+    \item[\env{darkframe}] Dark-background frame.\\
+      \texttt{\textbackslash begin\{darkframe\}[opts]...\textbackslash end\{darkframe\}}
+    \item[\env{accentframe}] Accent-coloured background frame.
+    \item[\env{pictureframe}] Centred content frame with title.
+    \item[\env{captionframe}] 63/33 two-column; use \cmd{framecaption} to switch to right caption column.
+    \item[\env{comparison}] Side-by-side layout.\\
+      \texttt{\textbackslash begin\{comparison\}\{Left\}\{Right\}...}\\
+      \texttt{\textbackslash comparisondivide ...}
+    \item[\env{twocol}] Quick two-column.\\
+      \texttt{\textbackslash begin\{twocol\}[0.48]...}\\
+      \texttt{\textbackslash colbreak[0.48]...}
+    \item[\env{figurepanel}] Centred figure with caption text.
+    \item[\env{referenceslide}] Bibliography frame (scientific classes).
+  \end{description}
+\comparisondivide
+  \begin{description}[leftmargin=0pt]
+    \item[\env{card}] White box, primary left border.
+    \item[\env{accentcard}] Tinted box, accent left border.
+    \item[\env{highlight}] Accent-tinted highlight box.
+    \item[\env{notebox}] Muted note box.
+    \item[\env{warningbox}] Amber warning box.
+    \item[\env{successbox}] Green success box.
+    \item[\env{infobox}] Blue info box.
+    \item[\env{eqbox}] Boxed equation (scientific, maths).
+  \end{description}
+  \vskip4pt
+  All boxes accept tcolorbox options and an optional \texttt{title=\{...\}} key.
+  \vskip4pt
+  \textbf{Standalone commands:}
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{sectiondivider} --- manual dark section slide
+    \item \cmd{conclusionslide[title]\{subtitle\}}
+    \item \cmd{titleonlyframe[subtitle]\{Title\}}
+    \item \cmd{quoteslide\{quote\}\{attribution\}}
+    \item \cmd{fullbleedimage[overlay]\{file\}}
+  \end{itemize}
+\end{comparison}
+\end{frame}
+
+% ================================================================
+% FRAME 6: Shared Commands (rossbeamerbase.sty)
+% ================================================================
+\begin{frame}{Shared Commands \normalfont\small(rossbeamerbase.sty)}
+\footnotesize
+\begin{twocol}
+  \textbf{Statistics \& Data Display}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{statcallout[color]\{value\}\{label\}}] ~\\
+      Large centred number with caption below.
+    \item[\cmd{stat[color]\{value\}\{label\}}] ~\\
+      Inline stat (use inside \cmd{statrow}).
+    \item[\cmd{statrow\{...\}}] Row of \cmd{stat} items.
+  \end{description}
+
+  \vskip4pt
+  \textbf{Icons \& Badges}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{iconcircle[color]\{text\}}] ~\\
+      Small coloured circle with text inside.
+    \item[\cmd{picturecaption\{text\}}] ~\\
+      Muted caption box below image.
+  \end{description}
+
+  \vskip4pt
+  \textbf{Figure Helpers}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{panel[width]\{file\}\{caption\}}] ~\\
+      Side-by-side image panel in \env{figurepanel}.
+  \end{description}
+
+\colbreak
+  \textbf{Tables}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{thead\{text\}}] Bold white header cell.
+    \item[\cmd{shaderow}] Faded-primary row colour.
+    \item[\cmd{source\{text\}}] Italicised source attribution.
+  \end{description}
+
+  \vskip4pt
+  \textbf{QR Codes}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{slideqr[size]\{url\}}] Inline QR code.
+    \item[\cmd{slideqrbox[size]\{url\}\{caption\}}] ~\\
+      QR with caption below.
+    \item[\cmd{slideqrcorner[size]\{url\}}] ~\\
+      QR pinned to bottom-right corner.
+  \end{description}
+
+  \vskip4pt
+  \textbf{File Attachments}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{embedfile[opts]\{file\}}] Attach file (paperclip).
+    \item[\cmd{embedfilelink[opts]\{file\}\{text\}}] ~\\
+      Clickable link that opens attached file.
+    \item[\cmd{localfilelink\{path\}\{text\}}] ~\\
+      Link to local file on disk.
+  \end{description}
+
+  \vskip4pt
+  \textbf{Draft \& Footnotes}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{enabledraft[text]}] Add diagonal watermark.
+    \item[\cmd{slidefootnote[width]\{text\}}] ~\\
+      Footnote anchored to bottom of slide.
+  \end{description}
+\end{twocol}
+\end{frame}
+
+% ================================================================
+% FRAME 7: Corporate-Only Features
+% ================================================================
+\begin{frame}{Corporate-Only Features \normalfont\small(rossbeamercorporate.cls \& rossbeamerpitch.cls)}
+\footnotesize
+\begin{twocol}
+  \textbf{rossbeamercorporate.cls}
+  \begin{description}[leftmargin=0pt]
+    \item[\env{agendaframe}] Numbered agenda slide.\\
+      \cmd{agendaitem\{...\}}, \cmd{agendaitemactive\{...\}}
+    \item[\env{timelineframe}\{Title\}] Horizontal timeline.\\
+      \cmd{timepoint\{x\}\{label\}\{desc\}}\\
+      \cmd{timepointcurrent\{...\}}, \cmd{timepointdone\{...\}}
+    \item[\cmd{metriccard[color]\{val\}\{label\}\{sub\}}] ~\\
+      KPI dashboard card. Wrap in \cmd{metricrow\{...\}}.
+    \item[\cmd{profilecard[img]\{name\}\{role\}\{bio\}}] ~\\
+      Team member photo card.
+    \item[\cmd{pillbadge[color]\{text\}}] Status pill tag.
+    \item[\env{processframe}\{Title\}] Step-by-step flow.\\
+      \cmd{processstep\{n\}\{title\}\{desc\}}, \cmd{processarrow}
+    \item[\env{swotframe}\{Title\}] 2$\times$2 SWOT grid.\\
+      \cmd{swotquadrant\{color\}\{label\}\{text\}}
+    \item[\cmd{keytakeaway\{text\}}] Bottom bar message.
+    \item[\cmd{slideref\{text\}}] Lightweight source footnote.
+  \end{description}
+\colbreak
+  \textbf{rossbeamerpitch.cls}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{problemslide\{text\}}] ~\\
+      Full-frame problem statement.
+    \item[\cmd{solutionslide\{text\}}] ~\\
+      Full-frame solution statement.
+    \item[\cmd{askslide\{amount\}\{purpose\}}] ~\\
+      Fundraising ask / grant request.
+    \item[\cmd{tractionmetric\{value\}\{label\}\{delta\}}] ~\\
+      Traction KPI card.
+    \item[\cmd{tractionrow\{...\}}] ~\\
+      Row of traction metrics.
+    \item[\env{competitivematrix}\{...\}] ~\\
+      Feature comparison table.\\
+      \cmd{yes} / \cmd{no} / \cmd{competitor\{name\}\{desc\}}
+    \item[\cmd{marketsize\{TAM\}\{SAM\}\{SOM\}}] ~\\
+      Concentric market-size rings.
+    \item[\cmd{teamslide[title]\{...\}}] Team photo grid.
+    \item[\cmd{milestonetrack[title]\{...\}}] ~\\
+      \cmd{milestone}/\cmd{milestonecurrent}/\cmd{milestonefuture}
+    \item[\cmd{valueprop\{headline\}\{body\}}] Value card.
+  \end{description}
+\end{twocol}
+\end{frame}
+
+% ================================================================
+% FRAME 8: Scientific-Only Features
+% ================================================================
+\begin{frame}{Scientific-Only Features \normalfont\small(rossbeamerscientific.cls)}
+\footnotesize
+\begin{twocol}
+  \textbf{Statistical Formatting}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{pval\{.003\}}] Formatted \textit{p}-value; auto $< .001$.
+    \item[\cmd{ci\{1.5\}\{1.1\}\{2.0\}}] Inline CI: $1.5~[1.1,~2.0]$.
+    \item[\cmd{CI\{95\}\{1.5\}\{1.1\}\{2.0\}}] With CI level prefix.
+    \item[\cmd{effectsize\{d\}\{0.72\}}] Generic effect size.
+    \item[\cmd{chisq\{12.4\}}, \cmd{fstat\{2\}\{48\}\{5.1\}}] Test stats.
+    \item[\cmd{tstat\{47\}\{2.31\}}, \cmd{OR}/\cmd{HR}\{...\}] More stats.
+    \item[\cmd{betacoef\{0.35\}}] Beta coefficient.
+  \end{description}
+  \vskip4pt
+  \textbf{Research Structure}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{researchquestion[label]\{text\}}] ~\\
+      Centred RQ frame.
+    \item[\cmd{hypothesis[label]\{text\}}] ~\\
+      Centred hypothesis frame.
+    \item[\cmd{backupslides}] Dark appendix divider.
+    \item[\cmd{conference\{name\}}] Conference on title page.
+  \end{description}
+\colbreak
+  \textbf{Result Boxes}
+  \begin{description}[leftmargin=0pt]
+    \item[\env{findingbox}[title]] Accent-bordered finding.
+    \item[\env{limitationbox}[title]] Amber limitation box.
+    \item[\env{implicationbox}[title]] Green implication box.
+    \item[\env{eqbox}[title]] Boxed equation display.
+  \end{description}
+  \vskip4pt
+  \textbf{Equation \& Math}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{eqhl[color]\{math\}}] Highlight term in equation.
+  \end{description}
+  \vskip4pt
+  \textbf{APA Helpers}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{figurenote\{...\}}, \cmd{tablenote\{...\}}] ~\\
+      APA-style \textit{Note.} below figure/table.
+    \item[\cmd{sigmarkers}] Print $*p<.05$, $**p<.01$, $***p<.001$.
+    \item[\cmd{corresponding}] Superscript $*$ for corresp.\ author.
+    \item[\cmd{correspondinginfo\{email\}}] Footer annotation.
+    \item[\cmd{orcid\{0000-....\}}] Clickable ORCID link.
+  \end{description}
+  \vskip4pt
+  \textbf{CONSORT Flow Helpers}
+  \begin{description}[leftmargin=0pt]
+    \item[\cmd{flowbox\{text\}}, \cmd{flowboxexcluded\{text\}}] ~\\
+      Enrolment/exclusion boxes.
+    \item[\cmd{flowarrow}] Vertical arrow between boxes.
+  \end{description}
+\end{twocol}
+\end{frame}
+
+% ================================================================
+% FRAME 9: Domain Beamer Classes
+% ================================================================
+\begin{frame}{Domain Beamer Classes}
+\scriptsize
+\begin{twocol}[0.47]
+  \textbf{\cls{rossbeamerneuroimaging}}\\
+  Palettes: brainlab, cortex, fmri, neurorad
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{mnicoord\{x\}\{y\}\{z\}} --- MNI coordinate triple
+    \item \cmd{colorbar\{label\}\{min\}\{max\}} --- activation colour bar
+    \item \cmd{contrastcard\{name\}\{t\}\{k\}\{region\}} --- result card
+    \item \cmd{brainslice[w]\{file\}\{caption\}} --- labelled image
+    \item \cmd{scanoverlay[opacity]\{file\}} --- full-bleed scan
+    \item \cmd{roiannotation[color]\{label\}} --- ROI pill badge
+    \item \env{atlasframe}, \env{coordtable}, \env{paradigmframe}
+  \end{itemize}
+  \vskip4pt
+
+  \textbf{\cls{rossbeamermaths}}\\
+  Palettes: blackboard, proof, theorem.  Option: \opt{chalkboard}
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \env{theorem}, \env{lemma}, \env{corollary}, \env{definition}
+    \item \env{proof}, \env{proofsketch} --- with QED / diamond
+    \item \cmd{step\{text\}} --- numbered derivation steps
+    \item \cmd{resetsteps}, \cmd{eqhl[color]\{math\}}, \env{eqbox}
+  \end{itemize}
+  \vskip4pt
+
+  \textbf{\cls{rossbeamerbiomarker}}\\
+  Palettes: assay, diagnostic, biotech.  Option: \opt{stats}
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{assaycard\{name\}\{val\}\{unit\}\{range\}\{interp\}}
+    \item \cmd{diagnosticcard\{test\}\{sens\}\{spec\}\{ppv\}\{npv\}\{auc\}}
+    \item \cmd{thresholdbar\{val\}\{cutoff\}\{label\}} --- visual bar
+    \item \cmd{biomarkerresult\{name\}\{val\}\{status\}} --- inline badge
+    \item \env{biomarkerpanel}\{title\} + \cmd{panelrow\{...\}}
+  \end{itemize}
+  \vskip4pt
+
+  \textbf{\cls{rossbeamergenomics}}\\
+  Palettes: genome, variant, omics
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{variantcard\{gene\}\{var\}\{class\}\{zygosity\}\{interp\}}
+    \item \cmd{nucleotide\{A|T|C|G\}} --- colour-coded base
+    \item \cmd{pathogenicity\{level\}} --- badge (benign...pathogenic)
+    \item \env{pipelineflow}, \cmd{genelabel}, \cmd{chromosomebar}
+  \end{itemize}
+
+\colbreak[0.47]
+  \textbf{\cls{rossbeamerclinical}}\\
+  Palettes: clinical, trial, safety.  Option: \opt{stats}
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{endpointcard\{name\}\{result\}\{CI\}\{pval\}} --- outcome
+    \item \cmd{inclusionexclusion\{incl list\}\{excl list\}}
+    \item \cmd{randomise\{treatment\}\{control\}} --- allocation box
+    \item \cmd{safetycard\{event\}\{trt\}\{ctrl\}\{pval\}} --- AE card
+    \item \env{aetable}, \env{protocoltimeline}, \cmd{visitpoint}
+  \end{itemize}
+  \vskip4pt
+
+  \textbf{\cls{rossbeamerepi}}\\
+  Palettes: epi, outbreak, surveillance.  Option: \opt{loadstats}
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{twobytwo\{a\}\{b\}\{c\}\{d\}} --- 2$\times$2 table
+    \item \cmd{incidencerate}, \cmd{prevalencerate}, \cmd{rateratio}
+    \item \env{dagframe} + \cmd{dagnode}, \cmd{dagarrow}, \cmd{dagconfounder}
+    \item \cmd{forestrow\{label\}\{OR\}\{lo\}\{hi\}\{weight\}}
+    \item \cmd{strobeitem\{n\}\{text\}}, \env{outbreaktimeline}
+  \end{itemize}
+  \vskip4pt
+
+  \textbf{\cls{rossbeamerpsych}}\\
+  Palettes: psych, neuro, assess.  Option: \opt{stats}
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{scorecard\{test\}\{score\}\{percentile\}\{class\}}
+    \item \cmd{normbar\{label\}\{score\}\{mean\}\{sd\}} --- visual bar
+    \item \cmd{cognitiveprofile\{tikz rows...\}} --- radar-style plot
+    \item \env{testbattery} + \cmd{batteryrow}, \cmd{rci}, \cmd{dsmcriterion}
+  \end{itemize}
+  \vskip4pt
+
+  \textbf{\cls{rossbeamerteaching}}\\
+  Palettes: lecture, seminar, workshop
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \env{learningobjectives} --- numbered LO list
+    \item \cmd{pollquestion\{Q\}\{A\}\{B\}\{C\}\{D\}} --- audience poll
+    \item \env{workedexample} --- step-by-step worked example
+    \item \cmd{keyterm\{term\}\{definition\}}, \env{keytermsframe}
+    \item \cmd{examquestion}, \cmd{thinkpairshare}, \env{recap}
+    \item \env{readinglist} + \cmd{readingentry\{...\}}
+  \end{itemize}
+  \vskip4pt
+
+  \textbf{\cls{rossbeamerminimal}} --- Palettes: minimal, tufte, ink\\
+  {\footnotesize \cmd{marginnote}, \cmd{aside}, \cmd{wideimage}, \cmd{epigraph}, \cmd{blankslide}}
+\end{twocol}
+\end{frame}
+
+% ================================================================
+% FRAME 10: Document Classes
+% ================================================================
+\begin{frame}{Document Classes}
+\footnotesize
+All document classes accept \opt{palette=\textit{name}} and use \pkg{rosspalettes.sty}
+for colours (\texttt{rpPrimary}, \texttt{rpAccent}, etc.).
+\vskip6pt
+\begin{twocol}
+  \textbf{\cls{rossmanuscript.cls}} --- APA / journal articles
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{shorttitle\{...\}}, \cmd{correspondingauthor\{name\}\{email\}}
+    \item \cmd{maketitlepage} --- formatted title page
+    \item \cmd{structuredabstract\{Obj\}\{Meth\}\{Res\}\{Conc\}}
+    \item \cmd{linenumbering}, \cmd{wordcount\{n\}}, \cmd{floatsatend}
+    \item \cmd{printdisclosures}, \cmd{printjournalnote}
+  \end{itemize}
+  \vskip6pt
+
+  \textbf{\cls{rossthesis.cls}} --- PhD / Master's thesis
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{declaration}, \cmd{thesisabstract\{...\}}
+    \item \cmd{acknowledgements\{...\}}, \cmd{dedication\{...\}}
+    \item \cmd{epigraph\{quote\}\{author\}}
+    \item \cmd{frontmatter}, \cmd{mainmatter}, \cmd{backmatter}
+    \item \cmd{makefrontlists} --- ToC, LoF, LoT
+    \item \cmd{abbrev\{ABR\}\{Full\}}, \env{abbreviations}
+    \item \cmd{appendixchapter} --- start appendix chapters
+  \end{itemize}
+  \vskip6pt
+
+  \textbf{\cls{rossabstract.cls}} --- Conference abstracts
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{structuredabstract\{Obj\}\{Meth\}\{Res\}\{Conc\}}
+    \item Standard \cmd{maketitle} + \env{abstract} environment
+  \end{itemize}
+
+\colbreak
+  \textbf{\cls{rosscv.cls}} --- Academic CV
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{cvheader\{name\}\{title\}\{email\}\{phone\}\{addr\}\{web\}}
+    \item \cmd{cvsection\{...\}}, \cmd{cvsubsection\{...\}}
+    \item \cmd{cventry\{dates\}\{title\}\{org\}\{loc\}\{desc\}}
+    \item \cmd{publication\{auth\}\{year\}\{title\}\{jnl\}\{vol\}\{pp\}\{doi\}}
+    \item \cmd{grant\{dates\}\{title\}\{funder\}\{role\}\{amount\}}
+    \item \cmd{teachingentry}, \cmd{conferenceentry}, \cmd{supervision}
+    \item \cmd{award\{year\}\{title\}\{org\}}, \cmd{skill\{name\}\{level\}}
+    \item \env{cvcolumns} / \cmd{cvsidebar} / \cmd{cvmain} (two-column)
+  \end{itemize}
+  \vskip6pt
+
+  \textbf{\cls{rossletter.cls}} --- Formal letters
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{sender\{name\}\{addr\}\{email\}\{phone\}}
+    \item \cmd{recipient\{name\}\{title\}\{org\}\{addr\}}
+    \item \cmd{letterheader\{from\}\{to\}\{date\}\{re\}}
+    \item \cmd{opening\{...\}}, \cmd{closing\{...\}}, \cmd{signature\{...\}}
+    \item \cmd{enclosure\{...\}}, \cmd{cc\{...\}}
+  \end{itemize}
+  \vskip6pt
+
+  \textbf{\cls{rossposter.cls}} --- Conference posters\\
+  Uses \texttt{tcolorposter}. Key commands:
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{postertitle}, \cmd{posterauthor}, \cmd{posterblock}
+    \item \cmd{posterfigure}, \cmd{posterqr}, \cmd{posterreferences}
+    \item \cmd{postercolumns}, \cmd{nextpostercolumn}, \cmd{posterfooter}
+  \end{itemize}
+\end{twocol}
+\end{frame}
+
+% ================================================================
+% FRAME 11: Standalone Packages
+% ================================================================
+\begin{frame}{Standalone Packages}
+\footnotesize
+These can be loaded in \textbf{any} \LaTeX\ document with \texttt{\textbackslash usepackage\{...\}}.
+They are independent of the beamer and document classes.
+\vskip6pt
+\begin{twocol}
+  \textbf{\pkg{rossstats.sty}} --- Statistical notation
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{pval\{.003\}} --- auto $< .001$ for tiny values
+    \item \cmd{ci\{est\}\{lo\}\{hi\}}, \cmd{CI\{level\}\{est\}\{lo\}\{hi\}}
+    \item \cmd{effectsize\{d\}\{0.72\}}
+    \item \cmd{chisq\{val\}}, \cmd{fstat\{df1\}\{df2\}\{val\}}
+    \item \cmd{tstat\{df\}\{val\}}, \cmd{betacoef\{val\}}
+    \item \cmd{OR\{est\}\{lo\}\{hi\}}, \cmd{HR\{...\}}, \cmd{RR\{...\}}
+    \item \cmd{NNT\{n\}}, \cmd{NNH\{n\}}, \cmd{ARR\{val\}}
+    \item \cmd{sensspec\{sens\}\{spec\}}, \cmd{ppvnpv\{ppv\}\{npv\}}
+    \item \cmd{rci\{val\}}, \cmd{prevalence\{pct\}}, \cmd{incidence\{...\}}
+    \item \cmd{rateratio\{...\}}, \cmd{oddsratio\{...\}}, \cmd{attributablerisk\{...\}}
+    \item \cmd{sigmarkers}, \cmd{figurenote\{...\}}, \cmd{tablenote\{...\}}
+  \end{itemize}
+  \vskip6pt
+
+  \textbf{\pkg{rosstables.sty}} --- Table theming
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{thead\{text\}} --- bold coloured header cell
+    \item \cmd{shaderow} --- alternating row shading
+    \item \cmd{tablehead\{text\}} --- full-width header row
+    \item \env{rosstable}\{caption\} --- themed table environment
+    \item \cmd{tablenotesig} --- significance markers below table
+  \end{itemize}
+
+\colbreak
+  \textbf{\pkg{rossfigures.sty}} --- Figure layouts
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \env{figurepanel}[caption] --- centred figure with caption
+    \item \cmd{panel[width]\{file\}\{caption\}} --- sub-panel
+    \item \cmd{figuregrid\{cols\}\{items\}} --- auto-grid of panels
+    \item \cmd{fullwidthfigure\{file\}\{caption\}} --- span text width
+    \item \cmd{sidebyside\{fileL\}\{capL\}\{fileR\}\{capR\}}
+    \item \cmd{source\{text\}} --- italicised source line
+  \end{itemize}
+  \vskip6pt
+
+  \textbf{\pkg{rosscode.sty}} --- Code listings (minted)
+  \begin{itemize}\setlength\itemsep{0pt}
+    \item \cmd{codeinline[lang]\{code\}} --- inline code snippet
+    \item \cmd{codefile[lang]\{path\}} --- import external file
+    \item Also provides the \env{code} environment (via minted)
+      with palette-aware styling.
+  \end{itemize}
+  \vskip10pt
+
+  \begin{card}[title={Quick Start}]
+    \scriptsize
+    \texttt{\textbackslash documentclass[palette=lancet]\{rossbeamerscientific\}}\\
+    \texttt{\textbackslash usepackage\{rossstats\}} \quad{\color{rbTextMuted}\% if needed standalone}\\
+    \texttt{\textbackslash usepackage\{rosstables\}}\\
+    \texttt{\textbackslash usepackage\{rossfigures\}}\\
+    \texttt{\textbackslash usepackage\{rosscode\}} \quad{\color{rbTextMuted}\% needs -shell-escape}
+  \end{card}
+\end{twocol}
+\end{frame}
+
+\end{document}

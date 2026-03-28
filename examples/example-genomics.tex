@@ -1,0 +1,138 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-genomics.tex
+% Demonstrates rossbeamergenomics features: gene labels, variant card,
+% pipeline flow, nucleotides, pathogenicity badges.
+\documentclass[palette=genome]{rossbeamergenomics}
+
+\title{Clinical Exome Sequencing}
+\subtitle{Variant Interpretation in Hereditary Cancer Syndromes}
+\author{Dr.~Priya Sharma}
+\institute{Genomic Medicine Centre, NHS England}
+\date{May 2026}
+\conference{ESHG 2026, Glasgow}
+
+% Dummy bib
+\begin{filecontents}[overwrite]{\jobname.bib}
+@article{sharma2025,
+  author  = {Sharma, P. and Khan, A.},
+  title   = {Exome sequencing yield in hereditary cancer},
+  journal = {Eur J Hum Genet},
+  year    = {2025},
+  volume  = {33},
+  pages   = {890--898},
+}
+\end{filecontents}
+\addbibresource{\jobname.bib}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Gene Labels ---
+\begin{frame}{Cancer Gene Panel}
+  Genes interrogated in our 120-gene hereditary cancer panel:
+
+  \vskip8pt
+  \genelabel{BRCA1}{suppressor}\quad
+  \genelabel{BRCA2}{suppressor}\quad
+  \genelabel{TP53}{suppressor}\quad
+  \genelabel{KRAS}{oncogene}\quad
+  \genelabel{BRAF}{oncogene}\quad
+  \genelabel{MLH1}{suppressor}\quad
+  \genelabel{PALB2}{other}
+
+  \vskip12pt
+  \begin{itemize}
+    \item \textbf{Red} = oncogene \quad \textbf{Blue} = tumour suppressor
+    \item 412 patients sequenced across 3 recruitment sites
+    \item Diagnostic yield: 34\% (140/412)
+  \end{itemize}
+\end{frame}
+
+% --- Variant Card ---
+\begin{frame}{Reportable Variants}
+  \variantcard{BRCA1}{c.5266dupC (p.Gln1756fs)}{Frameshift}{0.00002}{pathogenic}
+  \vskip6pt
+  \variantcard{TP53}{c.743G>A (p.Arg248Gln)}{Missense}{0.00001}{likely pathogenic}
+  \vskip6pt
+  \variantcard{PALB2}{c.2167\_2168del}{Frameshift}{0.0003}{VUS}
+\end{frame}
+
+% --- Nucleotide display ---
+\begin{frame}{Sequence Context}
+  Reference sequence around BRCA1 c.5266:
+
+  \vskip8pt
+  \centering
+  {\Large\ttfamily
+    \nucleotide{A}\nucleotide{T}\nucleotide{G}%
+    \nucleotide{C}\nucleotide{A}\nucleotide{G}%
+    \nucleotide{T}\nucleotide{C}%
+    {\color{rbAlertRed}\underline{\nucleotide{C}\nucleotide{C}}}%
+    \nucleotide{A}\nucleotide{G}\nucleotide{T}%
+    \nucleotide{A}\nucleotide{C}\nucleotide{G}%
+  }
+
+  \vskip6pt
+  {\small\color{rbTextMuted}%
+    Duplication of \nucleotide{C} at position 5266 causes a frameshift
+    leading to premature termination.}
+
+  \vskip12pt
+  Pathogenicity classifications:\par\vskip4pt
+  \pathogenicity{benign}\quad
+  \pathogenicity{likely benign}\quad
+  \pathogenicity{VUS}\quad
+  \pathogenicity{likely pathogenic}\quad
+  \pathogenicity{pathogenic}
+\end{frame}
+
+% --- Pipeline Flow ---
+\begin{frame}{Bioinformatics Pipeline}
+  \begin{pipelineflow}
+    \pipelinestep{FASTQ}{Raw reads}
+    \pipelinestep{BWA-MEM2}{Alignment}
+    \pipelinearrow
+    \pipelinestep{GATK HC}{Variant calling}
+    \pipelinearrow
+    \pipelinestep{VEP}{Annotation}
+    \pipelinearrow
+    \pipelinestep{ClinVar}{Classification}
+    \pipelinearrow
+  \end{pipelineflow}
+\end{frame}
+
+% --- Sequencing QC ---
+\begin{frame}{Quality Metrics}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \sequencingqc{142M}{98.2$\times$}{Q30 = 94.1\%}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \chromosomebar{17}{41}{43}{BRCA1 locus}
+      \vskip8pt
+      \chromosomebar{13}{32}{33}{BRCA2 locus}
+      \vskip8pt
+      \manhattanpoint{17}{41244936}{BRCA1}{$2.3\times10^{-12}$}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- Summary ---
+\begin{frame}{Summary}
+  \begin{itemize}
+    \item Exome sequencing identified actionable variants in 34\% of
+          referred patients\cite{sharma2025}
+    \item BRCA1/2 accounted for 60\% of pathogenic findings
+    \item 12 VUS reclassified to likely pathogenic after functional studies
+    \item Turnaround time: median 21 days (IQR 18--28)
+  \end{itemize}
+\end{frame}
+
+\conclusionslide{Thank You}{p.sharma@nhs.net}
+
+\end{document}

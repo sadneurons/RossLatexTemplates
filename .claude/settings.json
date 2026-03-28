@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/tenebris/Desktop/RossLatexTemplates/**)",
+      "Bash(wc -l /home/tenebris/Desktop/RossLatexTemplates/examples/*.tex)",
+      "Bash(ls /home/tenebris/Desktop/RossLatexTemplates/*.cls)",
+      "Bash(ls /home/tenebris/Desktop/RossLatexTemplates/examples/*.tex)",
+      "Bash(do)",
+      "Bash(sed -i '/^% !TEX root = \\\\.$/d' \"$f\")",
+      "Bash(do sed:*)"
+    ],
+    "additionalDirectories": [
+      "/home/tenebris/Desktop/RossLatexTemplates"
+    ]
+  }
+}

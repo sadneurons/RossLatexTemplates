@@ -1,0 +1,127 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-psych.tex
+% Demonstrates rossbeamerpsych features: score card, norm bar, test battery,
+% cognitive profile, RCI, DSM criterion.
+\documentclass[palette=psych]{rossbeamerpsych}
+
+\title{Neuropsychological Assessment Report}
+\subtitle{Case Conference: Patient JD}
+\author{Dr.~Ross Dunne}
+\institute{Division of Neuropsychology, University of Manchester}
+\date{March 2026}
+
+% Dummy bib
+\begin{filecontents}[overwrite]{\jobname.bib}
+@article{randolph1998,
+  author  = {Randolph, C.},
+  title   = {{RBANS} Manual},
+  journal = {Psychological Corporation},
+  year    = {1998},
+}
+\end{filecontents}
+\addbibresource{\jobname.bib}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Score Cards ---
+\begin{frame}{Individual Test Scores}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \scorecard{RBANS Total Scale}{72}{3rd}{Borderline}
+      \vskip6pt
+      \scorecard{Immediate Memory}{68}{2nd}{Impaired}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \scorecard{Visuospatial}{95}{37th}{Average}
+      \vskip6pt
+      \scorecard{Delayed Memory}{64}{1st}{Impaired}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- Norm Bars ---
+\begin{frame}{Score Position Relative to Norms}
+  \normbar{68}{100}{15}{Immediate Memory}
+  \vskip6pt
+  \normbar{95}{100}{15}{Visuospatial}
+  \vskip6pt
+  \normbar{64}{100}{15}{Delayed Memory}
+  \vskip6pt
+  \normbar{82}{100}{15}{Language}
+  \vskip6pt
+  \normbar{78}{100}{15}{Attention}
+  \vskip6pt
+  {\scriptsize\color{rbTextMuted}Shaded region = $\pm$1 SD from normative mean.
+   Dashed line = mean.}
+\end{frame}
+
+% --- Test Battery ---
+\begin{frame}{Battery Summary}
+  \begin{testbattery}
+    \batteryrow{RBANS Immediate Memory}{68}{2nd}{Impaired}
+    \batteryrow{RBANS Visuospatial}{95}{37th}{Average}
+    \batteryrow{RBANS Language}{82}{12th}{Low Average}
+    \batteryrow{RBANS Attention}{78}{7th}{Borderline}
+    \batteryrow{RBANS Delayed Memory}{64}{1st}{Impaired}
+    \batteryrow{RBANS Total Scale}{72}{3rd}{Borderline}
+  \end{testbattery}
+\end{frame}
+
+% --- Cognitive Profile ---
+\begin{frame}{Cognitive Profile}
+  \centering
+  \cognitiveprofile{%
+    Immediate Memory/68,
+    Visuospatial/95,
+    Language/82,
+    Attention/78,
+    Delayed Memory/64%
+  }
+\end{frame}
+
+% --- RCI ---
+\begin{frame}{Reliable Change Analysis}
+  Comparing baseline (T1) to 12-month follow-up (T2):
+
+  \vskip10pt
+  \begin{itemize}
+    \item Immediate Memory: \rci{82}{68}{5.2}
+    \item Visuospatial: \rci{98}{95}{6.1}
+    \item Language: \rci{88}{82}{5.8}
+    \item Attention: \rci{80}{78}{5.5}
+    \item Delayed Memory: \rci{80}{64}{4.9}
+  \end{itemize}
+
+  \vskip8pt
+  {\small\color{rbTextMuted}* indicates reliable change exceeding
+   the 95\% confidence interval (RCI $>$ 1.96).}
+\end{frame}
+
+% --- DSM Criteria ---
+\begin{frame}{DSM-5 Major Neurocognitive Disorder}
+  \dsmcriterion{A}{Evidence of significant cognitive decline from a
+    previous level of performance in one or more cognitive domains}{met}
+  \dsmcriterion{B}{Cognitive deficits interfere with independence in
+    everyday activities}{met}
+  \dsmcriterion{C}{Cognitive deficits do not occur exclusively in the
+    context of a delirium}{met}
+  \dsmcriterion{D}{Cognitive deficits are not better explained by another
+    mental disorder (e.g., MDD, schizophrenia)}{unmet}
+\end{frame}
+
+% --- Cutoff and Discrepancy ---
+\begin{frame}{Additional Analyses}
+  \cutoffindicator{64}{70}{Delayed Memory}
+  \vskip10pt
+  \zdiscrepancy{-0.33}{-2.40}{Visuospatial ($z$)}{Delayed Memory ($z$)}
+\end{frame}
+
+\conclusionslide{Questions?}{ross.dunne@manchester.ac.uk}
+
+\end{document}

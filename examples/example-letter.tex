@@ -1,0 +1,78 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-letter.tex
+% Demonstrates rossletter: institutional header, sender/recipient,
+% RE line, body paragraphs, closing, signature, and enclosure.
+
+\documentclass[palette=slate]{rossletter}
+
+% ── Sender details ───────────────────────────────────────────────
+\sender
+  {Dr.\ Ross A.\ Dunne}
+  {Lecturer in Clinical Neuropsychology}
+  {ross.dunne@ul.ie}
+  {+353 61 234 567}
+
+% ── Recipient details ────────────────────────────────────────────
+\recipient
+  {Prof.\ Helen Carter}
+  {Editor-in-Chief}
+  {Archives of Clinical Neuropsychology}
+  {Oxford University Press, Great Clarendon Street, Oxford OX2 6DP, UK}
+
+% ── Date and subject ─────────────────────────────────────────────
+\letterdate{24 March 2026}
+\re{Submission of Revised Manuscript ACN-2025-0142}
+
+\begin{document}
+
+% ── Header with institution logo placeholder ─────────────────────
+\letterheader
+  {}% no logo file; leave blank
+  {University of Limerick}
+  {Department of Psychology, Faculty of Education \& Health Sciences}
+  {Castletroy, Limerick V94 T9PX, Ireland \quad
+   T: +353 61 202 700 \quad W: www.ul.ie}
+
+% ── Opening ──────────────────────────────────────────────────────
+\opening{Dear Prof.\ Carter,}
+
+Thank you for the constructive feedback on our manuscript entitled
+\textit{``RBANS Normative Data for Irish Adults Aged 50--90: Development,
+Validation, and Clinical Utility''} (ACN-2025-0142). We are pleased to
+submit a revised version that addresses each of the reviewers' comments.
+
+A point-by-point response document is enclosed. In brief, the principal
+changes are as follows:
+
+\begin{enumerate}
+  \item We have added stratified norms by education level, as requested
+        by Reviewer~1.
+  \item The mediation analysis now includes bias-corrected bootstrap
+        confidence intervals (5,000 resamples), per Reviewer~2's
+        suggestion.
+  \item We have expanded the Limitations section to acknowledge the
+        single-site recruitment design.
+\end{enumerate}
+
+We believe these revisions have strengthened the manuscript substantially
+and hope that it is now suitable for publication in
+\textit{Archives of Clinical Neuropsychology}.
+
+Please do not hesitate to contact me should you require any further
+information or clarification.
+
+% ── Closing and signature ────────────────────────────────────────
+\closing{Yours sincerely,}
+
+\signature
+  {Dr.\ Ross A.\ Dunne}
+  {Lecturer in Clinical Neuropsychology, University of Limerick}
+
+% ── Enclosure and CC ─────────────────────────────────────────────
+\enclosure{Revised manuscript; point-by-point response to reviewers;
+           supplementary materials (Tables S1--S3)}
+\cc{Prof.\ Ann-Marie Moriarty (co-author);
+    Dr.\ Sarah K.\ Mitchell (co-author)}
+
+\end{document}

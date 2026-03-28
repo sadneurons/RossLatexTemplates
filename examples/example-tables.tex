@@ -1,0 +1,76 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-tables.tex
+% Standalone demonstration of rosstables: rosstable environment,
+% thead, tablehead, shaderow, and tablenote.
+
+\documentclass[11pt, a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\usepackage[margin=25mm]{geometry}
+\usepackage{caption}
+\usepackage{rosspalettes}  % load palette for themed colours
+\usepackage{rosstables}
+
+\title{\texttt{rosstables} --- Feature Demonstration}
+\author{Ross Dunne}
+\date{2026}
+
+\begin{document}
+\maketitle
+
+\section*{Table 1: Basic rosstable with shaded rows}
+
+The \texttt{rosstable} environment wraps \texttt{tabular} with booktabs
+rules and enforced array stretch. Use \verb|\shaderow| for alternating
+row shading and \verb|\tablehead| for a dark header row.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Demographic characteristics by diagnostic group.}
+  \label{tab:demographics}
+  \begin{rosstable}{L{3.5cm} C{2.5cm} C{2.5cm} C{2.5cm}}
+    \tablehead{Variable & HC ($n=104$) & MCI ($n=98$) & VaD ($n=110$)} \\
+    \midrule
+    \shaderow Age, $M$ ($SD$) & 68.2 (5.4) & 72.1 (6.8) & 74.5 (7.1) \\
+    Female, \%                & 55.8       & 48.0       & 42.7       \\
+    \shaderow Education, years & 14.1 (3.2) & 12.8 (3.5) & 11.4 (3.9) \\
+    MMSE, $M$ ($SD$)          & 28.9 (1.1) & 26.3 (2.0) & 23.7 (3.4) \\
+    \shaderow Hypertension, \% & 38.5       & 52.0       & 71.8       \\
+    Diabetes, \%              & 11.5       & 18.4       & 29.1       \\
+  \end{rosstable}
+  \tablenote{HC = healthy control; MCI = mild cognitive impairment;
+    VaD = vascular dementia. MMSE = Mini-Mental State Examination.}
+\end{table}
+
+\section*{Table 2: Using thead for individual header cells}
+
+The \verb|\thead| command bolds a single cell without colouring the
+entire row, useful for multi-row headers.
+
+\begin{table}[htbp]
+  \centering
+  \caption{RBANS index scores by group.}
+  \label{tab:rbans}
+  \begin{rosstable}{L{4cm} C{2cm} C{2cm} C{2cm} C{2cm}}
+    \thead{Index} & \thead{HC} & \thead{MCI} & \thead{VaD} & \thead{$p$} \\
+    \midrule
+    \shaderow Immediate Memory   & 102.4 & 88.6  & 76.3  & $<$.001 \\
+    Visuospatial                 & 100.8 & 91.2  & 82.1  & $<$.001 \\
+    \shaderow Language            & 101.1 & 93.5  & 84.7  & $<$.001 \\
+    Attention                    &  99.7 & 86.9  & 74.2  & $<$.001 \\
+    \shaderow Delayed Memory      & 103.2 & 82.1  & 68.5  & $<$.001 \\
+    Total Scale                  & 101.3 & 87.4  & 74.8  & $<$.001 \\
+  \end{rosstable}
+  \tablenote{Scores are age-adjusted ($M = 100$, $SD = 15$). $p$-values
+    from one-way ANOVA with Bonferroni correction.}
+  \tablenotesig
+\end{table}
+
+\section*{Table 3: Compact spacing option}
+
+When \texttt{rosstables} is loaded with the \texttt{[compact]} option,
+row spacing is tightened for dense data displays. The table above was
+rendered with the default spacing.
+
+\end{document}

@@ -1,0 +1,168 @@
+% rossfigures.sty
+% Standalone figure panel and annotation helpers for any document class.
+% Provides environments and commands for common figure layouts:
+% panels, grids, side-by-side images, full-width figures, and
+% APA-style notes/source attributions.
+%
+% Usage:
+%   \usepackage{rossfigures}
+%
+% Ross Dunne / Claude, 2026
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{rossfigures}[2026/03/24 Figure panel and annotation helpers]
+
+% ----------------------------------------------------------------
+% Dependencies
+% ----------------------------------------------------------------
+
+\RequirePackage{graphicx}
+\RequirePackage{subcaption}
+\RequirePackage{xcolor}
+\RequirePackage{etoolbox}
+
+% ----------------------------------------------------------------
+% Colour setup — use rosspalettes if available, else grey fallback
+% ----------------------------------------------------------------
+
+\newcommand{\rf@mutedcolor}{%
+  \@ifpackageloaded{rosspalettes}{rpTextMuted}{rf@fallbackgrey}%
+}
+
+\AtBeginDocument{%
+  \@ifpackageloaded{rosspalettes}{}{%
+    \definecolor{rf@fallbackgrey}{HTML}{6A6A78}%
+  }%
+}
+
+% ----------------------------------------------------------------
+% figurepanel — wrapper environment with optional caption
+%
+%   \begin{figurepanel}[My caption]
+%     \panel{img1}{Sub A}
+%     \panel{img2}{Sub B}
+%   \end{figurepanel}
+% ----------------------------------------------------------------
+
+\newenvironment{figurepanel}[1][]{%
+  \begin{figure}[htbp]%
+    \centering
+    \def\rf@panelcaption{#1}%
+}{%
+    \ifdefempty{\rf@panelcaption}{}{%
+      \caption{\rf@panelcaption}%
+    }%
+  \end{figure}%
+}
+
+% ----------------------------------------------------------------
+% \panel[width]{image}{subcaption}
+%
+% Places a subfigure inside a minipage.  Default width is 0.48
+% of the text width so two panels sit side by side.
+% ----------------------------------------------------------------
+
+\newcommand{\panel}[3][0.48\textwidth]{%
+  \begin{subfigure}[t]{#1}%
+    \centering
+    \includegraphics[width=\linewidth]{#2}%
+    \caption{#3}%
+  \end{subfigure}%
+  \hfill
+}
+
+% ----------------------------------------------------------------
+% \figuregrid{cols}{content}
+%
+% Automatic grid layout.  Sets each cell width to
+% (\textwidth / cols) minus a small gap, then typesets content.
+%
+%   \figuregrid{3}{%
+%     \panel[\rf@cellwidth]{a}{A}
+%     \panel[\rf@cellwidth]{b}{B}
+%     \panel[\rf@cellwidth]{c}{C}
+%   }
+% ----------------------------------------------------------------
+
+\newlength{\rf@cellwidth}
+
+\newcommand{\figuregrid}[2]{%
+  \setlength{\rf@cellwidth}{\dimexpr(\textwidth/#1) - 8pt\relax}%
+  \begin{figure}[htbp]%
+    \centering
+    #2%
+  \end{figure}%
+}
+
+% ----------------------------------------------------------------
+% \figurenote{text} — APA-style figure note
+%
+% Renders as:  Note. <text>
+% Uses muted colour when available.
+% ----------------------------------------------------------------
+
+\providecommand{\figurenote}[1]{%
+  \par\vspace{4pt}%
+  \begingroup
+    \small
+    \color{\rf@mutedcolor}%
+    \noindent\textit{Note.} #1%
+  \endgroup
+  \par
+}
+
+% ----------------------------------------------------------------
+% \fullwidthfigure{image}{caption}
+%
+% A figure that spans the full text width with a caption below.
+% ----------------------------------------------------------------
+
+\newcommand{\fullwidthfigure}[2]{%
+  \begin{figure}[htbp]%
+    \centering
+    \includegraphics[width=\textwidth]{#1}%
+    \caption{#2}%
+  \end{figure}%
+}
+
+% ----------------------------------------------------------------
+% \sidebyside{img1}{caption1}{img2}{caption2}
+%
+% Two images side by side, each occupying ~48% of text width.
+% ----------------------------------------------------------------
+
+\newcommand{\sidebyside}[4]{%
+  \begin{figure}[htbp]%
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}%
+      \centering
+      \includegraphics[width=\linewidth]{#1}%
+      \caption{#2}%
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}%
+      \centering
+      \includegraphics[width=\linewidth]{#3}%
+      \caption{#4}%
+    \end{subfigure}%
+  \end{figure}%
+}
+
+% ----------------------------------------------------------------
+% \source{text} — source attribution below a figure
+%
+% Renders as:  Source: <text>
+% Uses muted colour when available.
+% ----------------------------------------------------------------
+
+\newcommand{\source}[1]{%
+  \par\vspace{4pt}%
+  \begingroup
+    \small
+    \color{\rf@mutedcolor}%
+    \noindent\textit{Source:} #1%
+  \endgroup
+  \par
+}
+
+\endinput

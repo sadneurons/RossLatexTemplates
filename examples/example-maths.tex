@@ -1,0 +1,101 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-maths.tex
+% Demonstrates rossbeamermaths with chalkboard option: theorem, lemma,
+% proof, definition, \eqhl, \step.
+\documentclass[palette=blackboard, chalkboard]{rossbeamermaths}
+
+\title{Introduction to Measure Theory}
+\subtitle{Lebesgue Integration on $\mathbb{R}^n$}
+\author{Dr.~Eleanor Hartley}
+\institute{Department of Pure Mathematics, University of Oxford}
+\date{Hilary Term 2026}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- Definition ---
+\begin{frame}{Sigma Algebras}
+  \begin{definition}[$\sigma$-algebra]
+    Let $X$ be a non-empty set. A collection $\mathcal{F} \subseteq 2^X$
+    is a \textbf{$\sigma$-algebra} if:
+    \begin{enumerate}
+      \item $X \in \mathcal{F}$
+      \item $A \in \mathcal{F} \implies A^c \in \mathcal{F}$
+      \item $A_1, A_2, \ldots \in \mathcal{F}
+            \implies \bigcup_{n=1}^{\infty} A_n \in \mathcal{F}$
+    \end{enumerate}
+  \end{definition}
+  \vskip6pt
+  The pair $(X, \mathcal{F})$ is called a \textbf{measurable space}.
+\end{frame}
+
+% --- Theorem ---
+\begin{frame}{Monotone Convergence}
+  \begin{theorem}[Monotone Convergence Theorem]
+    Let $(f_n)$ be a sequence of measurable functions with
+    $0 \le f_1 \le f_2 \le \cdots$ pointwise. Then
+    \[
+      \int \lim_{n \to \infty} f_n \, d\mu
+      = \lim_{n \to \infty} \int f_n \, d\mu.
+    \]
+  \end{theorem}
+\end{frame}
+
+% --- Lemma with eqhl ---
+\begin{frame}{Supporting Lemma}
+  \begin{lemma}[Fatou]
+    If $(f_n)$ is a sequence of non-negative measurable functions, then
+    \[
+      \int \liminf_{n \to \infty} f_n \, d\mu
+      \;\le\;
+      \eqhl{\liminf_{n \to \infty} \int f_n \, d\mu}.
+    \]
+  \end{lemma}
+  \vskip6pt
+  The highlighted term shows that the limit inferior and integral
+  do not freely commute without additional hypotheses.
+\end{frame}
+
+% --- Proof with steps ---
+\begin{frame}{Proof Sketch}
+  \begin{proof}[Proof of the Monotone Convergence Theorem]
+    \resetsteps
+    \step{Define $f = \lim_{n \to \infty} f_n$, which exists pointwise
+          since $(f_n)$ is increasing.}
+    \step{Since $f_n \le f$ for all $n$, we have
+          $\int f_n \, d\mu \le \int f \, d\mu$, giving
+          $\limsup \int f_n \le \int f$.}
+    \step{For the reverse inequality, fix a simple function
+          $0 \le s \le f$ and $\alpha \in (0,1)$. Define
+          $E_n = \{x : f_n(x) \ge \alpha \, s(x)\}$.}
+    \step{Then $E_n \uparrow X$ and
+          $\int f_n \ge \alpha \int_{E_n} s \, d\mu
+           \to \alpha \int s \, d\mu$.}
+    \step{Taking $\sup$ over all simple $s \le f$ and letting
+          $\alpha \to 1$ gives
+          $\liminf \int f_n \ge \int f$.}
+  \end{proof}
+\end{frame}
+
+% --- Equation box ---
+\begin{frame}{Key Inequalities}
+  \begin{eqbox}[Dominated Convergence]
+    If $|f_n| \le g$ with $g \in L^1(\mu)$ and $f_n \to f$ a.e., then
+    \[
+      \eqhl[rbChalkBlue]{\lim_{n \to \infty} \int |f_n - f| \, d\mu = 0}
+    \]
+  \end{eqbox}
+  \vskip6pt
+  This is the workhorse theorem for exchanging limits and integrals
+  in applications.
+\end{frame}
+
+% --- Conclusion ---
+\conclusionslide{Questions?}{e.hartley@maths.ox.ac.uk}
+
+\end{document}

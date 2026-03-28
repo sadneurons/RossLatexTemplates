@@ -1,0 +1,132 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-cv.tex
+% Demonstrates rosscv: header, education, publications, grants,
+% teaching, conferences, awards, and skills.
+
+\documentclass[palette=slate, layout=onecol]{rosscv}
+
+\begin{document}
+
+\cvheader
+  {Ross A.\ Dunne}
+  {Neuropsychologist \& PhD Candidate}
+  {ross.dunne@ul.ie}
+  {+353 61 234 567}
+  {0000-0002-1234-5678}
+  {Department of Psychology, University of Limerick, Ireland}
+
+% ── Education ────────────────────────────────────────────────────
+\cvsection{Education}
+
+\cventry{2023--present}
+  {PhD Clinical Psychology}
+  {University of Limerick}
+  {Ireland}
+  {Thesis: Neuropsychological markers of vascular cognitive impairment.
+   Supervisor: Prof.\ Ann-Marie Moriarty.}
+
+\cventry{2021--2023}
+  {MSc Neuropsychology}
+  {Trinity College Dublin}
+  {Ireland}
+  {Distinction. Thesis: Normative data for the RBANS in Irish adults.}
+
+\cventry{2017--2021}
+  {BA Psychology}
+  {University College Cork}
+  {Ireland}
+  {First Class Honours. Dean's List 2019--2021.}
+
+% ── Publications ─────────────────────────────────────────────────
+\cvsection{Publications}
+
+\publication
+  {Dunne, R. A., Mitchell, S. K., \& Moriarty, A.-M.}
+  {2025}
+  {RBANS normative data for Irish adults aged 50--90}
+  {Archives of Clinical Neuropsychology}
+  {40}{112--125}
+  {10.1093/arclin/acae012}
+
+\publication
+  {Dunne, R. A. \& Moriarty, A.-M.}
+  {2024}
+  {Sleep architecture and domain-specific cognition: A mediation analysis}
+  {Sleep}
+  {47}{e1--e12}
+  {10.1093/sleep/zsae099}
+
+% ── Grants ───────────────────────────────────────────────────────
+\cvsection{Grants \& Funding}
+
+\grant
+  {Government of Ireland Postgraduate Scholarship}
+  {Irish Research Council}
+  {EUR 96,000}
+  {2023--2027}
+  {Principal Investigator}
+
+\grant
+  {Travel Bursary -- INS Annual Meeting}
+  {Neuropsychological Society of Ireland}
+  {EUR 1,500}
+  {2025}
+  {Applicant}
+
+% ── Teaching ─────────────────────────────────────────────────────
+\cvsection{Teaching}
+
+\teachingentry
+  {PS4012 Clinical Neuropsychology}
+  {Guest Lecturer (3 lectures)}
+  {University of Limerick}
+  {2025}
+
+\teachingentry
+  {PS2008 Research Methods II}
+  {Laboratory Demonstrator}
+  {University of Limerick}
+  {2023--2024}
+
+% ── Conferences ──────────────────────────────────────────────────
+\cvsection{Conference Presentations}
+
+\conferenceentry
+  {Sleep, affect, and cognition in older adults}
+  {International Neuropsychological Society, New York}
+  {2025}
+  {talk}
+
+\conferenceentry
+  {Irish RBANS norms: Development and validation}
+  {Psychological Society of Ireland Annual Conference, Galway}
+  {2024}
+  {poster}
+
+\conferenceentry
+  {Vascular contributions to cognitive impairment}
+  {British Neuropsychological Society, London}
+  {2024}
+  {invited}
+
+% ── Awards ───────────────────────────────────────────────────────
+\cvsection{Awards \& Honours}
+
+\award{Best Student Paper Award}
+  {2025}
+  {International Neuropsychological Society, Mid-Year Meeting.}
+
+\award{Dean's Research Scholarship}
+  {2023}
+  {Faculty of Education and Health Sciences, University of Limerick.}
+
+% ── Skills ───────────────────────────────────────────────────────
+\cvsection{Technical Skills}
+
+\skill{Statistics}{R, SPSS, Mplus, JASP, Bayesian modelling}
+\skill{Neuroimaging}{FreeSurfer, FSL, SPM12}
+\skill{Programming}{R, Python, LaTeX, Git, Bash}
+\skill{Assessment}{RBANS, WAIS-IV, WMS-IV, D-KEFS, Trail Making}
+
+\end{document}

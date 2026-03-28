@@ -1,0 +1,124 @@
+% !TEX program = xelatex
+% !TEX options = -synctex=1 -interaction=nonstopmode -file-line-error
+% example-epi.tex
+% Demonstrates rossbeamerepi features: 2x2 table, DAG, outbreak timeline,
+% forest row, STROBE item.
+\documentclass[palette=epi]{rossbeamerepi}
+
+\title{Occupational Exposure and Respiratory Disease}
+\subtitle{A Case-Control Study in Textile Workers}
+\author{Dr.~Amara Osei}
+\institute{Department of Epidemiology, London School of Hygiene}
+\date{September 2026}
+\conference{World Congress of Epidemiology, Cape Town}
+
+% Dummy bib
+\begin{filecontents}[overwrite]{\jobname.bib}
+@article{osei2025,
+  author  = {Osei, A. and Patel, R.},
+  title   = {Dust exposure and chronic bronchitis in textile workers},
+  journal = {Occup Environ Med},
+  year    = {2025},
+  volume  = {82},
+  pages   = {345--352},
+}
+\end{filecontents}
+\addbibresource{\jobname.bib}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% --- 2x2 Table ---
+\begin{frame}{Case-Control Results}
+  \twobytwo{85}{42}{38}{135}
+  \vskip6pt
+  \begin{center}
+    \oddsratio{7.7}{4.6}{12.8}\qquad
+    \attributablerisk{0.32}
+  \end{center}
+  \vskip4pt
+  \incidencerate{5.2}{1{,}000}{person-years among exposed workers}
+\end{frame}
+
+% --- DAG ---
+\begin{dagframe}{Directed Acyclic Graph}
+  \dagnode{E}{Dust Exposure}{0}{0}
+  \dagnode{O}{Bronchitis}{6}{0}
+  \dagconfounder{C}{Smoking}{3}{2}
+  \dagconfounder{S}{SES}{0}{2}
+  \dagarrow{E}{O}
+  \dagarrow{C}{E}
+  \dagarrow{C}{O}
+  \dagarrow{S}{E}
+  \dagarrow{S}{C}
+\end{dagframe}
+
+% --- Outbreak Timeline ---
+\begin{frame}{Epidemic Curve}
+  \begin{outbreaktimeline}
+    \epiweek{1}{3}{Wk 1}
+    \epiweek{2}{8}{Wk 2}
+    \epiweek{3}{15}{Wk 3}
+    \epiweek{4}{22}{Wk 4}
+    \epiweek{5}{18}{Wk 5}
+    \epiweek{6}{12}{Wk 6}
+    \epiweek{7}{6}{Wk 7}
+    \epiweek{8}{2}{Wk 8}
+  \end{outbreaktimeline}
+\end{frame}
+
+% --- Forest Plot Rows ---
+\begin{frame}{Meta-Analysis: Dust Exposure and Bronchitis}
+  {\small\bfseries\color{rbAccent}Study\hfill
+    Effect\hfill
+    OR [95\% CI]\hfill Weight\par}
+  \vskip2pt{\color{rbRule}\hrule height 0.3pt}\vskip2pt
+  \forestrow{Osei 2025}{2.40}{1.60}{3.60}{22\%}
+  \forestrow{Chen 2022}{1.85}{1.20}{2.85}{18\%}
+  \forestrow{Singh 2021}{3.10}{1.90}{5.05}{15\%}
+  \forestrow{Williams 2020}{2.05}{1.40}{3.00}{20\%}
+  \forestrow{Pooled}{2.30}{1.80}{2.95}{---}
+  \vskip4pt{\color{rbRule}\hrule height 0.3pt}
+  \vskip4pt
+  {\small\color{rbTextMuted}Random-effects model; $I^2 = 34\%$, $p = 0.19$}
+\end{frame}
+
+% --- STROBE Checklist ---
+\begin{frame}{STROBE Reporting Checklist}
+  \strobeitem{1}{Title and abstract: informative title, structured abstract}
+  \strobeitem{2}{Introduction: scientific background and rationale}
+  \strobeitem{3}{Objectives: specific objectives and hypotheses}
+  \strobeitem{6}{Participants: eligibility criteria, sources, matching}
+  \strobeitem{12}{Statistical methods: analysis plan, confounders, sensitivity}
+  \strobeitem{16}{Main results: unadjusted and adjusted estimates with CI}
+  \strobeitem{19}{Limitations: potential bias, precision, generalisability}
+  \strobeitem{22}{Funding: source of support, role of funders}
+\end{frame}
+
+% --- Prevalence ---
+\begin{frame}{Population Burden}
+  \prevalencerate{12.4\%}{95\% CI [10.1, 14.8]}
+  \vskip12pt
+  \rateratio{45.0}{22.5}{2.0}{1.4--2.8}
+\end{frame}
+
+% --- Finding ---
+\begin{frame}{Conclusions}
+  \begin{findingbox}
+    Occupational dust exposure was associated with a 7.7-fold increased
+    odds of chronic bronchitis after adjustment for smoking and SES.
+  \end{findingbox}
+  \vskip6pt
+  \begin{implicationbox}[Public Health Implication]
+    Enhanced workplace ventilation standards in textile factories
+    could substantially reduce respiratory disease burden.
+  \end{implicationbox}
+\end{frame}
+
+\conclusionslide{Thank You}{a.osei@lshtm.ac.uk}
+
+\end{document}
