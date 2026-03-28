@@ -358,12 +358,18 @@
 % panels) typical of neuroanatomical atlases.
 % ----------------------------------------------------------------
 
-\newenvironment{atlasframe}[1]{%
-  \begin{frame}{#1}%
+% atlasframe — use INSIDE a frame, not as a frame wrapper.
+% Usage:
+%   \begin{frame}{Title}
+%     \begin{atlasframe}
+%       \atlasleft{img}{cap}
+%       \atlasright{\atlaspanel{img}{cap}}
+%     \end{atlasframe}
+%   \end{frame}
+\newenvironment{atlasframe}{%
   \begin{columns}[T]%
 }{%
   \end{columns}%
-  \end{frame}%
 }
 
 % Left column: large primary view

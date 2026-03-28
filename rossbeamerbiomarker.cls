@@ -29,16 +29,16 @@
 
 \newif\ifrb@nobar  \rb@nobarfalse
 \newif\ifrb@nologo \rb@nologofalse
-\newif\ifbm@stats  \bm@statsfalse
+\newif\ifbiom@stats  \biom@statsfalse
 
 \pgfkeys{
   /bmbeamer/.cd,
-  palette/.store in=\bm@palette,   palette=assay,
-  font/.store in=\bm@fontchoice,   font=fira,
-  monofont/.store in=\bm@mono,     monofont=,
+  palette/.store in=\biom@palette,   palette=assay,
+  font/.store in=\biom@fontchoice,   font=fira,
+  monofont/.store in=\biom@mono,     monofont=,
   nobar/.code={\rb@nobartrue},
   nologo/.code={\rb@nologotrue},
-  stats/.code={\bm@statstrue},
+  stats/.code={\biom@statstrue},
 }
 \ProcessPgfOptions{/bmbeamer}
 
@@ -57,67 +57,67 @@
 % Optionally load rossstats.sty
 % ----------------------------------------------------------------
 
-\ifbm@stats
+\ifbiom@stats
   \RequirePackage{rossstats}
 \fi
 
 % ----------------------------------------------------------------
 % Palette definitions (12-field format)
 %
-% \bm@defpal{name}
+% \biom@defpal{name}
 %   {primary}{secondary}{accent}{text}{textlight}{textmuted}{bg}{rule}
 %   {accentdark}{accentlight}{accentbg}{lightmuted}
 % ----------------------------------------------------------------
 
-\newcommand{\bm@defpal}[9]{%
-  \expandafter\def\csname bm@p@#1@P\endcsname{#2}%   primary
-  \expandafter\def\csname bm@p@#1@S\endcsname{#3}%   secondary
-  \expandafter\def\csname bm@p@#1@A\endcsname{#4}%   accent
-  \expandafter\def\csname bm@p@#1@T\endcsname{#5}%   text
-  \expandafter\def\csname bm@p@#1@TL\endcsname{#6}%  textlight
-  \expandafter\def\csname bm@p@#1@TM\endcsname{#7}%  textmuted
-  \expandafter\def\csname bm@p@#1@B\endcsname{#8}%   bg
-  \expandafter\def\csname bm@p@#1@R\endcsname{#9}%   rule
-  \bm@defpal@cont{#1}%
+\newcommand{\biom@defpal}[9]{%
+  \expandafter\def\csname biom@p@#1@P\endcsname{#2}%   primary
+  \expandafter\def\csname biom@p@#1@S\endcsname{#3}%   secondary
+  \expandafter\def\csname biom@p@#1@A\endcsname{#4}%   accent
+  \expandafter\def\csname biom@p@#1@T\endcsname{#5}%   text
+  \expandafter\def\csname biom@p@#1@TL\endcsname{#6}%  textlight
+  \expandafter\def\csname biom@p@#1@TM\endcsname{#7}%  textmuted
+  \expandafter\def\csname biom@p@#1@B\endcsname{#8}%   bg
+  \expandafter\def\csname biom@p@#1@R\endcsname{#9}%   rule
+  \biom@defpal@cont{#1}%
 }
-\newcommand{\bm@defpal@cont}[5]{%
-  \expandafter\def\csname bm@p@#1@AD\endcsname{#2}%  accentdark
-  \expandafter\def\csname bm@p@#1@AL\endcsname{#3}%  accentlight
-  \expandafter\def\csname bm@p@#1@AB\endcsname{#4}%  accentbg
-  \expandafter\def\csname bm@p@#1@LM\endcsname{#5}%  lightmuted
+\newcommand{\biom@defpal@cont}[5]{%
+  \expandafter\def\csname biom@p@#1@AD\endcsname{#2}%  accentdark
+  \expandafter\def\csname biom@p@#1@AL\endcsname{#3}%  accentlight
+  \expandafter\def\csname biom@p@#1@AB\endcsname{#4}%  accentbg
+  \expandafter\def\csname biom@p@#1@LM\endcsname{#5}%  lightmuted
 }
 
 % --- assay: clinical blue / amber ---
 %                    name      P       S       A       T       TL      TM      B       R       AD      AL      AB      LM
-\bm@defpal{assay}   {1A2A44}{1565C0}{FF8F00}{1C1C1C}{FFFFFF}{5A6878}{F6F8FA}{CDD5DD}{B87000}{FFB740}{FFF6E6}{8898B0}
+\biom@defpal{assay}   {1A2A44}{1565C0}{FF8F00}{1C1C1C}{FFFFFF}{5A6878}{F6F8FA}{CDD5DD}{B87000}{FFB740}{FFF6E6}{8898B0}
 
 % --- diagnostic: green / red threshold ---
-\bm@defpal{diagnostic}{1A2E1A}{43A047}{E53935}{1C1C1C}{FFFFFF}{5A6B5A}{F8FAF7}{C8D8CE}{B71C1C}{EF9A9A}{FFEBEE}{90B0A0}
+\biom@defpal{diagnostic}{1A2E1A}{43A047}{E53935}{1C1C1C}{FFFFFF}{5A6B5A}{F8FAF7}{C8D8CE}{B71C1C}{EF9A9A}{FFEBEE}{90B0A0}
 
 % --- biotech: teal / gold ---
-\bm@defpal{biotech} {0A2E2E}{00897B}{FFB300}{1C1C1C}{FFFFFF}{587878}{F6FAFA}{C8DEDE}{C68A00}{FFD54F}{FFF8E1}{88B8B8}
+\biom@defpal{biotech} {0A2E2E}{00897B}{FFB300}{1C1C1C}{FFFFFF}{587878}{F6FAFA}{C8DEDE}{C68A00}{FFD54F}{FFF8E1}{88B8B8}
 
 % ----------------------------------------------------------------
 % Palette activation
 % ----------------------------------------------------------------
 
-\newcommand{\bm@activatepalette}{%
+\newcommand{\biom@activatepalette}{%
   % Core colours
-  \definecolor{rbPrimary}{HTML}{\csname bm@p@\bm@palette @P\endcsname}%
-  \definecolor{rbSecondary}{HTML}{\csname bm@p@\bm@palette @S\endcsname}%
-  \definecolor{rbAccent}{HTML}{\csname bm@p@\bm@palette @A\endcsname}%
-  \definecolor{rbText}{HTML}{\csname bm@p@\bm@palette @T\endcsname}%
-  \definecolor{rbTextLight}{HTML}{\csname bm@p@\bm@palette @TL\endcsname}%
-  \definecolor{rbTextMuted}{HTML}{\csname bm@p@\bm@palette @TM\endcsname}%
-  \definecolor{rbBg}{HTML}{\csname bm@p@\bm@palette @B\endcsname}%
-  \definecolor{rbRule}{HTML}{\csname bm@p@\bm@palette @R\endcsname}%
+  \definecolor{rbPrimary}{HTML}{\csname biom@p@\biom@palette @P\endcsname}%
+  \definecolor{rbSecondary}{HTML}{\csname biom@p@\biom@palette @S\endcsname}%
+  \definecolor{rbAccent}{HTML}{\csname biom@p@\biom@palette @A\endcsname}%
+  \definecolor{rbText}{HTML}{\csname biom@p@\biom@palette @T\endcsname}%
+  \definecolor{rbTextLight}{HTML}{\csname biom@p@\biom@palette @TL\endcsname}%
+  \definecolor{rbTextMuted}{HTML}{\csname biom@p@\biom@palette @TM\endcsname}%
+  \definecolor{rbBg}{HTML}{\csname biom@p@\biom@palette @B\endcsname}%
+  \definecolor{rbRule}{HTML}{\csname biom@p@\biom@palette @R\endcsname}%
   % Derive standard colours
   \rb@derivecolors
   % Override with explicit palette refinements
-  \definecolor{rbAccentDark}{HTML}{\csname bm@p@\bm@palette @AD\endcsname}%
-  \definecolor{rbAccentLight}{HTML}{\csname bm@p@\bm@palette @AL\endcsname}%
-  \definecolor{rbAccentBg}{HTML}{\csname bm@p@\bm@palette @AB\endcsname}%
-  \definecolor{rbLightMuted}{HTML}{\csname bm@p@\bm@palette @LM\endcsname}%
+  \definecolor{rbAccentDark}{HTML}{\csname biom@p@\biom@palette @AD\endcsname}%
+  \definecolor{rbAccentLight}{HTML}{\csname biom@p@\biom@palette @AL\endcsname}%
+  \definecolor{rbAccentBg}{HTML}{\csname biom@p@\biom@palette @AB\endcsname}%
+  \definecolor{rbLightMuted}{HTML}{\csname biom@p@\biom@palette @LM\endcsname}%
   % Legacy aliases
   \colorlet{bmDark}{rbPrimary}%
   \colorlet{bmText}{rbText}%
@@ -131,9 +131,9 @@
   \colorlet{bmLightMuted}{rbLightMuted}%
   \colorlet{bmRule}{rbRule}%
 }
-\bm@activatepalette
+\biom@activatepalette
 
-\newcommand{\setpalette}[1]{\def\bm@palette{#1}\bm@activatepalette}
+\newcommand{\setpalette}[1]{\def\biom@palette{#1}\biom@activatepalette}
 
 % ----------------------------------------------------------------
 % Beamer setup
@@ -154,8 +154,8 @@
 }
 
 % Font activation + serif math
-\rb@activatefont{\bm@fontchoice}
-\rb@activatemono{\bm@mono}
+\rb@activatefont{\biom@fontchoice}
+\rb@activatemono{\biom@mono}
 \usefonttheme[onlymath]{serif}
 
 % Footer: always on
@@ -165,8 +165,8 @@
 % Title page — dark with thin accent rule
 % ----------------------------------------------------------------
 
-\def\bm@conference{}
-\newcommand{\conference}[1]{\def\bm@conference{#1}}
+\def\biom@conference{}
+\newcommand{\conference}[1]{\def\biom@conference{#1}}
 
 \defbeamertemplate*{title page}{rossbeamerbiomarker}{%
   \begin{tikzpicture}[remember picture, overlay]
@@ -186,8 +186,8 @@
     \vskip2pt{\usebeamerfont{institute}\color{rbLightMuted}\insertinstitute\par}\fi
   \ifx\insertdate\empty\else
     \vskip2pt{\usebeamerfont{date}\color{rbLightMuted}\insertdate\par}\fi
-  \ifx\bm@conference\empty\else
-    \vskip4pt{\usebeamerfont{date}\color{rbLightMuted}\itshape\bm@conference\par}\fi
+  \ifx\biom@conference\empty\else
+    \vskip4pt{\usebeamerfont{date}\color{rbLightMuted}\itshape\biom@conference\par}\fi
   \vfill
 }
 
@@ -326,7 +326,7 @@
 % shading for readability.
 % ----------------------------------------------------------------
 
-\newcounter{bm@rowcnt}
+\newcounter{biom@rowcnt}
 
 \newenvironment{biomarkerpanel}[1]{%
   \begin{tcolorbox}[
@@ -338,7 +338,7 @@
     coltitle=rbPrimary, title={#1},
   ]
   \small
-  \setcounter{bm@rowcnt}{0}%
+  \setcounter{biom@rowcnt}{0}%
   \begin{tabular}{@{}l r l l l@{}}
     \toprule
     \bfseries\color{rbPrimary}Analyte &
@@ -353,10 +353,8 @@
   \end{tcolorbox}%
 }
 
-% Helper for shaded rows inside biomarkerpanel
+% Helper for rows inside biomarkerpanel
 \newcommand{\panelrow}[5]{%
-  \stepcounter{bm@rowcnt}%
-  \ifodd\value{bm@rowcnt}\rowcolor{rbPrimaryFaded}\fi
   #1 & #2 & #3 & #4 & #5 \\
 }
 
@@ -396,14 +394,14 @@
 % Uses rbNormal / rbThresholdAmber / rbAbnormal from base.
 % ----------------------------------------------------------------
 
-\newcommand{\bm@statuscolor}[1]{%
-  \def\bm@tmp{#1}%
-  \def\bm@stnorm{normal}%
-  \def\bm@stbord{borderline}%
-  \def\bm@stabn{abnormal}%
-  \ifx\bm@tmp\bm@stnorm rbNormal%
-  \else\ifx\bm@tmp\bm@stbord rbThresholdAmber%
-  \else\ifx\bm@tmp\bm@stabn rbAbnormal%
+\newcommand{\biom@statuscolor}[1]{%
+  \def\biom@tmp{#1}%
+  \def\biom@stnorm{normal}%
+  \def\biom@stbord{borderline}%
+  \def\biom@stabn{abnormal}%
+  \ifx\biom@tmp\biom@stnorm rbNormal%
+  \else\ifx\biom@tmp\biom@stbord rbThresholdAmber%
+  \else\ifx\biom@tmp\biom@stabn rbAbnormal%
   \else rbTextMuted%
   \fi\fi\fi
 }
@@ -411,10 +409,10 @@
 \newcommand{\biomarkerresult}[3]{%
   {\small\bfseries\color{rbText}#1}%
   \kern3pt%
-  {\small\bfseries\color{\bm@statuscolor{#3}}#2}%
+  {\small\bfseries\color{\biom@statuscolor{#3}}#2}%
   \kern3pt%
   \tikz[baseline=-0.2em]{%
-    \node[rounded corners=2pt, fill=\bm@statuscolor{#3},
+    \node[rounded corners=2pt, fill=\biom@statuscolor{#3},
           text=white, inner xsep=4pt, inner ysep=1.5pt,
           font=\scriptsize\bfseries] {#3};}%
 }

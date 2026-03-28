@@ -110,19 +110,13 @@
 }
 
 % ----------------------------------------------------------------
-% \shaderow — alternating row shading
-% Tracks a counter and shades odd rows.
+% \shaderow — row shading
+% Place at the start of a row to give it a light background.
+% Must be the very first token in the row (\rowcolor requires this).
 % ----------------------------------------------------------------
 
-\newcounter{rt@rowcnt}
-
-\newcommand{\rt@resetrows}{\setcounter{rt@rowcnt}{0}}
-
 \newcommand{\shaderow}{%
-  \stepcounter{rt@rowcnt}%
-  \ifodd\value{rt@rowcnt}%
-    \rowcolor{rpPrimaryFaded}%
-  \fi
+  \rowcolor{rpPrimaryFaded}%
 }
 
 % ----------------------------------------------------------------
@@ -149,7 +143,6 @@
 % ----------------------------------------------------------------
 
 \newenvironment{rosstable}[1]{%
-  \rt@resetrows
   \renewcommand{\arraystretch}{\rt@arraystretch}%
   \begin{tabular}{#1}%
   \toprule

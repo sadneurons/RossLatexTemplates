@@ -146,8 +146,8 @@
 }
 
 % Font activation + serif math
-\rb@activatefont{\mth@fontchoice}
-\rb@activatemono{\mth@mono}
+\expandafter\rb@activatefont\expandafter{\mth@fontchoice}
+\expandafter\rb@activatemono\expandafter{\mth@mono}
 \usefonttheme[onlymath]{serif}
 
 % Footer: always on
@@ -221,7 +221,7 @@
   coltitle=rbAccentDark, title={#1},
 }
 
-\newenvironment{theorem}[1][]{%
+\renewenvironment{theorem}[1][]{%
   \stepcounter{mth@thmcounter}%
   \def\mth@thmtitle{Theorem~\themth@thmcounter}%
   \ifx\relax#1\relax\else
@@ -236,7 +236,7 @@
 % Lemma environment
 % ----------------------------------------------------------------
 
-\newenvironment{lemma}[1][]{%
+\renewenvironment{lemma}[1][]{%
   \stepcounter{mth@thmcounter}%
   \def\mth@thmtitle{Lemma~\themth@thmcounter}%
   \ifx\relax#1\relax\else
@@ -251,7 +251,7 @@
 % Corollary environment
 % ----------------------------------------------------------------
 
-\newenvironment{corollary}[1][]{%
+\renewenvironment{corollary}[1][]{%
   \stepcounter{mth@thmcounter}%
   \def\mth@thmtitle{Corollary~\themth@thmcounter}%
   \ifx\relax#1\relax\else
@@ -274,7 +274,7 @@
   coltitle=rbInfo, title={#1},
 }
 
-\newenvironment{definition}[1][]{%
+\renewenvironment{definition}[1][]{%
   \stepcounter{mth@thmcounter}%
   \def\mth@thmtitle{Definition~\themth@thmcounter}%
   \ifx\relax#1\relax\else

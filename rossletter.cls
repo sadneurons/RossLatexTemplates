@@ -87,29 +87,29 @@
 % Internal storage
 % ----------------------------------------------------------------
 
-\newcommand{\rl@sendername}{}
-\newcommand{\rl@sendertitle}{}
-\newcommand{\rl@senderemail}{}
-\newcommand{\rl@senderphone}{}
+\def\rl@sendername{}
+\def\rl@sendertitle{}
+\def\rl@senderemail{}
+\def\rl@senderphone{}
 
-\newcommand{\rl@recipname}{}
-\newcommand{\rl@reciptitle}{}
-\newcommand{\rl@recipinst}{}
-\newcommand{\rl@recipaddr}{}
+\def\rl@recipname{}
+\def\rl@reciptitle{}
+\def\rl@recipinst{}
+\def\rl@recipaddr{}
 
-\newcommand{\rl@letterdate}{\today}
-\newcommand{\rl@subject}{}
-\newcommand{\rl@sigimage}{}
+\def\rl@letterdate{\today}
+\def\rl@subject{}
+\def\rl@sigimage{}
 
 % ----------------------------------------------------------------
 % User commands — sender
 % ----------------------------------------------------------------
 
 \newcommand{\sender}[4]{%
-  \renewcommand{\rl@sendername}{#1}%
-  \renewcommand{\rl@sendertitle}{#2}%
-  \renewcommand{\rl@senderemail}{#3}%
-  \renewcommand{\rl@senderphone}{#4}%
+  \def\rl@sendername{#1}%
+  \def\rl@sendertitle{#2}%
+  \def\rl@senderemail{#3}%
+  \def\rl@senderphone{#4}%
 }
 
 % ----------------------------------------------------------------
@@ -117,19 +117,19 @@
 % ----------------------------------------------------------------
 
 \newcommand{\recipient}[4]{%
-  \renewcommand{\rl@recipname}{#1}%
-  \renewcommand{\rl@reciptitle}{#2}%
-  \renewcommand{\rl@recipinst}{#3}%
-  \renewcommand{\rl@recipaddr}{#4}%
+  \def\rl@recipname{#1}%
+  \def\rl@reciptitle{#2}%
+  \def\rl@recipinst{#3}%
+  \def\rl@recipaddr{#4}%
 }
 
 % ----------------------------------------------------------------
 % User commands — date, subject, signature image
 % ----------------------------------------------------------------
 
-\newcommand{\letterdate}[1]{\renewcommand{\rl@letterdate}{#1}}
-\newcommand{\re}[1]{\renewcommand{\rl@subject}{#1}}
-\newcommand{\signatureimage}[1]{\renewcommand{\rl@sigimage}{#1}}
+\newcommand{\letterdate}[1]{\def\rl@letterdate{#1}}
+\newcommand{\re}[1]{\def\rl@subject{#1}}
+\newcommand{\signatureimage}[1]{\def\rl@sigimage{#1}}
 
 % ----------------------------------------------------------------
 % \letterheader{logo}{institution}{department}{address}
@@ -138,9 +138,7 @@
 \newcommand{\letterheader}[4]{%
   \noindent
   \begin{minipage}[t]{0.15\textwidth}
-    \ifx\relax#1\relax\else
-      \includegraphics[width=\linewidth]{#1}%
-    \fi
+    \ifblank{#1}{}{\includegraphics[width=\linewidth]{#1}}%
   \end{minipage}%
   \hfill
   \begin{minipage}[t]{0.80\textwidth}

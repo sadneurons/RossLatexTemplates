@@ -81,14 +81,19 @@
 \RequirePackage{setspace}
 \onehalfspacing
 
-\RequirePackage[
-  activate={true,nocompatibility},
-  final,
-  tracking  = true,
-  factor    = 1100,
-  stretch   = 10,
-  shrink    = 10,
-]{microtype}
+\RequirePackage{iftex}
+\ifXeTeX
+  \RequirePackage[final]{microtype}
+\else
+  \RequirePackage[
+    activate={true,nocompatibility},
+    final,
+    tracking  = true,
+    factor    = 1100,
+    stretch   = 10,
+    shrink    = 10,
+  ]{microtype}
+\fi
 
 % ---- Font selection ----
 \RequirePackage{ifthen}

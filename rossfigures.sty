@@ -78,13 +78,14 @@
 % (\textwidth / cols) minus a small gap, then typesets content.
 %
 %   \figuregrid{3}{%
-%     \panel[\rf@cellwidth]{a}{A}
-%     \panel[\rf@cellwidth]{b}{B}
-%     \panel[\rf@cellwidth]{c}{C}
+%     \panel[\panelwidth]{a}{A}
+%     \panel[\panelwidth]{b}{B}
+%     \panel[\panelwidth]{c}{C}
 %   }
 % ----------------------------------------------------------------
 
 \newlength{\rf@cellwidth}
+\newcommand{\panelwidth}{\rf@cellwidth}
 
 \newcommand{\figuregrid}[2]{%
   \setlength{\rf@cellwidth}{\dimexpr(\textwidth/#1) - 8pt\relax}%

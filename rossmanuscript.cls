@@ -43,7 +43,7 @@
 % Ross ecosystem packages
 % ================================================================
 
-\RequirePackage[\rm@palette]{rosspalettes}
+\RequirePackage[palette=\rm@palette]{rosspalettes}
 \RequirePackage{rossstats}
 \RequirePackage{rosstables}
 

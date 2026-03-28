@@ -14,7 +14,7 @@
 \sponsor{Biogen / Eisai}
 
 % Dummy bib
-\begin{filecontents}[overwrite]{\jobname.bib}
+\begin{filecontents}[overwrite]{example-clinical.bib}
 @article{clarity2023,
   author  = {van Dyck, C. H. and Swanson, C. J.},
   title   = {Lecanemab in Early {Alzheimer's} Disease},
@@ -24,7 +24,7 @@
   pages   = {9--21},
 }
 \end{filecontents}
-\addbibresource{\jobname.bib}
+\addbibresource{example-clinical.bib}
 
 \begin{document}
 
@@ -80,13 +80,13 @@
 
 % --- Endpoint Cards ---
 \begin{frame}{Primary and Key Secondary Endpoints}
-  \endpointcard{Primary: CDR-SB Change at 18 Months}
+  \epcard{Primary: CDR-SB Change at 18 Months}
     {$-0.45$}{$-0.67,\;-0.23$}{$< .001$}
   \vskip6pt
-  \endpointcard{Secondary: ADAS-Cog14 Change}
+  \epcard{Secondary: ADAS-Cog14 Change}
     {$-1.44$}{$-2.92,\;0.04$}{.056}
   \vskip6pt
-  \endpointcard{Secondary: ADCS-MCI-ADL Change}
+  \epcard{Secondary: ADCS-MCI-ADL Change}
     {$-2.0$}{$-3.5,\;-0.5$}{.009}
 \end{frame}
 

@@ -42,7 +42,7 @@
 \definecolor{rc@codeborder}{HTML}{CCCCCC} % light grey
 \definecolor{rc@outputbg}{HTML}{EDEDED}   % grey for console output
 \definecolor{rc@outputfg}{HTML}{1C1C1C}   % dark text for output
-\definecolor{rc@base}{HTML}{1C1C1C}       % base text
+\definecolor{rcBase}{HTML}{1C1C1C}       % base text
 
 % ----------------------------------------------------------------
 % Adapt colours when rosspalettes is available
@@ -56,20 +56,20 @@
     \colorlet{rc@codebg}{rpBg}%
     \colorlet{rc@codeborder}{rpRule}%
     \colorlet{rc@outputbg}{rpPrimaryFaded}%
-    \colorlet{rc@base}{rpText}%
+    \colorlet{rcBase}{rpText}%
   }{}%
 }
 
 % ----------------------------------------------------------------
 % Base listing style
 % ----------------------------------------------------------------
-\lstdefinestyle{rc@base}{%
-  basicstyle=\ttfamily\small\color{rc@base},
+\lstdefinestyle{rcBase}{%
+  basicstyle=\ttfamily\small\color{rcBase},
   keywordstyle=\color{rc@keyword}\bfseries,
   stringstyle=\color{rc@string},
   commentstyle=\color{rc@comment}\itshape,
   numberstyle=\tiny\color{rc@comment},
-  identifierstyle=\color{rc@base},
+  identifierstyle=\color{rcBase},
   showstringspaces=false,
   breaklines=true,
   breakatwhitespace=false,
@@ -86,8 +86,8 @@
 % ----------------------------------------------------------------
 
 % --- R ---
-\lstdefinestyle{rc@R}{%
-  style=rc@base,
+\lstdefinestyle{rcR}{%
+  style=rcBase,
   language=R,
   morekeywords={library,require,function,if,else,for,while,repeat,
     in,next,break,return,TRUE,FALSE,NULL,NA,NA_real_,NA_complex_,
@@ -101,8 +101,8 @@
 }
 
 % --- Python ---
-\lstdefinestyle{rc@Python}{%
-  style=rc@base,
+\lstdefinestyle{rcPython}{%
+  style=rcBase,
   language=Python,
   morekeywords={self,True,False,None,as,with,yield,async,await,
     lambda,nonlocal,assert,import,from,class,def,return,if,elif,
@@ -118,8 +118,8 @@
 }
 
 % --- SPSS ---
-\lstdefinestyle{rc@SPSS}{%
-  style=rc@base,
+\lstdefinestyle{rcSPSS}{%
+  style=rcBase,
   morekeywords={DATA,LIST,BEGIN,END,GET,FILE,SAVE,OUTFILE,COMPUTE,
     RECODE,IF,DO,REPEAT,LOOP,FREQUENCIES,DESCRIPTIVES,CROSSTABS,
     MEANS,CORRELATIONS,REGRESSION,ANOVA,T-TEST,NPAR,TESTS,
@@ -134,8 +134,8 @@
 }
 
 % --- SAS ---
-\lstdefinestyle{rc@SAS}{%
-  style=rc@base,
+\lstdefinestyle{rcSAS}{%
+  style=rcBase,
   morekeywords={data,set,input,cards,run,proc,quit,if,then,else,
     do,end,output,drop,keep,rename,where,merge,by,retain,
     length,format,informat,array,macro,mend,let,put,
@@ -149,8 +149,8 @@
 }
 
 % --- MATLAB ---
-\lstdefinestyle{rc@MATLAB}{%
-  style=rc@base,
+\lstdefinestyle{rcMATLAB}{%
+  style=rcBase,
   language=Matlab,
   morekeywords={function,end,if,elseif,else,for,while,switch,case,
     otherwise,try,catch,return,break,continue,global,persistent,
@@ -165,8 +165,8 @@
 }
 
 % --- LaTeX ---
-\lstdefinestyle{rc@LaTeX}{%
-  style=rc@base,
+\lstdefinestyle{rcLaTeX}{%
+  style=rcBase,
   language=[LaTeX]TeX,
   morekeywords={documentclass,usepackage,begin,end,newcommand,
     renewcommand,setlength,includegraphics,caption,label,ref,
@@ -184,10 +184,10 @@
 % Resolve style name from language argument
 % ----------------------------------------------------------------
 \newcommand{\rc@getstyle}[1]{%
-  % Default to rc@base if no language given
-  \def\rc@resolved{rc@base}%
+  % Default to rcBase if no language given
+  \def\rc@resolved{rcBase}%
   \ifstrempty{#1}{}{%
-    \def\rc@resolved{rc@#1}%
+    \def\rc@resolved{rc#1}%
   }%
 }
 
@@ -197,9 +197,11 @@
 \newcommand{\codeinline}[2][]{%
   \rc@getstyle{#1}%
   \ifstrempty{#1}{%
-    \lstinline[style=rc@base]|#2|%
+    \lstinline[style=rcBase]|#2|%
   }{%
-    \lstinline[style=\rc@resolved]|#2|%
+    \begingroup\edef\rc@tmp{\endgroup
+      \noexpand\lstinline[style=\rc@resolved]|#2|}%
+    \rc@tmp
   }%
 }
 
@@ -207,11 +209,12 @@
 % codechunk environment — code block with optional language label
 %   \begin{codechunk}[R] ... \end{codechunk}
 % ----------------------------------------------------------------
+
+% Helper: tcolorbox style for code blocks (reused by \codefile)
 \newtcolorbox[auto counter]{rc@codeblock}[2][]{%
   enhanced,
   breakable,
   colback=rc@codebg,
-  coltext=rc@base,
   colframe=\ifrc@frame rc@codeborder\else rc@codebg\fi,
   boxrule=\ifrc@frame 0.4pt\else 0pt\fi,
   arc=2pt,
@@ -230,12 +233,28 @@
   #1
 }
 
-\lstnewenvironment{codechunk}[1][]{%
-  \rc@getstyle{#1}%
-  \def\rc@chunklang{#1}%
-  \begin{rc@codeblock}{#1}%
-  \lstset{%
-    style=\rc@resolved,
+% The codechunk environment uses tcolorbox's listing integration
+% so that the verbatim scanning and the box work together.
+\newtcblisting{codechunk}[1][]{%
+  enhanced,
+  breakable,
+  colback=rc@codebg,
+  colframe=\ifrc@frame rc@codeborder\else rc@codebg\fi,
+  boxrule=\ifrc@frame 0.4pt\else 0pt\fi,
+  arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt,
+  overlay={%
+    \ifstrempty{#1}{}{%
+      \node[anchor=north east,
+            font=\sffamily\scriptsize\bfseries,
+            text=rc@comment,
+            inner sep=2pt]
+        at (frame.north east) {#1};%
+    }%
+  },
+  listing only,
+  listing options={%
+    style=\ifstrempty{#1}{rcBase}{rc#1},
     numbers=left,
     numbersep=8pt,
     xleftmargin=14pt,
@@ -243,25 +262,29 @@
     belowskip=0pt,
     resetmargins=true,
     nolol=true,
-  }%
-}{%
-  \end{rc@codeblock}%
+  },
 }
 
 % ----------------------------------------------------------------
 % codeoutput environment — grey box for console / program output
 % ----------------------------------------------------------------
-\newtcolorbox{codeoutput}[1][]{%
+\newtcblisting{codeoutput}[1][]{%
   enhanced,
   breakable,
   colback=rc@outputbg,
-  coltext=rc@outputfg,
   colframe=\ifrc@frame rc@codeborder\else rc@outputbg\fi,
   boxrule=\ifrc@frame 0.4pt\else 0pt\fi,
   arc=2pt,
   left=6pt, right=6pt, top=4pt, bottom=4pt,
-  fontupper=\ttfamily\small,
-  before upper={\parindent0pt},
+  listing only,
+  listing options={%
+    basicstyle=\ttfamily\small\color{rc@outputfg},
+    numbers=none,
+    aboveskip=0pt,
+    belowskip=0pt,
+    resetmargins=true,
+    nolol=true,
+  },
   overlay={%
     \node[anchor=north east,
           font=\sffamily\scriptsize\bfseries,
@@ -278,16 +301,18 @@
 \newcommand{\codefile}[2][]{%
   \rc@getstyle{#1}%
   \begin{rc@codeblock}{#1}%
-  \lstinputlisting[%
-    style=\rc@resolved,
-    numbers=left,
-    numbersep=8pt,
-    xleftmargin=14pt,
-    aboveskip=0pt,
-    belowskip=0pt,
-    resetmargins=true,
-    nolol=true,
-  ]{#2}%
+  \begingroup\edef\rc@tmp{\endgroup
+    \noexpand\lstinputlisting[%
+      style=\rc@resolved,
+      numbers=left,
+      numbersep=8pt,
+      xleftmargin=14pt,
+      aboveskip=0pt,
+      belowskip=0pt,
+      resetmargins=true,
+      nolol=true,
+    ]{\noexpand#2}%
+  }\rc@tmp
   \end{rc@codeblock}%
 }
 

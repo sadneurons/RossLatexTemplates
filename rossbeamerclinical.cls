@@ -281,7 +281,7 @@
       {\small
         \begin{itemize}
           \setlength{\itemsep}{2pt}%
-          \renewcommand{\labelitemi}{\color{clinPositive}\textbullet}%
+          \setbeamercolor{item}{fg=clinPositive}%
           #1%
         \end{itemize}
       }%
@@ -293,7 +293,7 @@
       {\small
         \begin{itemize}
           \setlength{\itemsep}{2pt}%
-          \renewcommand{\labelitemi}{\color{clinExclusion}\textbullet}%
+          \setbeamercolor{item}{fg=clinExclusion}%
           #2%
         \end{itemize}
       }%
@@ -304,10 +304,10 @@
 % ----------------------------------------------------------------
 % Endpoint card — primary / secondary outcome result
 %
-% \endpointcard{name}{result}{CI}{pval}
+% \epcard{name}{result}{CI}{pval}
 % ----------------------------------------------------------------
 
-\newcommand{\endpointcard}[4]{%
+\newcommand{\epcard}[4]{%
   \begin{tcolorbox}[
     enhanced, colback=rbAccentBg, colframe=rbAccentBg, boxrule=0pt,
     borderline west={3pt}{0pt}{rbAccent}, sharp corners,

@@ -7,7 +7,14 @@
       "Bash(ls /home/tenebris/Desktop/RossLatexTemplates/examples/*.tex)",
       "Bash(do)",
       "Bash(sed -i '/^% !TEX root = \\\\.$/d' \"$f\")",
-      "Bash(do sed:*)"
+      "Bash(do sed:*)",
+      "Bash(timeout 30 xelatex -interaction=nonstopmode -halt-on-error -no-pdf example-neuroimaging.tex)",
+      "Bash(grep -rn 'begin{frame}' /home/tenebris/Desktop/RossLatexTemplates/*.cls)",
+      "Bash(timeout 30 xelatex -interaction=nonstopmode -halt-on-error example-neuroimaging.tex)",
+      "Bash(grep -rn 'newenvironment.*{' /home/tenebris/Desktop/RossLatexTemplates/*.cls /home/tenebris/Desktop/RossLatexTemplates/*.sty)",
+      "Bash(grep -n 'begin{frame}' /home/tenebris/Desktop/RossLatexTemplates/*.cls /home/tenebris/Desktop/RossLatexTemplates/*.sty)",
+      "Bash(make letter:*)",
+      "Bash(TEXINPUTS=\"./:\" xelatex -interaction=nonstopmode -output-directory=/tmp/maths-test examples/example-maths.tex)"
     ],
     "additionalDirectories": [
       "/home/tenebris/Desktop/RossLatexTemplates"

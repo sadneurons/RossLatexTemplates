@@ -150,14 +150,14 @@
     {\large\color{cvmuted}#2\par}%
     \vskip8pt%
     {\small\color{cvtext}%
-      \ifx&#3&\else\faEnvelope\ \href{mailto:#3}{#3}\fi
-      \ifx&#4&\else\quad\faPhone\ #4\fi
-      \ifx&#5&\else\quad\faOrcid\ \href{https://orcid.org/#5}{#5}\fi
+      \ifblank{#3}{}{\faEnvelope\ \href{mailto:#3}{#3}}%
+      \ifblank{#4}{}{\quad\faPhone\ #4}%
+      \ifblank{#5}{}{\quad\faOrcid\ \href{https://orcid.org/#5}{#5}}%
       \par}%
-    \ifx&#6&\else
+    \ifblank{#6}{}{%
       \vskip2pt%
       {\small\color{cvmuted}\faMapMarker*\ #6\par}%
-    \fi
+    }
   \end{center}%
   \vskip4pt%
   {\color{cvprimary}\hrule height \cv@rulethickness}%
@@ -196,9 +196,9 @@
   \begin{tabularx}{\linewidth}{@{}p{28mm}X@{}}%
     {\small\color{cvmuted}#1} &
     {\bfseries\color{cvtext}#2}%
-    \ifx&#3&\else{, \color{cvsecondary}#3}\fi
-    \ifx&#4&\else{\hfill\small\color{cvmuted}#4}\fi
-    \ifx&#5&\else{\newline\small\color{cvtext}#5}\fi
+    \ifblank{#3}{}{, \color{cvsecondary}#3}%
+    \ifblank{#4}{}{\hfill\small\color{cvmuted}#4}%
+    \ifblank{#5}{}{\newline\small\color{cvtext}#5}%
   \end{tabularx}%
   \par%
 }
@@ -214,11 +214,11 @@
     {\small\color{cvmuted}#2} &
     {%
       \color{cvtext}#1\ %
-      \ifx&#3&\else{\bfseries #3.}\fi\ %
-      \ifx&#4&\else{\itshape\color{cvsecondary}#4}\fi%
-      \ifx&#5&\else{, \color{cvtext}#5}\fi%
-      \ifx&#6&\else{, #6}\fi%
-      \ifx&#7&\else{. \small\color{cvaccent}\href{https://doi.org/#7}{doi:\,#7}}\fi%
+      \ifblank{#3}{}{{\bfseries #3.}}\ %
+      \ifblank{#4}{}{{\itshape\color{cvsecondary}#4}}%
+      \ifblank{#5}{}{, \color{cvtext}#5}%
+      \ifblank{#6}{}{, #6}%
+      \ifblank{#7}{}{. \small\color{cvaccent}\href{https://doi.org/#7}{doi:\,#7}}%
     }%
   \end{tabularx}%
   \par%
@@ -236,7 +236,7 @@
     {%
       {\bfseries\color{cvtext}#1}\newline
       {\color{cvsecondary}#2}%
-      \ifx&#3&\else{\hfill\bfseries\color{cvaccent}#3}\fi\newline
+      \ifblank{#3}{}{\hfill\bfseries\color{cvaccent}#3}\newline
       {\small\color{cvmuted}Role: #5}%
     }%
   \end{tabularx}%
@@ -254,8 +254,8 @@
     {\small\color{cvmuted}#4} &
     {%
       {\bfseries\color{cvtext}#1}%
-      \ifx&#2&\else{\newline\small\color{cvsecondary}#2}\fi%
-      \ifx&#3&\else{\newline\small\color{cvmuted}#3}\fi%
+      \ifblank{#2}{}{\newline\small\color{cvsecondary}#2}%
+      \ifblank{#3}{}{\newline\small\color{cvmuted}#3}%
     }%
   \end{tabularx}%
   \par%
@@ -302,8 +302,8 @@
     {\small\color{cvmuted}#3} &
     {%
       {\bfseries\color{cvtext}#1}%
-      \ifx&#2&\else{\ {\small\color{cvsecondary}(#2)}}\fi%
-      \ifx&#4&\else{\hfill\small\itshape\color{cvmuted}#4}\fi%
+      \ifblank{#2}{}{\ {\small\color{cvsecondary}(#2)}}%
+      \ifblank{#4}{}{\hfill\small\itshape\color{cvmuted}#4}%
     }%
   \end{tabularx}%
   \par%
@@ -320,7 +320,7 @@
     {\small\color{cvmuted}#2} &
     {%
       {\bfseries\color{cvtext}#1}%
-      \ifx&#3&\else{\newline\small\color{cvmuted}#3}\fi%
+      \ifblank{#3}{}{\newline\small\color{cvmuted}#3}%
     }%
   \end{tabularx}%
   \par%

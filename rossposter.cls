@@ -343,7 +343,7 @@
 % Width defaults to 0.9\linewidth.
 % ----------------------------------------------------------------
 
-\renewcommand{\posterfigure}[3][0.9\linewidth]{%
+\newcommand{\posterfigure}[3][0.9\linewidth]{%
   \begin{tikzfigure}[#3]%
     \includegraphics[width=#1]{#2}%
   \end{tikzfigure}%
@@ -415,7 +415,7 @@
   \column{#1}%
 }
 
-\newcommand{\endpostercolumns}{%
+\newcommand{\closepostercolumns}{%
   \end{columns}%
 }
 
